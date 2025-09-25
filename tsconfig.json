@@ -2,11 +2,23 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+<<<<<<< HEAD
+=======
+    "types": [
+      "expo-router"
+    ],
+    "forceConsistentCasingInFileNames": true,
+>>>>>>> aa01ebc50e212faf1068147e360233dccffe0042
     "paths": {
       "@/*": [
         "./*"
       ]
+<<<<<<< HEAD
     }
+=======
+    },
+    "module": "ESNext"
+>>>>>>> aa01ebc50e212faf1068147e360233dccffe0042
   },
   "include": [
     "**/*.ts",
@@ -14,4 +26,8 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> aa01ebc50e212faf1068147e360233dccffe0042

@@ -3,7 +3,7 @@ import { useTheme } from '../Themes/Themecontext';
 import { DrawerContentScrollView, useDrawerStatus } from '@react-navigation/drawer';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 
 function CustomDrawerContent(props: any) {

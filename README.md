@@ -13,7 +13,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
+<<<<<<< HEAD
    npx expo start
+=======
+    npx expo start
+>>>>>>> aa01ebc50e212faf1068147e360233dccffe0042
    ```
 
 In the output, you'll find options to open the app in a
