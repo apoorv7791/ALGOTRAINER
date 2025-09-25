@@ -1,0 +1,95 @@
+# AlgoTrainer
+
+## 🚀 Overview
+AlgoTrainer is an educational mobile application designed to make learning Data Structures and Algorithms (DSA) intuitive and engaging. Built with React Native and Expo, it provides an interactive platform for users to learn complex computer science concepts through visualizations, real-world analogies, and hands-on practice.
+
+## 🎯 Purpose
+- **Simplify Learning**: Break down complex DSA concepts into digestible, easy-to-understand lessons
+- **Interactive Education**: Use visualizations and real-world examples to enhance understanding
+- **Comprehensive Curriculum**: Cover fundamental to advanced topics in computer science
+- **Accessible Learning**: Make computer science education available to everyone, regardless of their background
+
+## 🏗️ Project Structure
+
+### App Architecture
+```
+AlgoTrainer/
+├── app/
+│   ├── (drawer)/               # Main app screens with drawer navigation
+│   │   ├── _layout.tsx        # Drawer navigation configuration
+│   │   ├── index.tsx          # Home screen
+│   │   ├── about.tsx          # About/Info screen
+│   │   └── Settings.tsx       # App settings (in development)
+│   └── _layout.tsx            # Root navigation stack
+```
+
+### Key Components
+
+1. **Root Layout (`app/_layout.tsx`)**
+   - Sets up the root navigation stack
+   - Configures the main drawer navigator
+
+2. **Drawer Navigation (`app/(drawer)/_layout.tsx`)**
+   - Implements the drawer navigation menu
+   - Configures drawer styling and behavior
+   - Defines navigation options for all screens
+
+3. **Home Screen (`app/(drawer)/index.tsx`)**
+   - Main landing page of the application
+   - Features:
+     - App introduction
+     - Mission statement
+     - Future roadmap
+   - Uses MaterialCommunityIcons for visual elements
+
+4. **About Screen (`app/(drawer)/about.tsx`)**
+   - Provides information about the app and team
+   - Includes:
+     - App vision
+     - Team information
+     - Contact details
+
+5. **Settings Screen (`app/(drawer)/Settings.tsx)**
+   - Placeholder for future app settings
+   - Currently in development
+
+## 🛠️ Technical Stack
+- **Framework**: React Native with Expo
+- **Navigation**: Expo Router with Stack and Drawer navigation
+- **UI Components**: React Native core components
+- **Icons**: @expo/vector-icons (MaterialCommunityIcons)
+- **Safe Area Handling**: react-native-safe-area-context
+- **Styling**: React Native StyleSheet
+
+## 🌟 Features
+- **Responsive Design**: Adapts to different screen sizes
+- **Intuitive Navigation**: Easy-to-use drawer navigation
+- **Clean UI**: Modern and user-friendly interface
+- **Future-Proof**: Designed for easy expansion with new features
+
+## 🔜 Future Enhancements
+- Interactive DSA visualizations
+- Hands-on coding challenges
+- Progress tracking and achievements
+- Expanded computer science topics:
+  - Operating Systems
+  - Database Systems
+  - Computer Networks
+  - System Design
+
+## 📱 Getting Started
+1. Make sure you have Node.js and npm installed
+2. Install Expo CLI: `npm install -g expo-cli`
+3. Clone the repository
+4. Install dependencies: `npm install`
+5. Start the development server: `npx expo start`
+6. Use Expo Go app on your mobile device or an emulator to run the app
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+For any inquiries or feedback, please contact us at [contact@algotrainer.app](mailto:singhapoorv7791@gmail.com)
