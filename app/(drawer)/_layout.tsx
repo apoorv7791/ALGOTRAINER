@@ -1,136 +1,93 @@
+// app/(Drawer)/_layout.tsx
 import { Drawer } from 'expo-router/drawer';
-import { useTheme } from '../Themes/Themecontext';
-import { DrawerContentScrollView, useDrawerStatus } from '@react-navigation/drawer';
-import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-
-function CustomDrawerContent(props: any) {
-    const { theme } = useTheme();
-    const router = useRouter();
-    const navigation = useNavigation();
-    const isDrawerOpen = useDrawerStatus() === 'open';
-
-    const menuItems = [
-        { label: 'Home', icon: 'home', route: '' },
-        { label: 'Settings', icon: 'settings', route: 'Settings' },
-    ];
-
-    return (
-        <DrawerContentScrollView
-            {...props}
-            contentContainerStyle={{ flex: 1, backgroundColor: theme.colors.background }}
-        >
-            <View style={[styles.drawerHeader, { borderBottomColor: theme.colors.border }]}>
-                <Text style={[styles.drawerHeaderText, { color: theme.colors.primary }]}>
-                    AlgoTrainer
-                </Text>
-            </View>
-
-            <View style={styles.drawerSection}>
-                {menuItems.map((item) => (
-                    <View key={item.route} style={styles.drawerItem}>
-                        <MaterialIcons
-                            name={item.icon as any}
-                            size={24}
-                            color={theme.colors.text}
-                            style={styles.icon}
-                        />
-                        <Text
-                            style={[styles.drawerItemText, { color: theme.colors.text }]}
-                            onPress={() => {
-                                const route = item.route === '' ? '/(drawer)' : `/(drawer)/${item.route}` as const;
-                                router.push(route as any);
-                                props.navigation.closeDrawer();
-                            }}
-                        >
-                            {item.label}
-                        </Text>
-                    </View>
-                ))}
-            </View>
-        </DrawerContentScrollView>
-    );
-}
+import { TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../Themes/Themecontext';
+import React from 'react';
 
 export default function DrawerLayout() {
-    const { theme } = useTheme();
-    const navigation = useNavigation();
-    const isDrawerOpen = useDrawerStatus() === 'open';
+    const { theme, isDark, toggleTheme } = useTheme();
 
     return (
         <Drawer
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
-            screenOptions={{
-                headerShown: true,
-                headerStyle: {
-                    backgroundColor: theme.colors.background,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                },
-                headerTintColor: theme.colors.text,
+            screenOptions={({ navigation }) => ({
+                headerTitle: 'AlgoTrainer',
                 headerLeft: () => (
-                    <MaterialIcons
-                        name={isDrawerOpen ? 'close' : 'menu'}
-                        size={24}
-                        color={theme.colors.text}
+                    <TouchableOpacity
+                        onPress={() => navigation.toggleDrawer()}
                         style={{ marginLeft: 15 }}
-                        onPress={() => {
-                            if (isDrawerOpen) {
-                                navigation.dispatch(DrawerActions.closeDrawer());
-                            } else {
-                                navigation.dispatch(DrawerActions.openDrawer());
-                            }
-                        }}
-                    />
+                    >
+                        <MaterialIcons name="menu" size={24} color="white" />
+                    </TouchableOpacity>
                 ),
-                drawerStyle: {
-                    backgroundColor: theme.colors.background,
-                    width: '70%',
+                headerRight: () => (
+                    <TouchableOpacity
+                        onPress={toggleTheme}
+                        style={{ marginRight: 15 }}
+                    >
+                        <MaterialIcons
+                            name={isDark ? 'wb-sunny' : 'nights-stay'}
+                            size={24}
+                            color="white"
+                        />
+                    </TouchableOpacity>
+                ),
+                headerStyle: {
+                    backgroundColor: theme.colors.primary || '#6200ee',
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
                 },
                 drawerActiveTintColor: theme.colors.primary,
                 drawerInactiveTintColor: theme.colors.text,
-            }}
+                drawerActiveBackgroundColor: theme.colors.primary + '20',
+                drawerInactiveBackgroundColor: 'transparent',
+                drawerStyle: {
+                    backgroundColor: theme.colors.background,
+                },
+                drawerLabelStyle: {
+                    marginLeft: -20,
+                    color: theme.colors.text,
+                },
+            })}
         >
             <Drawer.Screen
-                name="index"
+                name="index" // This will render app/(Drawer)/index.tsx
                 options={{
                     title: 'Home',
-                    headerTitle: 'AlgoTrainer',
+                    drawerIcon: ({ color, size }) => (
+                        <MaterialIcons name="home" size={size} color={color} />
+                    ),
                 }}
             />
             <Drawer.Screen
-                name="Settings"
+                name="learning-modules" // app/(Drawer)/learning-modules.tsx
+                options={{
+                    title: 'Learning Modules',
+                    drawerIcon: ({ color, size }) => (
+                        <MaterialIcons name="menu-book" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Drawer.Screen
+                name="settings" // app/(Drawer)/settings.tsx
                 options={{
                     title: 'Settings',
+                    drawerIcon: ({ color, size }) => (
+                        <MaterialIcons name="settings" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Drawer.Screen
+                name="about" // app/(Drawer)/about.tsx
+                options={{
+                    title: 'About',
+                    drawerIcon: ({ color, size }) => (
+                        <MaterialIcons name="info" size={size} color={color} />
+                    ),
                 }}
             />
         </Drawer>
     );
 }
-
-const styles = StyleSheet.create({
-    drawerHeader: {
-        padding: 20,
-        borderBottomWidth: 1,
-    },
-    drawerHeaderText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    drawerSection: {
-        marginTop: 15,
-    },
-    drawerItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 15,
-    },
-    icon: {
-        marginRight: 15,
-    },
-    drawerItemText: {
-        fontSize: 16,
-    },
-});

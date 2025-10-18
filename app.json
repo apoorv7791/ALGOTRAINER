@@ -1,6 +1,5 @@
 {
   "expo": {
-<<<<<<< HEAD
     "name": "AlgoTrainer",
     "slug": "AlgoTrainer",
     "version": "1.0.0",
@@ -9,22 +8,11 @@
     "scheme": "algotrainer",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-=======
-    "name": "AlgoTrainner",
-    "slug": "AlgoTrainner",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "icon": "./assets/icon.jpg",
->>>>>>> aa01ebc50e212faf1068147e360233dccffe0042
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-<<<<<<< HEAD
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
@@ -34,23 +22,15 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
-=======
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static"
->>>>>>> aa01ebc50e212faf1068147e360233dccffe0042
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-<<<<<<< HEAD
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
@@ -59,7 +39,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -67,19 +49,3 @@
     }
   }
 }
-=======
-          "image": "./assets/images/Algo.jpeg",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      "expo-font",
-      "expo-web-browser"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
-}
->>>>>>> aa01ebc50e212faf1068147e360233dccffe0042

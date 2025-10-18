@@ -2,7 +2,9 @@
 declare module "expo-router" {
     export type Route =
         | "/"
-        | "/about";
+        | "/about"
+        | "/settings"
+        | "/learning-modules";
 
     export type Stack = {
         Screen: React.ComponentType<{
@@ -15,6 +17,7 @@ declare module "expo-router" {
     };
 
     export function useRouter(): {
+        pathname: any;
         push: (path: string) => void;
         replace: (path: string) => void;
         back: () => void;
