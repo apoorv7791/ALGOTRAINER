@@ -31,16 +31,16 @@ const About = () => {
             </View>
 
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>The Team</Text>
+                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>The Reason</Text>
                 <Text style={[styles.text, { color: theme.colors.text }]}>
-                    AlgoTrainer is built by a team of passionate developers and educators who believe in the power of visual learning and hands-on practice.
+                    I created this app to help people learn algorithms and data structures in a fun and interactive way.
                 </Text>
             </View>
 
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Contact Us</Text>
+                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Contact Me</Text>
                 <Text style={[styles.text, { color: theme.colors.text, marginBottom: 15 }]}>
-                    Have questions or feedback? We'd love to hear from you!
+                    Have questions or feedback? I'd love to hear from you!
                 </Text>
                 <TouchableOpacity
                     style={styles.contactButton}

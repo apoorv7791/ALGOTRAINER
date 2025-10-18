@@ -36,12 +36,12 @@ const HomeScreen = () => {
     ];
 
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.background, paddingTop: insets.top }]}>
-            {/* Empty header to maintain spacing */}
-            <View style={[styles.header, { backgroundColor: theme.colors.primary }]} />
-
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             {/* Main Content */}
-            <ScrollView style={styles.content}>
+            <ScrollView
+                style={[styles.content, { paddingTop: 0 }]}
+                contentContainerStyle={{ paddingTop: insets.top }}
+            >
                 {/* Welcome Card */}
                 <View style={[styles.welcomeCard, { backgroundColor: theme.colors.surface }]}>
                     <View style={styles.welcomeTextContainer}>
@@ -83,14 +83,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-        paddingTop: 12,
-        paddingBottom: 12,
-    },
+    // Header styles removed as they're not needed anymore
     headerTitle: {
         color: 'white',
         fontSize: 20,
@@ -108,6 +101,7 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         padding: 16,
+        paddingTop: 8,
     },
     welcomeCard: {
         borderRadius: 16,

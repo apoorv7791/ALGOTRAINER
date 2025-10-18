@@ -1,7 +1,7 @@
 // app/(Drawer)/_layout.tsx
 import { Drawer } from 'expo-router/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import React from 'react';
 
@@ -47,8 +47,12 @@ export default function DrawerLayout() {
                     backgroundColor: theme.colors.background,
                 },
                 drawerLabelStyle: {
-                    marginLeft: -20,
+                    marginLeft: 10,
                     color: theme.colors.text,
+                },
+                drawerItemStyle: {
+                    marginHorizontal: 0,
+                    paddingHorizontal: 16,
                 },
             })}
         >
