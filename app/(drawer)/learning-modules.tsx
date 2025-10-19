@@ -27,6 +27,15 @@ export default function LearningModules() {
                         Master arrays, linked lists, trees, and more.
                     </Text>
                 </View>
+
+                <View style={[styles.moduleCard, { backgroundColor: theme.colors.card }]}>
+                    <Text style={[styles.moduleTitle, { color: theme.colors.text }]}>
+                        Master Algorithms and Advanced Techniques.
+                    </Text>
+                    <Text style={[styles.moduleDescription, { color: theme.colors.text }]}>
+                        Learn advanced algorithms and techniques to solve complex problems.
+                    </Text>
+                </View>
             </View>
         </ScrollView>
     );

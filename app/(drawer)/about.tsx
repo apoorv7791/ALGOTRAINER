@@ -7,19 +7,45 @@ import { useTheme } from '../Themes/Themecontext';
 const About = () => {
     const insets = useSafeAreaInsets();
     const { theme } = useTheme();
+    const scrollViewRef = React.useRef<ScrollView>(null);
 
     const openEmail = () => {
         Linking.openURL('mailto:Singhapoorv7791@gmail.com');
     };
 
+    // Sample features data
+    const features = [
+        'Interactive algorithm visualizations',
+        'Step-by-step problem solving',
+        'Real-time code execution',
+        'Progress tracking',
+        'Multiple programming languages support',
+        'Offline access to content'
+    ];
+
+    // Sample team members data
+    const teamMembers = [
+        { name: 'Apoorv Singh', role: 'Founder & Developer' },
+        { name: 'Open Source Contributors', role: 'Community' }
+    ];
+
     return (
         <ScrollView
+            ref={scrollViewRef}
             style={[styles.container, {
                 backgroundColor: theme.colors.background,
-                paddingTop: insets.top + 20,
-                paddingHorizontal: 20
             }]}
-            contentContainerStyle={styles.content}
+            contentContainerStyle={[
+                styles.content,
+                {
+                    paddingTop: insets.top + 20,
+                    paddingBottom: insets.bottom + 20,
+                    paddingHorizontal: 20
+                }
+            ]}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
         >
             <Text style={[styles.title, { color: theme.colors.text }]}>About AlgoTrainer</Text>
 
@@ -38,18 +64,56 @@ const About = () => {
             </View>
 
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Contact Me</Text>
+                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Key Features</Text>
+                <View style={styles.featuresList}>
+                    {features.map((feature, index) => (
+                        <View key={index} style={styles.featureItem}>
+                            <View style={[styles.featureIcon, { backgroundColor: theme.colors.primary + '20' }]}>
+                                <MaterialIcons name="check-circle" size={16} color={theme.colors.primary} />
+                            </View>
+                            <Text style={[styles.text, { color: theme.colors.text }]}>{feature}</Text>
+                        </View>
+                    ))}
+                </View>
+            </View>
+
+            <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
+                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Our Team</Text>
+                <View style={styles.teamContainer}>
+                    {teamMembers.map((member, index) => (
+                        <View key={index} style={styles.teamMember}>
+                            <View style={[styles.avatar, { backgroundColor: theme.colors.primary + '20' }]}>
+                                <Text style={[styles.avatarText, { color: theme.colors.primary }]}>
+                                    {member.name.charAt(0)}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text style={[styles.memberName, { color: theme.colors.text }]}>{member.name}</Text>
+                                <Text style={[styles.memberRole, { color: theme.colors.text, opacity: 0.7 }]}>{member.role}</Text>
+                            </View>
+                        </View>
+                    ))}
+                </View>
+            </View>
+
+            <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
+                <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Get In Touch</Text>
                 <Text style={[styles.text, { color: theme.colors.text, marginBottom: 15 }]}>
-                    Have questions or feedback? I'd love to hear from you!
+                    Have questions, feedback, or suggestions? We'd love to hear from you!
                 </Text>
                 <TouchableOpacity
-                    style={styles.contactButton}
+                    style={[styles.contactButton, { backgroundColor: theme.colors.primary }]}
                     onPress={openEmail}
+                    activeOpacity={0.8}
                 >
-                    <MaterialIcons name="email" size={20} color="white" />
-                    <Text style={styles.contactButtonText}>Email Us</Text>
+                    <MaterialIcons name="email" size={20} color="white" style={styles.buttonIcon} />
+                    <Text style={styles.contactButtonText}>Email Me</Text>
                 </TouchableOpacity>
             </View>
+
+            <Text style={[styles.footerText, { color: theme.colors.text, opacity: 0.6 }]}>
+                © {new Date().getFullYear()} AlgoTrainer. All rights reserved.
+            </Text>
         </ScrollView>
     );
 }
@@ -60,6 +124,7 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingBottom: 40,
+        flexGrow: 1,
     },
     title: {
         fontSize: 28,
@@ -96,13 +161,66 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'flex-start',
+        marginTop: 10,
     },
     contactButtonText: {
         color: 'white',
-        marginLeft: 10,
+        marginLeft: 8,
         fontWeight: '600',
+        fontSize: 16,
+    },
+    buttonIcon: {
+        marginRight: 8,
+    },
+    featuresList: {
+        marginTop: 10,
+    },
+    featureItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12,
+    },
+    featureIcon: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+    },
+    teamContainer: {
+        marginTop: 10,
+    },
+    teamMember: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 16,
+    },
+    avatar: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 12,
+    },
+    avatarText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    memberName: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 2,
+    },
+    memberRole: {
+        fontSize: 14,
+    },
+    footerText: {
+        textAlign: 'center',
+        marginTop: 30,
+        fontSize: 14,
     },
 });
-
 
 export default About;
