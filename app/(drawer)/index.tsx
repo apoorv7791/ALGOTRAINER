@@ -35,6 +35,11 @@ const HomeScreen = () => {
         },
     ];
 
+    const handleToggleTheme = () => {
+        // call the theme toggle from context and log the change
+        toggleTheme();
+        console.log(`Theme changed to: ${isDark ? 'Light' : 'Dark'}`);
+    }
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             {/* Main Content */}
