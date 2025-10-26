@@ -66,7 +66,7 @@ export default function DrawerLayout() {
                 }}
             />
             <Drawer.Screen
-                name="learning-modules" // app/(Drawer)/learning-modules.tsx
+                name="Learning-modules" // app/(Drawer)/learning-modules.tsx
                 options={{
                     title: 'Learning Modules',
                     drawerIcon: ({ color, size }) => (
@@ -75,7 +75,7 @@ export default function DrawerLayout() {
                 }}
             />
             <Drawer.Screen
-                name="settings" // app/(Drawer)/settings.tsx
+                name="Settings" // app/(Drawer)/settings.tsx
                 options={{
                     title: 'Settings',
                     drawerIcon: ({ color, size }) => (
@@ -84,7 +84,7 @@ export default function DrawerLayout() {
                 }}
             />
             <Drawer.Screen
-                name="about" // app/(Drawer)/about.tsx
+                name="About" // app/(Drawer)/about.tsx
                 options={{
                     title: 'About',
                     drawerIcon: ({ color, size }) => (

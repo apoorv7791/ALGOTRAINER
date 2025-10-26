@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 
 
-const settings = () => {
+const Settings = () => {
     const { theme } = useTheme();
 
     return (
@@ -18,7 +18,7 @@ const settings = () => {
     );
 };
 
-export default settings;
+export default Settings;
 
 const styles = StyleSheet.create({
     container: {
