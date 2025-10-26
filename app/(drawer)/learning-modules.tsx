@@ -1,42 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
+import ExpandableItems from '../components/ExpandableItems';
 
 export default function LearningModules() {
+    const handleSelect = (topic: string) => { // a function to handle item selection
+        alert(`Selected topic: ${topic}`); // alert message to show selected topic
+    }
     const { theme } = useTheme();
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.title, { color: theme.colors.text }]}>
-                Learning Modules
-            </Text>
-            <View style={styles.moduleList}>
-                <View style={[styles.moduleCard, { backgroundColor: theme.colors.card }]}>
-                    <Text style={[styles.moduleTitle, { color: theme.colors.text }]}>
-                        Introduction to Algorithms
-                    </Text>
-                    <Text style={[styles.moduleDescription, { color: theme.colors.text }]}>
-                        Learn the basics of algorithms and problem-solving techniques.
-                    </Text>
-                </View>
-                <View style={[styles.moduleCard, { backgroundColor: theme.colors.card }]}>
-                    <Text style={[styles.moduleTitle, { color: theme.colors.text }]}>
-                        Data Structures
-                    </Text>
-                    <Text style={[styles.moduleDescription, { color: theme.colors.text }]}>
-                        Master arrays, linked lists, trees, and more.
-                    </Text>
-                </View>
+            <Text style={[styles.heading, { color: theme.colors.text }]}>Learning Modules</Text>
+            <ExpandableItems
+                title="Data Structures"
+                items={["Arrays", "Linked List", "Stacks", "Queues", "Trees", "Graphs"]}
+                onSelectItem={handleSelect}
+            />
 
-                <View style={[styles.moduleCard, { backgroundColor: theme.colors.card }]}>
-                    <Text style={[styles.moduleTitle, { color: theme.colors.text }]}>
-                        Master Algorithms and Advanced Techniques.
-                    </Text>
-                    <Text style={[styles.moduleDescription, { color: theme.colors.text }]}>
-                        Learn advanced algorithms and techniques to solve complex problems.
-                    </Text>
-                </View>
-            </View>
+            <ExpandableItems
+                title="Algorithms"
+                items={["Sorting", "Searching", "Dynamic Programming", "Greedy Algorithms", "Graph Algorithms", "Backtracking"]}
+                onSelectItem={handleSelect}
+            />
         </ScrollView>
     );
 }
@@ -46,7 +32,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
     },
-    title: {
+    heading: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
