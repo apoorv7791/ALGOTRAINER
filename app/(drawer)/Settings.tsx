@@ -1,19 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
+import ExpandableItems from '../components/ExpandableItems';
 
 
 const Settings = () => {
+    const handleSelect = (option: string) => {
+        alert(`Selected option: ${option}`);
+    }
     const { theme } = useTheme();
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.title, { color: theme.colors.text }]}>
-                Settings
+                <Text style={[styles.title, { color: theme.colors.text }]}>
+                    Settings
+                </Text>
             </Text>
-            <Text style={{ color: theme.colors.text }}>
-                App settings will appear here.
-            </Text>
+            <ExpandableItems
+                title="Account"
+                items={["Profile", "Privacy", "Notifications"]}
+                onSelectItem={handleSelect}
+            />
         </View>
     );
 };
