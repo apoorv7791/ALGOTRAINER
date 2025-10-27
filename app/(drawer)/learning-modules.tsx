@@ -6,6 +6,8 @@ import ExpandableItems from '../components/ExpandableItems';
 export default function LearningModules() {
     const handleSelect = (topic: string) => { // a function to handle item selection
         alert(`Selected topic: ${topic}`); // alert message to show selected topic
+        // navigating to the topic's detailed screen can be implemented here
+
     }
     const { theme } = useTheme();
 

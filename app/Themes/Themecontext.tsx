@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { lightTheme, darkTheme, AppTheme } from './Theme';
 
-type ThemeContextType = {
+type ThemeContextType = { // interface for activating theme
+    [x: string]: any;
     theme: AppTheme;
     isDark: boolean;
     toggleTheme: () => void;
