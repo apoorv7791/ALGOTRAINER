@@ -9,55 +9,107 @@ const Arrays = () => {
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Arrays</Text>
 
-            {/* Basic Array Operations */}
+            {/* Array Basics */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Basic Array Operations</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Array Basics</Text>
                 <CodeBlock
-                    code={`// Creating an array
-String[] fruits = {"apple", "banana", "orange"};
+                    code={`// Declaring and initializing an array
+int[] arr = {10, 20, 30, 40, 50};
 
 // Accessing elements
-System.out.println(fruits[0]);  // Output: apple
+System.out.println(arr[0]);  // Output: 10
+System.out.println(arr[arr.length - 1]); // Output: 50
 
-// Adding elements (using ArrayList for dynamic operations)
-ArrayList<String> fruitsList = new ArrayList<>(Arrays.asList(fruits));
-fruitsList.add("mango");         // Add to end
-fruitsList.add(0, "grape");      // Add to start
+// Updating elements
+arr[2] = 99;  // arr becomes {10, 20, 99, 40, 50}
 
-// Removing elements
-fruitsList.remove(fruitsList.size() - 1);  // Remove from end
-fruitsList.remove(0);                      // Remove from start`}
+// Traversing array
+for (int i = 0; i < arr.length; i++) {
+    System.out.print(arr[i] + " ");
+}`}
                     language="java"
                 />
             </View>
 
-            {/* Array Methods */}
+            {/* Insert Element */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Common Array Methods</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Insert Element</Text>
                 <CodeBlock
-                    code={`// Array methods example
-int[] numbers = {1, 2, 3, 4, 5};
+                    code={`// Insert value 25 at index 2
+int[] arr = {10, 20, 30, 40, 50};
+int position = 2;
+int value = 25;
 
-// Map - Create new array with transformed elements
-int[] doubled = Arrays.stream(numbers)
-    .map(num -> num * 2)
-    .toArray();
-// doubled: [2, 4, 6, 8, 10]
+int[] newArr = new int[arr.length + 1];
 
-// Filter - Create new array with filtered elements
-int[] evenNumbers = Arrays.stream(numbers)
-    .filter(num -> num % 2 == 0)
-    .toArray();
-// evenNumbers: [2, 4]
+for (int i = 0, j = 0; i < newArr.length; i++) {
+    if (i == position) {
+        newArr[i] = value;
+    } else {
+        newArr[i] = arr[j++];
+    }
+}
 
-int[] oddNumbers = Arrays.stream(numbers)
-    .filter(num -> num % 2 != 0)
-    .toArray();
+// newArr: {10, 20, 25, 30, 40, 50}`}
+                    language="java"
+                />
+            </View>
 
-// Reduce - Reduce array to single value
-int sum = Arrays.stream(numbers)
-    .reduce(0, (acc, curr) -> acc + curr);
-// sum: 15`}
+            {/* Delete Element */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Delete Element</Text>
+                <CodeBlock
+                    code={`// Delete element at index 3
+int[] arr = {10, 20, 30, 40, 50};
+int position = 3;
+
+int[] newArr = new int[arr.length - 1];
+for (int i = 0, j = 0; i < arr.length; i++) {
+    if (i != position) {
+        newArr[j++] = arr[i];
+    }
+}
+
+// newArr: {10, 20, 30, 50}`}
+                    language="java"
+                />
+            </View>
+
+            {/* Search Element */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Search Element</Text>
+                <CodeBlock
+                    code={`int[] arr = {10, 20, 30, 40, 50};
+int key = 30;
+boolean found = false;
+
+for (int i = 0; i < arr.length; i++) {
+    if (arr[i] == key) {
+        System.out.println("Element found at index: " + i);
+        found = true;
+        break;
+    }
+}
+if (!found) System.out.println("Element not found.");`}
+                    language="java"
+                />
+            </View>
+
+            {/* Find Max & Min */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Find Maximum & Minimum</Text>
+                <CodeBlock
+                    code={`int[] arr = {5, 9, 2, 10, 3};
+int max = arr[0];
+int min = arr[0];
+
+for (int i = 1; i < arr.length; i++) {
+    if (arr[i] > max) max = arr[i];
+    if (arr[i] < min) min = arr[i];
+}
+
+System.out.println("Max: " + max);
+System.out.println("Min: " + min);`}
                     language="java"
                 />
             </View>
