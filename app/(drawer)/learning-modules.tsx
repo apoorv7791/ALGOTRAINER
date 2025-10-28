@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, StyleSheet, ScrollView } from 'react-native';
+import { Text, StyleSheet, FlatList, View } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
+
 
 export default function LearningModules() {
     const handleSelect = (topic: string) => { // a function to handle item selection
@@ -10,22 +11,43 @@ export default function LearningModules() {
 
     }
     const { theme } = useTheme();
+    const modules = [
+        {
+            title: "Data Structures",
+            items: ["Arrays", "Linked List", "Stacks", "Queues", "Trees", "Graphs"]
+        },
+        {
+            title: "Algorithms",
+            items: ["Sorting", "Searching", "Dynamic Programming", "Greedy Algorithms", "Graph Algorithms", "Backtracking"]
+        }
+    ]
+
+    interface Module {
+        title: string;
+        items: string[];
+    }
+
+    const renderItem = ({ item }: { item: Module }) => (
+        <ExpandableItems
+            title={item.title}
+            items={item.items}
+            onSelectItem={handleSelect}
+        />
+    );
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.heading, { color: theme.colors.text }]}>Learning Modules</Text>
-            <ExpandableItems
-                title="Data Structures"
-                items={["Arrays", "Linked List", "Stacks", "Queues", "Trees", "Graphs"]}
-                onSelectItem={handleSelect}
+            <FlatList
+                data={modules}
+                renderItem={renderItem}
+                keyExtractor={item => item.title}
+                contentContainerStyle={styles.contentContainer}
+                ItemSeparatorComponent={() => <View style={styles.container} />}
+                showsVerticalScrollIndicator={true}
             />
+        </View>
 
-            <ExpandableItems
-                title="Algorithms"
-                items={["Sorting", "Searching", "Dynamic Programming", "Greedy Algorithms", "Graph Algorithms", "Backtracking"]}
-                onSelectItem={handleSelect}
-            />
-        </ScrollView>
     );
 }
 
@@ -33,6 +55,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+    },
+    contentContainer: {
+        padding: 20,
+        flexGrow: 1,
     },
     heading: {
         fontSize: 24,

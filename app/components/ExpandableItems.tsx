@@ -50,7 +50,7 @@ const ExpandableItems: React.FC<ExpandableItemsProps> = ({ title, items, onSelec
 const styles = StyleSheet.create({
     container: {
         marginVertical: 8,
-        backgroundColor: '#f3f3f3',
+        backgroundColor: '#d4c8f7ff',
         borderRadius: 12,
         paddingHorizontal: 12,
     },
