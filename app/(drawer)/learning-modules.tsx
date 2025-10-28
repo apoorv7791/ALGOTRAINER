@@ -2,19 +2,20 @@ import React from 'react';
 import { Text, StyleSheet, FlatList, View } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function LearningModules() {
+    const navigation = useNavigation();
     const handleSelect = (topic: string) => { // a function to handle item selection
-        alert(`Selected topic: ${topic}`); // alert message to show selected topic
-        // navigating to the topic's detailed screen can be implemented here
+        alert(`Selected topic: ${topic}`);
 
     }
     const { theme } = useTheme();
     const modules = [
         {
             title: "Data Structures",
-            items: ["Arrays", "Linked List", "Stacks", "Queues", "Trees", "Graphs"]
+            items: ["Arrays", "Linked List", "HashMaps", "Stacks", "Queues", "Trees", "Graphs"]
         },
         {
             title: "Algorithms",

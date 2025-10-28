@@ -1,77 +1,88 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, View, Animated, Text } from 'react-native';
-// @ts-ignore: missing type declarations for react-native-vector-icons/Feather
-const Icon: any = require('react-native-vector-icons/Feather').default;
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useTheme } from '../Themes/Themecontext';
+import { Ionicons } from '@expo/vector-icons';
 
 interface ExpandableItemsProps {
-    title: string
-    items: string[]
-    onSelectItem: (item: string) => void
+    title: string;
+    items: string[];
+    onSelectItem: (item: string) => void;
 }
 
-
-const ExpandableItems: React.FC<ExpandableItemsProps> = ({ title, items, onSelectItem }) => {
-    const [expanded, setExpanded] = React.useState(false);
-    const animation = React.useRef(new Animated.Value(0)).current;
-
-    const toggleExpand = () => {
-        const toValue = expanded ? 0 : 1;
-        Animated.timing(animation, {
-            toValue,
-            duration: 300,
-            useNativeDriver: false,
-        }).start();
-        setExpanded(!expanded);
-    }
-
-    const height = animation.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, items.length * 40], // Assuming each item has a height of 40
-    });
+const ExpandableItems = ({ title, items, onSelectItem }: ExpandableItemsProps) => {
+    const [expanded, setExpanded] = useState(false);
+    const { theme } = useTheme();
 
     return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={toggleExpand} style={styles.header}>
-                <Text style={styles.title}>{title}</Text>
-                <Icon name={expanded ? "chevron-up" : "chevron-down"} size={18} />
+        <View style={[styles.container, { backgroundColor: theme.colors.card }]}>
+            <TouchableOpacity
+                style={styles.header}
+                onPress={() => setExpanded(!expanded)}
+            >
+                <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
+                <Ionicons
+                    name={expanded ? 'chevron-up' : 'chevron-down'}
+                    size={24}
+                    color={theme.colors.text}
+                />
             </TouchableOpacity>
 
-            <Animated.View style={{ height, overflow: 'hidden' }}>
-                {items.map((item) => (
-                    <TouchableOpacity key={item} style={styles.subItem} onPress={() => onSelectItem(item)}>
-                        <Text style={styles.subText}>{item}</Text>
-                    </TouchableOpacity>
-                ))}
-            </Animated.View>
+            {expanded && (
+                <ScrollView
+                    style={[styles.itemsContainer, { maxHeight: 200 }]} // Set a maximum height for scrolling
+                    showsVerticalScrollIndicator={true}
+                    nestedScrollEnabled={true}
+                >
+                    {items.map((item, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.item}
+                            onPress={() => onSelectItem(item)}
+                        >
+                            <Text style={[styles.itemText, { color: theme.colors.text }]}>
+                                {item}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            )}
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 8,
-        backgroundColor: '#d4c8f7ff',
-        borderRadius: 12,
-        paddingHorizontal: 12,
+        borderRadius: 10,
+        marginBottom: 10,
+        overflow: 'hidden',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 14,
+        padding: 15,
     },
     title: {
         fontSize: 18,
         fontWeight: '600',
     },
-    subItem: {
-        paddingVertical: 10,
-        paddingLeft: 16,
+    itemsContainer: {
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(0,0,0,0.1)',
     },
-    subText: {
+    item: {
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0,0,0,0.1)',
+    },
+    itemText: {
         fontSize: 16,
-        color: '#333',
-    },
-})
+    }
+});
 
 export default ExpandableItems;
