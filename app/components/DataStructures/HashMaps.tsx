@@ -7,7 +7,7 @@ const HashMaps = () => {
     const { theme } = useTheme();
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.header, { color: theme.colors.text }]}>HashMap</Text>
+            <Text style={[styles.header, { color: theme.colors.text }]}>HashMaps</Text>
 
             {/* Basic HashMap Operations */}
             <View style={styles.section}>

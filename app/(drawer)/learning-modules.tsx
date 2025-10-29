@@ -4,14 +4,19 @@ import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
 import { useNavigation } from '@react-navigation/native';
 
-
 export default function LearningModules() {
     const navigation = useNavigation();
-    const handleSelect = (topic: string) => { // a function to handle item selection
-        alert(`Selected topic: ${topic}`);
-
-    }
     const { theme } = useTheme();
+
+    // ✅ handle navigation when a topic is selected
+    const handleSelect = (topic: string) => {
+        // Clean up topic names to match Stack.Screen names
+        const formattedTopic = topic.replace(/\s+/g, '');
+
+        // Navigate to the corresponding screen
+        navigation.navigate(formattedTopic as never);
+    };
+
     const modules = [
         {
             title: "Data Structures",
@@ -19,9 +24,9 @@ export default function LearningModules() {
         },
         {
             title: "Algorithms",
-            items: ["Sorting", "Searching", "Dynamic Programming", "Greedy Algorithms", "Graph Algorithms", "Backtracking"]
+            items: ["Sorting", "Searching", "Dynamic Programming", "Greedy", "Graph Algorithms", "Backtracking"]
         }
-    ]
+    ];
 
     interface Module {
         title: string;
@@ -42,13 +47,12 @@ export default function LearningModules() {
             <FlatList
                 data={modules}
                 renderItem={renderItem}
-                keyExtractor={item => item.title}
+                keyExtractor={(item) => item.title}
                 contentContainerStyle={styles.contentContainer}
-                ItemSeparatorComponent={() => <View style={styles.container} />}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
                 showsVerticalScrollIndicator={true}
             />
         </View>
-
     );
 }
 
@@ -58,33 +62,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     contentContainer: {
-        padding: 20,
-        flexGrow: 1,
+        paddingBottom: 40,
     },
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
-    },
-    moduleList: {
-        gap: 15,
-    },
-    moduleCard: {
-        padding: 20,
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-    },
-    moduleTitle: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 5,
-    },
-    moduleDescription: {
-        fontSize: 14,
-        opacity: 0.8,
     },
 });

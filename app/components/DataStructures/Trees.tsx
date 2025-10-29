@@ -67,6 +67,14 @@ class BinaryTree {
             System.out.print(node.data + " ");
         }
     }
+    // Display tree
+    public void display(Node node, String prefix) {
+        if (node != null) {
+            System.out.println(prefix + node.data);
+            display(node.left, prefix + "L-- ");
+            display(node.right, prefix + "R-- ");
+        }
+    }
 }`}
                     language="java"
                 />
@@ -94,6 +102,7 @@ class BinaryTree {
         System.out.print("\\nPostorder: ");
         tree.postorder(tree.root); // 3 7 5 15 10
     }
+        tree.display(tree.root, "");
 }`}
                     language="java"
                 />

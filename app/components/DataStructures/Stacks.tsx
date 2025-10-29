@@ -67,6 +67,12 @@ const Stack = () => {
     public int size() {
         return top + 1;
     }
+    // display stack elements
+    public void dipsplay(){
+     for(int i = top; i >= 0; i--){
+        System.out.println(arr[i]);
+        }
+    }
 }`}
                     language="java"
                 />
@@ -92,6 +98,7 @@ const Stack = () => {
 
         System.out.println("After popping two elements:");
         System.out.println("Top element: " + stack.peek());
+        stack.dipsplay();
     }
 }`}
                     language="java"
