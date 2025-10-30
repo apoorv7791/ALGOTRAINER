@@ -2,19 +2,18 @@ import React from 'react';
 import { Text, StyleSheet, FlatList, View } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from "expo-router";
 
 export default function LearningModules() {
-    const navigation = useNavigation();
+    const router = useRouter();
     const { theme } = useTheme();
 
     // ✅ handle navigation when a topic is selected
-    const handleSelect = (topic: string) => {
-        // Clean up topic names to match Stack.Screen names
-        const formattedTopic = topic.replace(/\s+/g, '');
+    const handleSelect = (module: string, topic: string) => {
+        const formattedTopic = topic.toLowerCase().replace(/\s+/g, '');
 
-        // Navigate to the corresponding screen
-        navigation.navigate(formattedTopic as never);
+        // Navigate using Expo Router path
+        router.push(`/(DataStructures)/${formattedTopic}`);
     };
 
     const modules = [
@@ -37,7 +36,8 @@ export default function LearningModules() {
         <ExpandableItems
             title={item.title}
             items={item.items}
-            onSelectItem={handleSelect}
+            // 🧩 Pass both module name and topic to handleSelect
+            onSelectItem={(topic) => handleSelect(item.title, topic)}
         />
     );
 
