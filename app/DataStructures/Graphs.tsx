@@ -6,7 +6,8 @@ import CodeBlock from '@/app/CodeBlock/CodeBlock';
 const Graph = () => {
     const { theme } = useTheme();
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container} >
             <Text style={[styles.header, { color: theme.colors.text }]}>Graph</Text>
 
             {/* Manual Graph Implementation */}
@@ -108,7 +109,7 @@ class Graph {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },

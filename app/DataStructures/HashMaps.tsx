@@ -6,7 +6,8 @@ import CodeBlock from '@/app/CodeBlock/CodeBlock';
 const HashMaps = () => {
     const { theme } = useTheme();
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container} >
             <Text style={[styles.header, { color: theme.colors.text }]}>HashMaps</Text>
 
             {/* Basic HashMap Operations */}
@@ -109,7 +110,7 @@ class Student {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
     },
     header: {
         fontSize: 24,

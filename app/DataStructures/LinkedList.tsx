@@ -6,7 +6,8 @@ import CodeBlock from '@/app/CodeBlock/CodeBlock';
 const LinkedList = () => {
     const { theme } = useTheme();
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Linked List</Text>
 
             {/* Node and LinkedList Structure */}
@@ -131,7 +132,6 @@ class LinkedList {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },

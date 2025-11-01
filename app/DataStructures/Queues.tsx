@@ -6,8 +6,9 @@ import CodeBlock from '@/app/CodeBlock/CodeBlock';
 const Queue = () => {
     const { theme } = useTheme();
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.header, { color: theme.colors.text }]}>Queue</Text>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container} >
+            <Text style={[styles.header, { color: theme.colors.text }]}>Queues</Text>
 
             {/* Manual Queue Implementation */}
             <View style={styles.section}>
@@ -112,7 +113,7 @@ class Queue {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },

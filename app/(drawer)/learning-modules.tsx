@@ -10,10 +10,12 @@ export default function LearningModules() {
 
     // ✅ handle navigation when a topic is selected
     const handleSelect = (module: string, topic: string) => {
-        const formattedTopic = topic.toLowerCase().replace(/\s+/g, '');
-
-        // Navigate using Expo Router path
-        router.push(`/(DataStructures)/${formattedTopic}`);
+        const formattedTopic = topic.replace(/\s+/g, '');
+        if (module === "Data Structures") {
+            router.push(`/DataStructures/${formattedTopic}`);
+        } else if (module == "Algorithms") {
+            router.push(`/Algorithms/${formattedTopic}`);
+        }
     };
 
     const modules = [

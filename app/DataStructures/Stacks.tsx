@@ -7,8 +7,9 @@ const Stack = () => {
     const { theme } = useTheme();
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.header, { color: theme.colors.text }]}>Stack</Text>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container}>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Stacks</Text>
 
             {/* Stack Implementation */}
             <View style={styles.section}>
@@ -110,9 +111,10 @@ const Stack = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingBottom: 40,
     },
     header: {
         fontSize: 24,
