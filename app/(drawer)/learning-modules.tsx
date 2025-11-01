@@ -10,7 +10,7 @@ export default function LearningModules() {
 
     // ✅ handle navigation when a topic is selected
     const handleSelect = (module: string, topic: string) => {
-        const formattedTopic = topic.replace(/\s+/g, '');
+        const formattedTopic = topic.replace(/[^a-zA-Z0-9]/g, '');
         if (module === "Data Structures") {
             router.push(`/DataStructures/${formattedTopic}`);
         } else if (module == "Algorithms") {
