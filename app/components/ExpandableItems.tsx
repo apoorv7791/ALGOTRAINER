@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,43 +9,78 @@ interface ExpandableItemsProps {
     onSelectItem: (item: string) => void;
 }
 
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+
 const ExpandableItems = ({ title, items, onSelectItem }: ExpandableItemsProps) => {
     const [expanded, setExpanded] = useState(false);
+    const animation = useRef(new Animated.Value(0)).current
     const { theme } = useTheme();
+
+
+    // Animate expand/collapse
+    useEffect(() => {
+        Animated.timing(animation, {
+            toValue: expanded ? 1 : 0,
+            duration: 250,
+            useNativeDriver: false,
+        }).start();
+    }, [expanded]);
+
+    const height = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, items.length * 50], // assuming each item has a height of 50
+    })
+
+    const rotate = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '180deg'],
+    })
+
+    const toggleExpand = () => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setExpanded(!expanded);
+    }
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.card }]}>
             <TouchableOpacity
                 style={styles.header}
-                onPress={() => setExpanded(!expanded)}
-            >
+                onPress={toggleExpand}>
                 <Text style={[styles.title, { color: theme.colors.text }]}>{title}</Text>
-                <Ionicons
-                    name={expanded ? 'chevron-up' : 'chevron-down'}
-                    size={24}
-                    color={theme.colors.text}
-                />
+                <Animated.View style={{ transform: [{ rotate }] }}>
+                    <Ionicons
+                        name={expanded ? 'chevron-up' : 'chevron-down'}
+                        size={24}
+                        color={theme.colors.text}
+                    />
+                </Animated.View>
             </TouchableOpacity>
 
-            {expanded && (
-                <ScrollView
-                    style={[styles.itemsContainer, { maxHeight: 200 }]} // Set a maximum height for scrolling
-                    showsVerticalScrollIndicator={true}
-                    nestedScrollEnabled={true}
-                >
-                    {items.map((item, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.item}
-                            onPress={() => onSelectItem(item)}
-                        >
-                            <Text style={[styles.itemText, { color: theme.colors.text }]}>
-                                {item}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
-                </ScrollView>
-            )}
+            {/* Expandable content */}
+            <Animated.View style={{ height: height, overflow: 'hidden' }}>
+                {expanded && (
+                    <ScrollView
+                        style={[styles.itemsContainer, { maxHeight: 200 }]} // Set a maximum height for scrolling
+                        showsVerticalScrollIndicator={true}
+                        nestedScrollEnabled={true}
+                    >
+                        {items.map((item, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                style={styles.item}
+                                onPress={() => onSelectItem(item)}
+                            >
+                                <Text style={[styles.itemText, { color: theme.colors.text }]}>
+                                    {item}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                )}
+            </Animated.View>
         </View>
     );
 };
