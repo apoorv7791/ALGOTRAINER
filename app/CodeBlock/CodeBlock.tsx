@@ -5,6 +5,7 @@ import { useTheme } from '@/app/Themes/Themecontext';
 interface CodeBlockProps {
     code: string;
     language?: string;
+    fontSize?: number;
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code, language }) => {
