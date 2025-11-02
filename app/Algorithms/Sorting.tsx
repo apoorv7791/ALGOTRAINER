@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const Sorting = () => {
     const { theme } = useTheme();
@@ -11,8 +13,16 @@ const Sorting = () => {
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             contentContainerStyle={{ paddingBottom: 30 }}
         >
-            <Text style={[styles.header, { color: theme.colors.text }]}>Sorting Algorithms</Text>
-
+            {/* Header  with icon */}
+            <View style={styles.headerRow}>
+                <MaterialCommunityIcons
+                    name="sort-variant"  // similar to the icon in your screenshot
+                    size={26}
+                    color={theme.colors.text}
+                    style={styles.headerIcon}
+                />
+                <Text style={[styles.header, { color: theme.colors.text }]}>Sorting Algorithms</Text>
+            </View>
             {/* 🔹 Bubble Sort */}
             <View style={styles.section}>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>1️⃣ Bubble Sort</Text>
@@ -153,6 +163,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: 20,
         textAlign: 'center',
+    },
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+        marginRight: 8,
+    },
+    headerIcon: {
+        fontSize: 22,
+        marginRight: 8,
     },
     section: {
         padding: 14,

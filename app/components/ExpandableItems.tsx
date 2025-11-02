@@ -10,7 +10,11 @@ interface ExpandableItemsProps {
 }
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    try {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    } catch (e) {
+
+    }
 }
 
 
