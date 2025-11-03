@@ -11,6 +11,13 @@ const Arrays = () => {
 
             {/* Array Basics */}
             <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Arrays</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • An array is a collection of elements, each identified by an index or key.{"\n"}
+                    • Elements are stored in contiguous memory locations.{"\n"}
+                    • Arrays can store multiple values of the same data type.
+                </Text>
+
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Array Basics</Text>
                 <CodeBlock
                     code={`// Declaring and initializing an array
@@ -112,6 +119,16 @@ System.out.println("Max: " + max);
 System.out.println("Min: " + min);`}
                     language="java"
                 />
+                {/* Explanation of the code and the Concept */}
+                <View style={styles.section}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How it works</Text>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        . We declare an array of integers and initialize two variables, max and min, with the first element of the array.{"\n"}
+                        . We iterate through the array starting from the second element. For each element, we compare it with the current max and min values.{"\n"}
+                        . If the current element is greater than max, we update max. If it is less than min, we update min.{"\n"}
+                        . we declare an array with a symbol like [] and access elements using their index. The length property gives the size of the array.{"\n"}
+                    </Text>
+                </View>
             </View>
         </ScrollView>
     );
@@ -138,7 +155,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         marginBottom: 10,
-    }
+    },
+    description: {
+        fontSize: 14,
+        marginBottom: 8,
+    },
+    bulletPoint: {
+        fontSize: 15,
+        marginBottom: 12,
+    },
 });
 
 export default Arrays;

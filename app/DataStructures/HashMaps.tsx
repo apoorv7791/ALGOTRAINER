@@ -12,6 +12,12 @@ const HashMaps = () => {
 
             {/* Basic HashMap Operations */}
             <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of HashMaps</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A HashMap is a data structure that implements an associative array abstract data type, a structure that can map keys to values.{"\n"}
+                    • It uses a hash function to compute an index (hash code) into an array of buckets or slots, from which the desired value can be found.{"\n"}
+                    • HashMaps provide average-case constant time complexity O(1) for search, insert, and delete operations.{"\n"}
+                </Text>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Basic HashMap Operations</Text>
                 <CodeBlock
                     code={`// Creating a HashMap
@@ -103,6 +109,17 @@ class Student {
 }`}
                     language="java"
                 />
+                {/* Explanation of the implementation */}
+                <View style={styles.section}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How it works</Text>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • A HashMap uses a hash function to compute an index for storing key-value pairs in an internal array.{"\n"}
+                        • Each index points to a bucket, which is typically implemented as a linked list or tree to handle collisions.{"\n"}
+                        • When a key-value pair is added, the hash code of the key determines the bucket where it will be stored.{"\n"}
+                        • If multiple keys hash to the same index, they are stored in the same bucket, and the structure (linked list/tree) manages these collisions.{"\n"}
+                        • The load factor determines when the HashMap should resize its internal array to maintain efficient operations.{"\n"}
+                    </Text>
+                </View>
             </View>
         </ScrollView>
     );
@@ -128,6 +145,10 @@ const styles = StyleSheet.create({
     subHeader: {
         fontSize: 18,
         fontWeight: '600',
+        marginBottom: 10,
+    },
+    bulletPoint: {
+        fontSize: 16,
         marginBottom: 10,
     }
 });

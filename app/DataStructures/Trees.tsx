@@ -5,14 +5,25 @@ import CodeBlock from '@/app/CodeBlock/CodeBlock';
 
 const Tree = () => {
     const { theme } = useTheme();
-    return (
-        <ScrollView style={{ backgroundColor: theme.colors.background }}
-            contentContainerStyle={styles.container} >
-            <Text style={[styles.header, { color: theme.colors.text }]}>Binary Tree</Text>
 
-            {/* Manual Tree Implementation */}
+    return (
+        <ScrollView
+            style={{ backgroundColor: theme.colors.background }}
+            contentContainerStyle={styles.container}
+        >
+            <Text style={[styles.header, { color: theme.colors.text }]}>Trees</Text>
+
+            {/* Simple Binary Tree Implementation */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Binary Tree Implementation</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of a Tree</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A tree is a hierarchical data structure consisting of nodes, where each node has a value and references to its child nodes.{"\n"}
+                    • The topmost node is called the root, and nodes with no children are called leaves.{"\n"}
+                    • Trees are used in various applications such as representing hierarchical data, searching and sorting algorithms, and organizing information in databases.{"\n"}
+                </Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>
+                    Simple Binary Tree Implementation
+                </Text>
                 <CodeBlock
                     code={`class Node {
     int data;
@@ -29,17 +40,6 @@ class BinaryTree {
 
     public BinaryTree() {
         root = null;
-    }
-
-    // Insert nodes manually
-    public void insert(Node node, int value) {
-        if (value < node.data) {
-            if (node.left != null) insert(node.left, value);
-            else node.left = new Node(value);
-        } else {
-            if (node.right != null) insert(node.right, value);
-            else node.right = new Node(value);
-        }
     }
 
     // Inorder Traversal (Left, Root, Right)
@@ -68,45 +68,53 @@ class BinaryTree {
             System.out.print(node.data + " ");
         }
     }
-    // Display tree
-    public void display(Node node, String prefix) {
-        if (node != null) {
-            System.out.println(prefix + node.data);
-            display(node.left, prefix + "L-- ");
-            display(node.right, prefix + "R-- ");
-        }
-    }
 }`}
                     language="java"
                 />
             </View>
 
-            {/* Tree Operations */}
+            {/* Tree Example */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Tree Operations</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>
+                    Example Usage
+                </Text>
                 <CodeBlock
                     code={`public class Main {
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
-        tree.root = new Node(10);
-        tree.insert(tree.root, 5);
-        tree.insert(tree.root, 15);
-        tree.insert(tree.root, 3);
-        tree.insert(tree.root, 7);
+
+        // Manually connect nodes
+        tree.root = new Node(1);
+        tree.root.left = new Node(2);
+        tree.root.right = new Node(3);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
 
         System.out.print("Inorder: ");
-        tree.inorder(tree.root);   // 3 5 7 10 15
+        tree.inorder(tree.root);   // 4 2 5 1 3
 
         System.out.print("\\nPreorder: ");
-        tree.preorder(tree.root);  // 10 5 3 7 15
+        tree.preorder(tree.root);  // 1 2 4 5 3
 
         System.out.print("\\nPostorder: ");
-        tree.postorder(tree.root); // 3 7 5 15 10
+        tree.postorder(tree.root); // 4 5 2 3 1
     }
-        tree.display(tree.root, "");
 }`}
                     language="java"
                 />
+                {/* Explanation */}
+                <View style={styles.section}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
+                    <Text style={{ color: theme.colors.text }}>
+                        • A Tree is a hierarchical data structure consisting of nodes connected by edges.{"\n"}
+                        • The topmost node is called the root, and it serves as the starting point.{"\n"}
+                        • Each node can have zero or more child nodes.{"\n"}
+                        • Nodes that have the same parent are called siblings.{"\n"}
+                        • Traversals (like preorder, postorder, or level order) visit nodes in different sequences.{"\n"}
+                        • Trees are widely used to represent hierarchical data like file systems or organizational structures.
+                    </Text>
+                </View>
+
             </View>
         </ScrollView>
     );
@@ -133,6 +141,10 @@ const styles = StyleSheet.create({
     subHeader: {
         fontSize: 18,
         fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    bulletPoint: {
+        fontSize: 16,
         marginBottom: 10,
     }
 });

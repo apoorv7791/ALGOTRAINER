@@ -13,6 +13,12 @@ const Stack = () => {
 
             {/* Stack Implementation */}
             <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Stack</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A stack is a linear data structure that follows the Last In First Out (LIFO) principle.{"\n"}
+                    • Elements can be added (pushed) and removed (popped) only from the top of the stack.{"\n"}
+                    • Stacks are used in various applications such as expression evaluation, backtracking algorithms, and function call management.{"\n"}
+                </Text>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Stack Implementation (Using Arrays)</Text>
                 <CodeBlock
                     code={`class Stack {
@@ -104,6 +110,22 @@ const Stack = () => {
 }`}
                     language="java"
                 />
+                {/* Explanation of the code */}
+                <View style={styles.section}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • A Stack is a linear data structure that follows the Last In, First Out (LIFO) principle.{"\n"}
+                        • Elements are added and removed from the top of the stack only.{"\n"}
+                        • The Stack class is implemented using a linked list or array, where the last inserted element is the first to be removed.{"\n"}
+                        • Common operations include:{"\n"}
+                        {"     ◦ Push: Add an element to the top of the stack."}{"\n"}
+                        {"     ◦ Pop: Remove the element from the top of the stack."}{"\n"}
+                        {"     ◦ Peek: View the top element without removing it."}{"\n"}
+                        {"     ◦ isEmpty: Check if the stack is empty."}{"\n"}
+                        • The Main class demonstrates stack operations, showing how elements are managed in LIFO order.
+                    </Text>
+                </View>
+
             </View>
         </ScrollView>
     );
@@ -119,7 +141,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 5,
     },
     section: {
         padding: 20,
@@ -130,6 +152,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
+    bulletPoint: {
+        fontSize: 16,
+        marginBottom: 10,
+    }
 });
 
 export default Stack;

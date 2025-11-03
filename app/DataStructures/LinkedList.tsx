@@ -12,6 +12,12 @@ const LinkedList = () => {
 
             {/* Node and LinkedList Structure */}
             <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Linked List</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A linked list is a linear data structure where elements, called nodes, are stored in non-contiguous memory locations.{"\n"}
+                    • Each node contains data and a reference (or pointer) to the next node in the sequence.{"\n"}
+                    • Linked lists allow for efficient insertions and deletions as they do not require shifting elements like arrays.{"\n"}
+                </Text>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Node & LinkedList Structure</Text>
                 <CodeBlock
                     code={`class Node {
@@ -115,7 +121,7 @@ class LinkedList {
                 />
             </View>
 
-            {/* Explanation */}
+            {/* Explanation of the code*/}
             <View style={styles.section}>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
                 <Text style={{ color: theme.colors.text }}>
@@ -152,6 +158,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
+    bulletPoint: {
+        fontSize: 16,
+        marginBottom: 10,
+    }
 });
 
 export default LinkedList;

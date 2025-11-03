@@ -12,6 +12,12 @@ const Graph = () => {
 
             {/* Manual Graph Implementation */}
             <View style={styles.section}>
+                <Text style={[styles.subHeader]}>Definition of Graphs</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A graph is a data structure that consists of a set of nodes (vertices) and a set of edges that connect pairs of nodes.{"\n"}
+                    • Graphs can be directed or undirected, weighted or unweighted.{"\n"}
+                    • They are used to model relationships and networks in various fields such as computer science, biology, social sciences, and transportation.{"\n"}
+                </Text>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Graph Implementation (Adjacency List)</Text>
                 <CodeBlock
                     code={`import java.util.*;
@@ -102,6 +108,15 @@ class Graph {
 }`}
                     language="java"
                 />
+                {/* Explanation of the code */}
+                <View style={styles.section}>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • The Graph class uses an adjacency list to represent the graph structure.{"\n"}
+                        • Vertices can be added using the addVertex method, and edges can be created using the addEdge method.{"\n"}
+                        • The bfs method performs a breadth-first search starting from a given vertex, while the dfs method performs a depth-first search.{"\n"}
+                        • The printGraph method displays the adjacency list representation of the graph.{"\n"}
+                    </Text>
+                </View>
             </View>
         </ScrollView>
     );
@@ -128,6 +143,10 @@ const styles = StyleSheet.create({
     subHeader: {
         fontSize: 18,
         fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    bulletPoint: {
+        fontSize: 16,
         marginBottom: 10,
     }
 });

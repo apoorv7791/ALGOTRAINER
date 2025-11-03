@@ -12,7 +12,13 @@ const Queue = () => {
 
             {/* Manual Queue Implementation */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Queue Implementation</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Queue</Text>
+                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                    • A queue is a linear data structure that follows the First In First Out (FIFO) principle.{"\n"}
+                    • Elements are added (enqueued) at the rear and removed (dequeued) from the front.{"\n"}
+                    • Queues are used in various applications such as scheduling processes, managing requests in web servers, and breadth-first search algorithms.{"\n"}
+                </Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Queue Implementation (Using Linked List)</Text>
                 <CodeBlock
                     code={`class Node {
     int data;
@@ -75,14 +81,14 @@ class Queue {
         }
         System.out.println("null");
     }
-}`}
+}.  `}
                     language="java"
                 />
             </View>
 
             {/* Queue Operations */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Queue Operations</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Queue Operations </Text>
                 <CodeBlock
                     code={`public class Main {
     public static void main(String[] args) {
@@ -106,6 +112,22 @@ class Queue {
 }`}
                     language="java"
                 />
+                <View style={styles.section}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • A Queue is a linear data structure that follows the First In, First Out (FIFO) principle.{"\n"}
+                        • Elements are added at the rear (enqueue) and removed from the front (dequeue).{"\n"}
+                        • The Queue class is implemented using a linked list where each node holds data and a reference to the next node.{"\n"}
+                        • Common operations include:{"\n"}
+                        {"   ◦ Enqueue: Add an element to the rear of the queue."}{"\n"}
+                        {"   ◦ Dequeue: Remove an element from the front."}{"\n"}
+                        {"   ◦ Peek: View the front element without removing it."}{"\n"}
+                        {"   ◦ isEmpty: Check if the queue has no elements."}{"\n"}
+                        • The Main class demonstrates queue operations, showing how elements move through the structure as per FIFO order.
+                    </Text>
+                </View>
+
+
             </View>
         </ScrollView>
     );
@@ -120,7 +142,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     section: {
         padding: 16,
@@ -132,6 +154,10 @@ const styles = StyleSheet.create({
     subHeader: {
         fontSize: 18,
         fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    bulletPoint: {
+        fontSize: 16,
         marginBottom: 10,
     }
 });
