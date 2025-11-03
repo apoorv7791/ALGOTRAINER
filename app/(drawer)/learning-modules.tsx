@@ -51,7 +51,7 @@ export default function LearningModules() {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.title}
                 contentContainerStyle={styles.contentContainer}
-                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+                ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
                 showsVerticalScrollIndicator={true}
             />
         </View>

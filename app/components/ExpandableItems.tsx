@@ -35,7 +35,7 @@ const ExpandableItems = ({ title, items, onSelectItem }: ExpandableItemsProps) =
 
     const height = animation.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, items.length * 50], // assuming each item has a height of 50
+        outputRange: [0, items.length * 30], // assuming each item has a height of 50 but we can adjust based on content
     })
 
     const rotate = animation.interpolate({
