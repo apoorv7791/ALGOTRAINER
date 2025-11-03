@@ -126,7 +126,8 @@ System.out.println("Min: " + min);`}
                         . We declare an array of integers and initialize two variables, max and min, with the first element of the array.{"\n"}
                         . We iterate through the array starting from the second element. For each element, we compare it with the current max and min values.{"\n"}
                         . If the current element is greater than max, we update max. If it is less than min, we update min.{"\n"}
-                        . we declare an array with a symbol like [] and access elements using their index. The length property gives the size of the array.{"\n"}
+                        . we declare an array with a bracket like [] and access elements using their index. The length property gives the size of the array.{"\n"}
+                        . arr[0] means that we are accessing the first element of the array arr.{"\n"}
                     </Text>
                 </View>
             </View>
