@@ -1,35 +1,37 @@
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { MD3DarkTheme, MD3LightTheme, adaptNavigationTheme } from 'react-native-paper';
 
-// Define your custom light theme colors
+// ✅ Light theme colors
 const lightColors = {
-    primary: '#6200ee',       // Primary brand color
-    secondary: '#03dac4',     // Secondary color for interactive elements
-    background: '#f6f6f6',    // Background color
-    surface: '#ffffff',       // Surface color for cards, sheets, etc.
-    text: '#000000',          // Primary text color
-    error: '#B00020',         // Error color
-    border: 'rgba(0, 0, 0, 0.1)', // Border color
-    notification: '#ff3d71',  // Notification/badge color
-    onSurface: '#000000',     // Text color on surface
-    // Add any additional colors as needed
+    primary: '#6200ee',
+    secondary: '#03dac4',
+    background: '#f6f6f6',
+    surface: '#ffffff',
+    text: '#000000',
+    description: '#00796B',      // 💚 Bright green for light theme     // Primary text
+    textSecondary: '#333333',    // ✅ For subtitles / descriptions
+    error: '#B00020',
+    border: 'rgba(0, 0, 0, 0.1)',
+    notification: '#ff3d71',
+    onSurface: '#000000',
 };
 
-// Define your custom dark theme colors
+// ✅ Dark theme colors
 const darkColors = {
-    primary: '#bb86fc',       // Lighter purple for dark theme
-    secondary: '#03dac4',     // Same secondary color for consistency
-    background: '#121212',    // Dark background
-    surface: '#1e1e1e',       // Slightly lighter than background
-    text: '#ffffff',          // White text for dark theme
-    error: '#cf6679',         // Softer red for dark theme
-    border: 'rgba(255, 255, 255, 0.1)', // Lighter border for dark theme
-    notification: '#ff3d71',  // Same notification color
-    onSurface: '#ffffff',     // Text color on surface (dark theme)
-    // Match additional colors from light theme
+    primary: '#bb86fc',
+    secondary: '#03dac4',
+    background: '#121212',
+    surface: '#1e1e1e',
+    text: '#ffffff',
+    description: '#00E5A0', // 💚 Bright green for dark theme         // Primary text
+    textSecondary: '#dddddd',    // ✅ For subtitles / descriptions
+    error: '#cf6679',
+    border: 'rgba(255, 255, 255, 0.1)',
+    notification: '#ff3d71',
+    onSurface: '#ffffff',
 };
 
-// Extend the theme types
+// ✅ Extend the theme type
 declare global {
     namespace ReactNativePaper {
         interface ThemeColors {
@@ -38,6 +40,7 @@ declare global {
             background: string;
             surface: string;
             text: string;
+            textSecondary: string; // ✅ Added new color
             error: string;
             border: string;
             notification: string;
@@ -46,13 +49,13 @@ declare global {
     }
 }
 
-// Merge with React Navigation themes
+// ✅ Merge React Navigation + Paper themes
 const { LightTheme: NavLightTheme, DarkTheme: NavDarkTheme } = adaptNavigationTheme({
     reactNavigationLight: NavigationDefaultTheme,
     reactNavigationDark: NavigationDarkTheme,
 });
 
-// Create the light theme
+// ✅ Light Theme
 export const lightTheme = {
     ...MD3LightTheme,
     ...NavLightTheme,
@@ -63,7 +66,7 @@ export const lightTheme = {
     },
 };
 
-// Create the dark theme
+// ✅ Dark Theme
 export const darkTheme = {
     ...MD3DarkTheme,
     ...NavDarkTheme,

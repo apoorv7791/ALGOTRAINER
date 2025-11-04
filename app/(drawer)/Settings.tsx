@@ -1,23 +1,47 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
-import { ScrollView } from 'react-native-gesture-handler';
-
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Settings = () => {
     const handleSelect = (option: string) => {
         alert(`Selected option: ${option}`);
-    }
+    };
+
     const { theme } = useTheme();
+    const [isLandscape, setIsLandscape] = useState(false);
+
+    useEffect(() => {
+        // Allow both orientations
+        ScreenOrientation.unlockAsync();
+
+        // Listen for orientation changes
+        const subscription = Dimensions.addEventListener('change', ({ window }) => {
+            setIsLandscape(window.width > window.height);
+        });
+
+        // Cleanup listener (important for memory safety)
+        return () => {
+            subscription?.remove?.();
+        };
+    }, []);
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}
+        <ScrollView
+            style={[styles.container, { backgroundColor: theme.colors.background }]}
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
         >
-            {/* Screen Title */}
-            <Text style={[styles.title, { color: theme.colors.text }]}>Settings</Text>
+            <Text
+                style={[
+                    styles.title,
+                    { color: theme.colors.text, textAlign: isLandscape ? 'center' : 'left' },
+                ]}
+            >
+                Settings
+            </Text>
+
             {/* Account Section */}
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
@@ -29,6 +53,7 @@ const Settings = () => {
                     onSelectItem={handleSelect}
                 />
             </View>
+
             {/* App Section */}
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
@@ -53,7 +78,7 @@ const styles = StyleSheet.create({
     contentContainer: {
         padding: 20,
         paddingBottom: 40,
-        alignItems: 'stretch', // ✅ replaced alignItems & justifyContent here
+        alignItems: 'stretch',
         justifyContent: 'flex-start',
     },
     title: {
@@ -65,8 +90,8 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 16,
         marginBottom: 20,
-        elevation: 3, // shadow for Android
-        shadowColor: '#000', // shadow for iOS
+        elevation: 3, // Android shadow
+        shadowColor: '#000', // iOS shadow
         shadowOpacity: 0.1,
         shadowRadius: 6,
     },

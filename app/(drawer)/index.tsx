@@ -53,7 +53,7 @@ const HomeScreen = () => {
                         <Text style={[styles.welcomeTitle, { color: theme.colors.text }]}>
                             Welcome to AlgoTrainer
                         </Text>
-                        <Text style={[styles.welcomeSubtitle, { color: theme.colors.secondary }]}>
+                        <Text style={[styles.welcomeSubtitle, { color: theme.colors.description }]}>
                             Start your journey to master algorithms today!
                         </Text>
                     </View>
@@ -73,7 +73,7 @@ const HomeScreen = () => {
                             <Text style={[styles.featureTitle, { color: theme.colors.text }]}>
                                 {feature.title}
                             </Text>
-                            <Text style={[styles.featureDescription, { color: theme.colors.secondary }]}>
+                            <Text style={[styles.featureDescription, { color: theme.colors.description }]}>
                                 {feature.description}
                             </Text>
                         </TouchableOpacity>

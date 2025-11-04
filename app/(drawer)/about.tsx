@@ -1,13 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '../Themes/Themecontext';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const About = () => {
     const insets = useSafeAreaInsets();
     const { theme } = useTheme();
     const scrollViewRef = React.useRef<ScrollView>(null);
+    const [isLandscape, setIsLandscape] = React.useState(false);
+
+    React.useEffect(() => {
+        // Allow both orientations
+        ScreenOrientation.unlockAsync();
+
+        // Listen for orientation changes
+        const subscription = Dimensions.addEventListener('change', ({ window }) => {
+            setIsLandscape(window.width > window.height);
+        });
+
+        return () => subscription?.remove();
+    }, []);
 
     const openEmail = () => {
         Linking.openURL('mailto:Singhapoorv7791@gmail.com');
@@ -47,7 +61,7 @@ const About = () => {
             keyboardShouldPersistTaps="handled"
             keyboardDismissMode="interactive"
         >
-            <Text style={[styles.title, { color: theme.colors.text }]}>About AlgoTrainer</Text>
+            <Text style={[styles.title, { color: theme.colors.text, fontSize: isLandscape ? 22 : 26 }]}>About AlgoTrainer</Text>
 
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Our Vision</Text>
@@ -141,6 +155,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+    },
+    Dimensions: {
+        marginBottom: 15,
     },
     sectionTitle: {
         fontSize: 20,
