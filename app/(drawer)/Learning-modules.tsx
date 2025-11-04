@@ -33,6 +33,8 @@ export default function LearningModules() {
             router.push(`/DataStructures/${formattedTopic}`);
         } else if (module == "Algorithms") {
             router.push(`/Algorithms/${formattedTopic}`);
+        } else if (module == "Advanced Topics") {
+            router.push(`/AdvancedTopics/${formattedTopic}`);
         }
     };
 
@@ -44,7 +46,7 @@ export default function LearningModules() {
         {
             title: "Algorithms",
             items: ["Sorting", "Searching", "Dynamic Programming", "Greedy", "Graph Algorithms", "Backtracking"]
-        }
+        },
     ];
 
     interface Module {
