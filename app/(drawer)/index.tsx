@@ -1,12 +1,30 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../Themes/Themecontext';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const HomeScreen = () => {
     const insets = useSafeAreaInsets();
     const { theme, isDark, toggleTheme } = useTheme();
+
+
+    const [isLandscape, setIsLandscape] = React.useState(false);
+
+    React.useEffect(() => {
+        // Allow both orientations
+        ScreenOrientation.unlockAsync();
+        const { width, height } = Dimensions.get('window');
+        setIsLandscape(width > height);
+
+        // Listen for orientation changes
+        const subscription = Dimensions.addEventListener('change', ({ window }) => {
+            setIsLandscape(window.width > window.height);
+        });
+
+        return () => subscription?.remove();
+    }, []);
 
     const features = [
         {
