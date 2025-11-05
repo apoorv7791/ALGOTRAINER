@@ -68,7 +68,7 @@ const HomeScreen = () => {
                 {/* Welcome Card */}
                 <View style={[styles.welcomeCard, { backgroundColor: theme.colors.surface }]}>
                     <View style={styles.welcomeTextContainer}>
-                        <Text style={[styles.welcomeTitle, { color: theme.colors.text }]}>
+                        <Text style={[styles.welcomeTitle, { color: theme.colors.text, fontSize: isLandscape ? 22 : 26 }]}>
                             Welcome to AlgoTrainer
                         </Text>
                         <Text style={[styles.welcomeSubtitle, { color: theme.colors.description }]}>
