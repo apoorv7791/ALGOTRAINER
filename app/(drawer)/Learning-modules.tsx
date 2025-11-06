@@ -33,8 +33,8 @@ export default function LearningModules() {
             router.push(`/DataStructures/${formattedTopic}`);
         } else if (module == "Algorithms") {
             router.push(`/Algorithms/${formattedTopic}`);
-        } else if (module == "Advanced Topics") {
-            router.push(`/AdvancedTopics/${formattedTopic}`);
+        } else if (module == "Advanced Patterns") {
+            router.push(`/AdvancedPatterns/${formattedTopic}`);
         }
     };
 
@@ -47,6 +47,10 @@ export default function LearningModules() {
             title: "Algorithms",
             items: ["Sorting", "Searching", "Dynamic Programming", "Greedy", "Graph Algorithms", "Backtracking"]
         },
+        {
+            title: "Advanced Patterns",
+            items: ["Two Pointers", "Sliding Window", "Fast and Slow Pointers", "Prefix Sum", "Backtracking Patterns", "Bit Manipulation"]
+        }
     ];
 
     interface Module {
