@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Text, StyleSheet, FlatList, View } from 'react-native';
+import { Text, StyleSheet, FlatList, View, Platform } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import ExpandableItems from '../components/ExpandableItems';
 import { useRouter } from "expo-router";
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { useKeepAwake } from 'expo-keep-awake';
 
 export default function LearningModules() {
     const router = useRouter();
@@ -11,9 +12,14 @@ export default function LearningModules() {
 
     const [isLandscape, setIsLandscape] = React.useState(false);
 
+    // ✅ Keeps screen awake automatically while this screen is active
+    useKeepAwake();
+
     useEffect(() => {
+        // Unlock screen orientation
         ScreenOrientation.unlockAsync();
 
+        // Track orientation changes
         const subscription = ScreenOrientation.addOrientationChangeListener(({ orientationInfo }) => {
             setIsLandscape(
                 orientationInfo.orientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT ||
@@ -21,6 +27,7 @@ export default function LearningModules() {
             );
         });
 
+        // Cleanup listener on unmount
         return () => {
             ScreenOrientation.removeOrientationChangeListener(subscription);
         };
@@ -33,8 +40,8 @@ export default function LearningModules() {
             router.push(`/DataStructures/${formattedTopic}`);
         } else if (module == "Algorithms") {
             router.push(`/Algorithms/${formattedTopic}`);
-        } else if (module == "Advanced Patterns") {
-            router.push(`/AdvancedPatterns/${formattedTopic}`);
+        } else if (module == "Advance Patterns") {
+            router.push(`/AdvancePatterns/${formattedTopic}`);
         }
     };
 
@@ -48,7 +55,7 @@ export default function LearningModules() {
             items: ["Sorting", "Searching", "Dynamic Programming", "Greedy", "Graph Algorithms", "Backtracking"]
         },
         {
-            title: "Advanced Patterns",
+            title: "Advance Patterns",
             items: ["Two Pointers", "Sliding Window", "Fast and Slow Pointers", "Prefix Sum", "Backtracking Patterns", "Bit Manipulation"]
         }
     ];
@@ -62,23 +69,31 @@ export default function LearningModules() {
         <ExpandableItems
             title={item.title}
             items={item.items}
-            // 🧩 Pass both module name and topic to handleSelect
             onSelectItem={(topic) => handleSelect(item.title, topic)}
         />
     );
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.heading, {
-                color: theme.colors.text, textAlign: isLandscape ? "center" : "left",
-                fontSize: isLandscape ? 28 : 24
-            }]}>Learning Modules</Text>
+            <Text
+                style={[
+                    styles.heading,
+                    {
+                        color: theme.colors.text,
+                        textAlign: isLandscape ? "center" : "left",
+                        fontSize: isLandscape ? 28 : 24
+                    }
+                ]}
+            >
+                Learning Modules
+            </Text>
             <FlatList
                 data={modules}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.title}
-                contentContainerStyle={[styles.contentContainer,
-                { paddingHorizontal: isLandscape ? 30 : 20, paddingBottom: 30 },
+                contentContainerStyle={[
+                    styles.contentContainer,
+                    { paddingHorizontal: isLandscape ? 30 : 20, paddingBottom: 30 },
                 ]}
                 ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
                 showsVerticalScrollIndicator={true}

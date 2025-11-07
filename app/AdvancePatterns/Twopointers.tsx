@@ -36,21 +36,22 @@ const TwoPointers = () => {
             <Text style={styles.subheading}>💡 Example: Two Sum (Sorted Array)</Text>
             <View style={styles.codeBox}>
                 <CodeBlock
-                    code={`public static int[] twoSum(int[] nums, int target) {
-                     int left = 0;
-                     int right = nums.length - 1;
-                     while (left < right) {
-                         int sum = nums[left] + nums[right];
-                         if (sum == target) {
-                             return new int[] { left, right };
-                         } else if (sum < target) {
-                             left++;
-                         } else {
-                             right--;
-                         }
-                     }
-                     return new int[] { -1, -1 };
-                 }`}
+                    code={`FUNCTION twoSum(nums, target):
+    left ← 0
+    right ← length(nums) - 1
+
+    WHILE left < right:
+        sum ← nums[left] + nums[right]
+
+        IF sum == target:
+            RETURN [left, right]
+        ELSE IF sum < target:
+            left ← left + 1
+        ELSE:
+            right ← right - 1
+
+    RETURN [-1, -1]
+`}
                 />
             </View>
 
