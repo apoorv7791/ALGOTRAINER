@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 24,
     }
 })
 

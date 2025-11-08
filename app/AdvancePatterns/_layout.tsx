@@ -4,14 +4,15 @@ import { Stack } from 'expo-router/stack';
 
 const AdvancePatternsLayout = () => {
     const { theme } = useTheme();
+
     return (
         <Stack
             screenOptions={{
                 headerStyle: { backgroundColor: theme.colors.primary || '#6200ee' },
                 headerTintColor: theme.colors.text,
                 headerTitleStyle: { fontWeight: '600' },
-                animation: 'slide_from_right',  // smooth native transition
-                gestureEnabled: true,           // swipe-back gesture
+                animation: 'slide_from_right',
+                gestureEnabled: true,
                 gestureDirection: 'horizontal',
             }}
         >
@@ -24,7 +25,7 @@ const AdvancePatternsLayout = () => {
                 options={{ title: 'Sliding Window Pattern' }}
             />
             <Stack.Screen
-                name="FastAndSlow"
+                name="FastAndSlowPointers"
                 options={{ title: 'Fast and Slow Pointers Pattern' }}
             />
             <Stack.Screen
@@ -40,12 +41,11 @@ const AdvancePatternsLayout = () => {
                 options={{ title: 'Backtracking Pattern' }}
             />
             <Stack.Screen
-                name="Bit Manipulation"
+                name="BitManipulation"
                 options={{ title: 'Bit Manipulation Pattern' }}
             />
         </Stack>
     );
-}
-
+};
 
 export default AdvancePatternsLayout;
