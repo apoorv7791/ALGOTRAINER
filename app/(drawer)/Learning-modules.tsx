@@ -56,7 +56,7 @@ export default function LearningModules() {
         },
         {
             title: "Advance Patterns",
-            items: ["Two Pointers", "Sliding Window", "Fast and Slow Pointers", "Prefix Sum", "Backtracking Patterns", "Bit Manipulation"]
+            items: ["Two Pointers", "Sliding Window", "Fast and Slow Pointers", "Binary Search", "Prefix Sum", "Backtracking Pattern ", "Bit Manipulation"]
         }
     ];
 

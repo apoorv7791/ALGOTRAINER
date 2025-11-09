@@ -71,6 +71,12 @@ console.log(findDuplicate([1,3,4,2,2])); // 2`,
                 * They are mainly used to detect cycles and find the middle element of a linked list or array.{'\n'}
                 * The technique is fast and efficient and reducing the space to O(1).
             </Text>
+            <Text style={[styles.subheader, { color: theme.colors.description }]}>
+                * Fast pointer moves two steps at a time.{'\n'}
+                * Slow pointer moves one step at a time.{'\n'}
+                * If there is a cycle, the fast pointer will eventually catch up with the slow pointer.
+
+            </Text>
             {examples.map((example, index) => (
                 <View key={index} style={styles.exampleContainer}>
                     <Text style={[styles.exampleTitle, { color: theme.colors.text }]}>

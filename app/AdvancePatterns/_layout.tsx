@@ -37,7 +37,7 @@ const AdvancePatternsLayout = () => {
                 options={{ title: 'Prefix Sum Pattern' }}
             />
             <Stack.Screen
-                name="Backtrack"
+                name="Backtracking-Pattern"
                 options={{ title: 'Backtracking Pattern' }}
             />
             <Stack.Screen

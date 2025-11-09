@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../Themes/Themecontext';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { MotiView } from 'moti';
 
 const HomeScreen = () => {
     const insets = useSafeAreaInsets();
