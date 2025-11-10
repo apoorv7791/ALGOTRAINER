@@ -12,10 +12,15 @@ export default function DrawerLayout() {
         <Drawer
             screenOptions={({ navigation }) => ({
                 headerTitle: 'AlgoTrainer',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                    backgroundColor: theme.colors.primary || '#6200ee',
+                },
+
                 headerLeft: () => (
                     <TouchableOpacity
                         onPress={() => navigation.toggleDrawer()}
-                        style={{ marginLeft: 15 }}
+                        style={{ marginLeft: 22 }}
                     >
                         <MaterialIcons name="menu" size={24} color="white" />
                     </TouchableOpacity>
@@ -23,7 +28,7 @@ export default function DrawerLayout() {
                 headerRight: () => (
                     <TouchableOpacity
                         onPress={toggleTheme}
-                        style={{ marginRight: 15 }}
+                        style={{ marginRight: 22 }}
                     >
                         <MaterialIcons
                             name={isDark ? 'wb-sunny' : 'nights-stay'}
@@ -32,13 +37,21 @@ export default function DrawerLayout() {
                         />
                     </TouchableOpacity>
                 ),
-                headerStyle: {
-                    backgroundColor: theme.colors.primary || '#6200ee',
-                },
                 headerTintColor: 'white',
                 headerTitleStyle: {
                     fontWeight: 'bold',
+                    fontSize: 20,
                 },
+                hedearTitleContainerStyle: {
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: -10,
+                },
+
+
                 drawerActiveTintColor: theme.colors.primary,
                 drawerInactiveTintColor: theme.colors.text,
                 drawerActiveBackgroundColor: theme.colors.primary + '20',
