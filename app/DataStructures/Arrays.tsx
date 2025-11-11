@@ -27,7 +27,7 @@ int[] arr = {10, 20, 30, 40, 50};
 System.out.println(arr[0]);  // Output: 10
 System.out.println(arr[arr.length - 1]); // Output: 50
 
-// Updating elements
+// Updating elements of the array
 arr[2] = 99;  // arr becomes {10, 20, 99, 40, 50}
 
 // Traversing array

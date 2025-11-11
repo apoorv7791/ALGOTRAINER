@@ -73,7 +73,8 @@ const HomeScreen = () => {
                             Welcome to AlgoTrainer
                         </Text>
                         <Text style={[styles.welcomeSubtitle, { color: theme.colors.description }]}>
-                            Start your journey to master algorithms today!
+                            Start your journey to master algorithms today!{"\n"}
+                            Don't just understand DSA Feel it
                         </Text>
                     </View>
                 </View>
