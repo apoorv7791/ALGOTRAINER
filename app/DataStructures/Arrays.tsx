@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 
@@ -21,7 +21,7 @@ const Arrays = () => {
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>Array Basics</Text>
                 <CodeBlock
                     code={`// Declaring and initializing an array
-int[] arr = {10, 20, 30, 40, 50};
+int[] arr = {10, 20, 30, 40, 50}; // and array of integer data type
 
 // Accessing elements
 System.out.println(arr[0]);  // Output: 10
