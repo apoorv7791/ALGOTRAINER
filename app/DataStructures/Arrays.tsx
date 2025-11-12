@@ -2,9 +2,11 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const Arrays = () => {
     const { theme } = useTheme();
+    const router = useRouter
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Arrays</Text>
