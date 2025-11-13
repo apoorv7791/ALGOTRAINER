@@ -6,166 +6,180 @@ import { useRouter } from 'expo-router';
 
 const Arrays = () => {
     const { theme } = useTheme();
-    const router = useRouter
+    const router = useRouter();
+
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Arrays</Text>
 
-            {/* Array Basics */}
+            {/* 1. What is an Array? */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Arrays</Text>
-                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
-                    • An array is a collection of elements, each identified by an index or key.{"\n"}
-                    • Elements are stored in contiguous memory locations.{"\n"}
-                    • Arrays can store multiple values of the same data type.
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>What is an Array?</Text>
+                <Text style={[styles.bullet, { color: theme.colors.text }]}>
+                    • A **collection** of items{"\n"}
+                    • Each item has an **index** [0, 1, 2... ]{"\n"}
+                    • All items are **same type** (int, String, etc.)
                 </Text>
+            </View>
 
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Array Basics</Text>
+            {/* 2. Basic Operations */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Basic Operations</Text>
                 <CodeBlock
-                    code={`// Declaring and initializing an array
-int[] arr = {10, 20, 30, 40, 50}; // and array of integer data type
+                    code={`int[] arr = {10, 20, 30, 40, 50};
 
-// Accessing elements
-System.out.println(arr[0]);  // Output: 10
-System.out.println(arr[arr.length - 1]); // Output: 50
+// Access
+System.out.println(arr[0]);           // 10
+System.out.println(arr[arr.length-1]); // 50
 
-// Updating elements of the array
-arr[2] = 99;  // arr becomes {10, 20, 99, 40, 50}
+// Update
+arr[2] = 99;  // Now: {10, 20, 99, 40, 50}
 
-// Traversing array
+// Traverse
 for (int i = 0; i < arr.length; i++) {
     System.out.print(arr[i] + " ");
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    • Use **[index]** to read or change values{"\n"}
+                    • **arr.length** = total items
+                </Text>
             </View>
 
-            {/* Insert Element */}
+            {/* 3. Insert Element */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Insert Element</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Insert at Index</Text>
                 <CodeBlock
-                    code={`// Insert value 25 at index 2
-int[] arr = {10, 20, 30, 40, 50};
-int position = 2;
-int value = 25;
-
+                    code={`int[] arr = {10, 20, 30, 40, 50};
+int pos = 2, val = 25;
 int[] newArr = new int[arr.length + 1];
 
 for (int i = 0, j = 0; i < newArr.length; i++) {
-    if (i == position) {
-        newArr[i] = value;
-    } else {
-        newArr[i] = arr[j++];
-    }
+    if (i == pos) newArr[i] = val;
+    else newArr[i] = arr[j++];
 }
 
-// newArr: {10, 20, 25, 30, 40, 50}`}
+// Result: {10, 20, 25, 30, 40, 50}`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    • Create **new array** (+1 size){"\n"}
+                    • Copy old values, **insert new one** at `pos`
+                </Text>
             </View>
 
-            {/* Delete Element */}
+            {/* 4. Delete Element */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Delete Element</Text>
-                <CodeBlock
-                    code={`// Delete element at index 3
-int[] arr = {10, 20, 30, 40, 50};
-int position = 3;
-
-int[] newArr = new int[arr.length - 1];
-for (int i = 0, j = 0; i < arr.length; i++) {
-    if (i != position) {
-        newArr[j++] = arr[i];
-    }
-}
-
-// newArr: {10, 20, 30, 50}`}
-                    language="java"
-                />
-            </View>
-
-            {/* Search Element */}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Search Element</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Delete at Index</Text>
                 <CodeBlock
                     code={`int[] arr = {10, 20, 30, 40, 50};
-int key = 30;
-boolean found = false;
+int pos = 3;
+int[] newArr = new int[arr.length - 1];
 
-for (int i = 0; i < arr.length; i++) {
-    if (arr[i] == key) {
-        System.out.println("Element found at index: " + i);
-        found = true;
-        break;
-    }
+for (int i = 0, j = 0; i < arr.length; i++) {
+    if (i != pos) newArr[j++] = arr[i];
 }
-if (!found) System.out.println("Element not found.");`}
+
+// Result: {10, 20, 30, 50}`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    • Create **smaller array** (-1 size){"\n"}
+                    • **Skip** the element at `pos`
+                </Text>
             </View>
 
-            {/* Find Max & Min */}
+            {/* 5. Search */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Find Maximum & Minimum</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Search for Value</Text>
                 <CodeBlock
-                    code={`int[] arr = {5, 9, 2, 10, 3};
-int max = arr[0];
-int min = arr[0];
+                    code={`int key = 30;
+for (int i = 0; i < arr.length; i++) {
+    if (arr[i] == key) {
+        System.out.println("Found at index: " + i);
+        break;
+    }
+}`}
+                    language="java"
+                />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    • Loop through → return **index** if found
+                </Text>
+            </View>
 
+            {/* 6. Max & Min */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Find Max & Min</Text>
+                <CodeBlock
+                    code={`int max = arr[0], min = arr[0];
 for (int i = 1; i < arr.length; i++) {
     if (arr[i] > max) max = arr[i];
     if (arr[i] < min) min = arr[i];
 }
-
-System.out.println("Max: " + max);
-System.out.println("Min: " + min);`}
+System.out.println("Max: " + max + ", Min: " + min);`}
                     language="java"
                 />
-                {/* Explanation of the code and the Concept */}
-                <View style={styles.section}>
-                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>How it works</Text>
-                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
-                        . We declare an array of integers and initialize two variables, max and min, with the first element of the array.{"\n"}
-                        . We iterate through the array starting from the second element. For each element, we compare it with the current max and min values.{"\n"}
-                        . If the current element is greater than max, we update max. If it is less than min, we update min.{"\n"}
-                        . we declare an array with a bracket like [] and access elements using their index. The length property gives the size of the array.{"\n"}
-                        . arr[0] means that we are accessing the first element of the array arr.{"\n"}
-                    </Text>
-                </View>
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    • Start with **first element**{"\n"}
+                    • Compare each → **update** max/min
+                </Text>
             </View>
+
+            {/* VISUALIZER BUTTON */}
+            <TouchableOpacity
+                onPress={() => router.push('/DataVisualizer/arrays')}
+                style={styles.visualizeBtn}
+            >
+                <Text style={styles.btnText}>Open Visualizer</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+    container: { flex: 1 },
     header: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        marginVertical: 20,
         textAlign: 'center',
+        marginVertical: 20,
     },
     section: {
         padding: 16,
         marginHorizontal: 16,
         marginVertical: 8,
-        borderRadius: 8,
+        borderRadius: 12,
         backgroundColor: 'rgba(0,0,0,0.05)',
     },
     subHeader: {
         fontSize: 18,
-        fontWeight: '600',
+        fontWeight: '700',
         marginBottom: 10,
     },
-    description: {
-        fontSize: 14,
+    bullet: {
+        fontSize: 15,
+        lineHeight: 22,
         marginBottom: 8,
     },
-    bulletPoint: {
-        fontSize: 15,
-        marginBottom: 12,
+    explain: {
+        marginTop: 12,
+        fontSize: 14,
+        fontStyle: 'italic',
+        lineHeight: 20,
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        marginHorizontal: 16,
+        marginVertical: 24,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
     },
 });
 

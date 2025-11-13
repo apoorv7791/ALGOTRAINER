@@ -1,24 +1,30 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const LinkedList = () => {
     const { theme } = useTheme();
+    const router = useRouter();
+
     return (
-        <ScrollView style={{ backgroundColor: theme.colors.background }}
-            contentContainerStyle={styles.container}>
+        <ScrollView style={{ backgroundColor: theme.colors.background }}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Linked List</Text>
 
-            {/* Node and LinkedList Structure */}
+            {/* 1. What is a Linked List? */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Linked List</Text>
-                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
-                    • A linked list is a linear data structure where elements, called nodes, are stored in non-contiguous memory locations.{"\n"}
-                    • Each node contains data and a reference (or pointer) to the next node in the sequence.{"\n"}
-                    • Linked lists allow for efficient insertions and deletions as they do not require shifting elements like arrays.{"\n"}
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>What is a Linked List?</Text>
+                <Text style={[styles.bullet, { color: theme.colors.text }]}>
+                    • Linear collection of **nodes**{"\n"}
+                    • Each node has **data + next pointer**{"\n"}
+                    • No fixed size → easy insert/delete
                 </Text>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Node & LinkedList Structure</Text>
+            </View>
+
+            {/* 2. Node Structure */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Node Class</Text>
                 <CodeBlock
                     code={`class Node {
     int data;
@@ -28,140 +34,155 @@ const LinkedList = () => {
         this.data = data;
         this.next = null;
     }
-}
-
-class LinkedList {
-    Node head;
-
-    // Insert node at end
-    public void insert(int data) {
-        Node newNode = new Node(data);
-        if (head == null) {
-            head = newNode;
-            return;
-        }
-        Node current = head;
-        while (current.next != null) {
-            current = current.next;
-        }
-        current.next = newNode;
-    }
-
-    // Delete node by value
-    public void delete(int data) {
-        if (head == null) return;
-
-        if (head.data == data) {
-            head = head.next;
-            return;
-        }
-
-        Node current = head;
-        while (current.next != null && current.next.data != data) {
-            current = current.next;
-        }
-
-        if (current.next != null) {
-            current.next = current.next.next;
-        }
-    }
-
-    // Search node by value
-    public boolean search(int data) {
-        Node current = head;
-        while (current != null) {
-            if (current.data == data)
-                return true;
-            current = current.next;
-        }
-        return false;
-    }
-
-    // Display all nodes
-    public void display() {
-        Node current = head;
-        while (current != null) {
-            System.out.print(current.data + " -> ");
-            current = current.next;
-        }
-        System.out.println("null");
-    }
 }`}
                     language="java"
                 />
             </View>
 
-            {/* LinkedList Operations */}
+            {/* 3. Insert at End */}
             <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>LinkedList Operations</Text>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Insert</Text>
                 <CodeBlock
-                    code={`public class Main {
-    public static void main(String[] args) {
-        LinkedList list = new LinkedList();
-
-        // Insert elements
-        list.insert(10);
-        list.insert(20);
-        list.insert(30);
-
-        System.out.print("List: ");
-        list.display();  // Output: 10 -> 20 -> 30 -> null
-
-        // Search element
-        System.out.println("Search 20: " + list.search(20));  // true
-        System.out.println("Search 99: " + list.search(99));  // false
-
-        // Delete element
-        list.delete(20);
-        System.out.print("After deletion: ");
-        list.display();  // Output: 10 -> 30 -> null
+                    code={`void insert(int data) {
+    Node newNode = new Node(data);
+    if (head == null) {
+        head = newNode;
+        return;
     }
+    Node temp = head;
+    while (temp.next != null)
+        temp = temp.next;
+    temp.next = newNode;
 }`}
                     language="java"
                 />
-            </View>
-
-            {/* Explanation of the code*/}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
-                <Text style={{ color: theme.colors.text }}>
-                    • Each Node stores data and a reference (next) to the next node.{"\n"}
-                    • Insertion adds a new node at the end of the list.{"\n"}
-                    • Deletion removes a node by updating the previous node’s next reference.{"\n"}
-                    • Search iterates through all nodes until the value is found or the list ends.{"\n"}
-                    • Display prints all nodes from head to null, showing the chain connection.
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    Traverse to end → attach new node
                 </Text>
             </View>
+
+            {/* 4. Delete by Value */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Delete</Text>
+                <CodeBlock
+                    code={`void delete(int data) {
+    if (head == null) return;
+    if (head.data == data) {
+        head = head.next;
+        return;
+    }
+    Node temp = head;
+    while (temp.next != null && temp.next.data != data)
+        temp = temp.next;
+    if (temp.next != null)
+        temp.next = temp.next.next;
+}`}
+                    language="java"
+                />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    Update previous node’s next pointer
+                </Text>
+            </View>
+
+            {/* 5. Search */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Search</Text>
+                <CodeBlock
+                    code={`boolean search(int data) {
+    Node temp = head;
+    while (temp != null) {
+        if (temp.data == data) return true;
+        temp = temp.next;
+    }
+    return false;
+}`}
+                    language="java"
+                />
+            </View>
+
+            {/* 6. Display */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Display</Text>
+                <CodeBlock
+                    code={`void display() {
+    Node temp = head;
+    while (temp != null) {
+        System.out.print(temp.data + " → ");
+        temp = temp.next;
+    }
+    System.out.println("null");
+}`}
+                    language="java"
+                />
+            </View>
+
+            {/* 7. Example */}
+            <View style={styles.section}>
+                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Example</Text>
+                <CodeBlock
+                    code={`LinkedList list = new LinkedList();
+list.insert(10);
+list.insert(20);
+list.insert(30);
+list.display();     // 10 → 20 → 30 → null
+list.delete(20);
+list.display();     // 10 → 30 → null`}
+                    language="java"
+                />
+            </View>
+
+            {/* VISUALIZER BUTTON */}
+            <TouchableOpacity
+                onPress={() => router.push('/DataVisualizer/LinkedListVisual')}
+                style={styles.visualizeBtn}
+            >
+                <Text style={styles.btnText}>Open Visualizer</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
     header: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
+        textAlign: 'center',
         marginVertical: 20,
     },
     section: {
         padding: 16,
         marginHorizontal: 16,
         marginVertical: 8,
-        borderRadius: 8,
+        borderRadius: 12,
         backgroundColor: 'rgba(0,0,0,0.05)',
     },
     subHeader: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '700',
         marginBottom: 10,
     },
-    bulletPoint: {
+    bullet: {
+        fontSize: 15,
+        lineHeight: 22,
+    },
+    explain: {
+        marginTop: 10,
+        fontSize: 14,
+        fontStyle: 'italic',
+        lineHeight: 20,
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
         fontSize: 16,
-        marginBottom: 10,
-    }
+    },
 });
 
 export default LinkedList;
