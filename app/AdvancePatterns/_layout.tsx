@@ -25,9 +25,10 @@ const AdvancePatternsLayout = () => {
                 options={{ title: 'Sliding Window Pattern', }}
             />
             <Stack.Screen
-                name="FastAndSlowPointers"
+                name="FastAndSlowPointers" // filename without extension
                 options={{ title: 'Fast and Slow Pointers Pattern' }}
             />
+
             <Stack.Screen
                 name="BinarySearch"
                 options={{ title: 'Binary Search Pattern' }}
@@ -37,7 +38,7 @@ const AdvancePatternsLayout = () => {
                 options={{ title: 'Prefix Sum Pattern' }}
             />
             <Stack.Screen
-                name="Backtracking Pattern"
+                name="BacktrackingPattern"
                 options={{ title: 'Backtracking Pattern' }}
             />
             <Stack.Screen

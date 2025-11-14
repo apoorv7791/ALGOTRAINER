@@ -7,18 +7,39 @@ export default function StacksVisual() {
     const { theme } = useTheme();
     const [stack, setStack] = useState<number[]>([]);
     const [animValue] = useState(new Animated.Value(0));
+    const [message, setMessage] = useState(''); // if my stack is full then this state should display a message to the user
+
+
+
+    const MAX_STACK_SIZE = 6; // stack size
 
     const push = (value: number) => {
-        const nextValue = stack.length + 1;
+        if (stack.length >= MAX_STACK_SIZE) {
+            setMessage('Stack is full!');
+            return;
+        }
         setStack([...stack, value]);
         animateIn();
+        setMessage('');
     };
 
+
     const pop = () => {
-        if (!stack.length) return;
+        if (!stack.length) return; // if stack is empty then return
         animateOut();
-        setTimeout(() => setStack(stack.slice(0, -1)), 300);
+        setTimeout(() => {
+            const newStack = stack.slice(0, -1);
+            setStack(newStack);
+
+            if (newStack.length < MAX_STACK_SIZE) {
+                setMessage(''); // if stack is not full then clear the message
+            }
+        }, 300);
     };
+    const clearStack = () => {
+        setStack([]);
+        setMessage('');
+    }
 
     const animateIn = () => {
         animValue.setValue(0);
@@ -110,7 +131,7 @@ export default function StacksVisual() {
 
                 <TouchableOpacity
                     style={[styles.btn, { backgroundColor: '#9333EA' }]}
-                    onPress={() => setStack([])}
+                    onPress={clearStack}
                 >
                     <Text style={styles.btnText}>CLEAR</Text>
                 </TouchableOpacity>
@@ -121,6 +142,11 @@ export default function StacksVisual() {
                     ? 'Stack is empty'
                     : `Size: ${stack.length} | Top → ${stack[stack.length - 1]}`}
             </Text>
+            {message !== '' && (
+                <Text style={[styles.info, { color: 'white' }]}>
+                    {message}
+                </Text>
+            )}
         </View>
     );
 }
@@ -128,7 +154,7 @@ export default function StacksVisual() {
 const styles = StyleSheet.create({
     container: { flex: 1, paddingTop: 50 },
     title: { fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 30 },
-    stackArea: { flex: 1, justifyContent: 'flex-end', alignItems: 'center', position: 'relative' },
+    stackArea: { flex: 1, height: '100%', justifyContent: 'flex-end', alignItems: 'center', position: 'relative' },
     ground: { height: 4, width: 200, backgroundColor: '#64748B', borderRadius: 2 },
     plate: {
         position: 'absolute',

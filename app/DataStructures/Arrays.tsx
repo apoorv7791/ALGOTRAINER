@@ -128,7 +128,7 @@ System.out.println("Max: " + max + ", Min: " + min);`}
 
             {/* VISUALIZER BUTTON */}
             <TouchableOpacity
-                onPress={() => router.push('/DataVisualizer/arrays')}
+                onPress={() => router.push('/DataVisualizer/ArrayVisual')}
                 style={styles.visualizeBtn}
             >
                 <Text style={styles.btnText}>Open Visualizer</Text>

@@ -113,7 +113,7 @@ const About = () => {
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>Get In Touch</Text>
                 <Text style={[styles.text, { color: theme.colors.text, marginBottom: 15 }]}>
-                    Have questions, feedback, or suggestions? We'd love to hear from you!
+                    Have questions, feedback, or suggestions? i'd love to hear from you!
                 </Text>
                 <TouchableOpacity
                     style={[styles.contactButton, { backgroundColor: theme.colors.primary }]}
