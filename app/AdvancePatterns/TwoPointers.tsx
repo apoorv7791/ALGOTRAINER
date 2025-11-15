@@ -8,7 +8,7 @@ const TwoPointers = () => {
     const styles = useMemo(() => createStyles(theme), [theme]);
 
     return (
-        <ScrollView style={[styles.container]}>
+        <ScrollView style={[styles.container]} contentContainerStyle={{ paddingBottom: 50 }}>
             <Text style={styles.heading}>Two Pointers Technique</Text>
 
             <Text style={styles.paragraph}>
@@ -67,9 +67,10 @@ const TwoPointers = () => {
             <Text style={styles.subheading}>🧩 Space Complexity</Text>
             <Text style={styles.paragraph}>O(1)</Text>
 
-            <Text style={styles.note}>
-                Tip: Visualize this technique by imagining two fingers moving towards each other
-                to narrow down possibilities efficiently.
+            <Text style={styles.subheading}> Tip </Text>
+            <Text style={styles.paragraph}>
+                - Use two pointers to find pairs or subarrays that satisfy a condition.{"\n"}
+                - Use two pointers to merge two sorted arrays.{"\n"}
             </Text>
         </ScrollView>
     );
@@ -120,7 +121,7 @@ const createStyles = (theme: any) =>
         },
         note: {
             fontStyle: 'italic',
-            marginTop: 12,
+            marginTop: -1,
             color: theme.colors.textSecondary,
         },
     });

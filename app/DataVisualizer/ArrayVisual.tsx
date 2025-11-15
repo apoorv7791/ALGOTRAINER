@@ -12,7 +12,7 @@ export default function ArrayVisual() {
     // Highlight animation
     const highlightBox = (index: number) => {
         setHighlight(index);
-        setTimeout(() => setHighlight(null), 800);
+        setTimeout(() => setHighlight(null), 600);
     };
 
     // Push new element
