@@ -12,11 +12,12 @@ const Arrays = () => {
         <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.header, { color: theme.colors.text }]}>Arrays</Text>
 
+
             {/* 1. What is an Array? */}
             <View style={styles.section}>
                 <Text style={[styles.subHeader, { color: theme.colors.text }]}>What is an Array?</Text>
                 <Text style={[styles.bullet, { color: theme.colors.text }]}>
-                    • A **collection** of items{"\n"}
+                    • A collection of items{"\n"}
                     • Each item has an **index** [0, 1, 2... ]{"\n"}
                     • All items are **same type** (int, String, etc.)
                 </Text>

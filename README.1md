@@ -1,95 +1,159 @@
-# AlgoTrainer
+AlgoTrainer
+🚀 Overview
 
-## 🚀 Overview
-AlgoTrainer is an educational mobile application designed to make learning Data Structures and Algorithms (DSA) intuitive and engaging. Built with React Native and Expo, it provides an interactive platform for users to learn complex computer science concepts through visualizations, real-world analogies, and hands-on practice.
+AlgoTrainer is an interactive mobile learning app designed to make Data Structures, Algorithms, and Coding Patterns easy, visual, and intuitive. Built using React Native + Expo, it combines visual simulations, real-world analogies, and hands-on explanations to help learners truly understand DSA instead of memorizing it.
 
-## 🎯 Purpose
-- **Simplify Learning**: Break down complex DSA concepts into digestible, easy-to-understand lessons
-- **Interactive Education**: Use visualizations and real-world examples to enhance understanding
-- **Comprehensive Curriculum**: Cover fundamental to advanced topics in computer science
-- **Accessible Learning**: Make computer science education available to everyone, regardless of their background
+🎯 Purpose
 
-## 🏗️ Project Structure
+Deep Understanding — Visualize how data structures behave internally
 
-### App Architecture
-```
+Learn by Seeing — Step-by-step animations for every operation
+
+Beginner-Friendly — No prior coding knowledge required
+
+Wide Coverage — From Arrays to Graphs, and Patterns like Sliding Window, Backtracking, and more.
+
+🌟 Key Features
+✅ Interactive Visualizations
+
+Arrays
+
+Linked Lists
+
+Stacks
+
+Queues
+
+Trees
+
+Graphs
+
+HashMaps
+
+Recursion
+
+Algorithm Patterns (Sliding Window, 2 Pointers, Backtracking, etc.)
+
+Each visualization comes with:
+
+Step-by-step execution
+
+Real-time animations
+
+Explanations of what's happening under the hood
+
+Time & space complexity breakdown
+
+🧠 Learning Modules
+
+Theory explanations
+
+Real-world analogies
+
+Code examples (JavaScript + TypeScript)
+
+Scrollable detail views for each operation
+
+Mini challenges coming soon
+
+📱 Smooth UI & Navigation
+
+Expo Router-based navigation
+
+Stack + Drawer navigation setup
+
+Clean theme system with light/dark support
+
+Smooth page transitions & gestures.
+
+🏗️ Project Structure
 AlgoTrainer/
 ├── app/
-│   ├── (drawer)/               # Main app screens with drawer navigation
-│   │   ├── _layout.tsx        # Drawer navigation configuration
-│   │   ├── index.tsx          # Home screen
-│   │   ├── about.tsx          # About/Info screen
-│   │   └── Settings.tsx       # App settings (in development)
-│   └── _layout.tsx            # Root navigation stack
-```
+│   ├── (drawer)/                 # Drawer navigation screens
+│   │   ├── _layout.tsx          # Drawer navigator setup
+│   │   ├── index.tsx            # Home screen
+│   │   ├── about.tsx            # About us
+│   │   ├── Settings.tsx         # Settings (in progress)
+│   │   └── DataVisualizer/      # All DSA visualizations
+│   │       ├── Arrays.tsx
+│   │       ├── LinkedList.tsx
+│   │       ├── Trees.tsx
+│   │       ├── Patterns/
+│   │       │   ├── SlidingWindow.tsx
+│   │       │   ├── Backtracking.tsx
+│   │       │   └── TwoPointers.tsx
+│   ├── _layout.tsx              # Root stack
+│   ├── Themes/Themecontext.tsx  # Theme provider
+│   └── CodeBlock/CodeBlock.tsx  # Syntax-highlighted code block.
+├── assets/
+│   ├── images/
+│   └── icons/
+├── app.json
+├── package.json
+└── README.md
 
-### Key Components
 
-1. **Root Layout (`app/_layout.tsx`)**
-   - Sets up the root navigation stack
-   - Configures the main drawer navigator
 
-2. **Drawer Navigation (`app/(drawer)/_layout.tsx`)**
-   - Implements the drawer navigation menu
-   - Configures drawer styling and behavior
-   - Defines navigation options for all screens
 
-3. **Home Screen (`app/(drawer)/index.tsx`)**
-   - Main landing page of the application
-   - Features:
-     - App introduction
-     - Mission statement
-     - Future roadmap
-   - Uses MaterialCommunityIcons for visual elements
+🛠️ Tech Stack
 
-4. **About Screen (`app/(drawer)/about.tsx`)**
-   - Provides information about the app and team
-   - Includes:
-     - App vision
-     - Team information
-     - Contact details
+React Native (Expo)
 
-5. **Settings Screen (`app/(drawer)/Settings.tsx)**
-   - Placeholder for future app settings
-   - Currently in development
+Expo Router (Stack + Drawer Navigation)
 
-## 🛠️ Technical Stack
-- **Framework**: React Native with Expo
-- **Navigation**: Expo Router with Stack and Drawer navigation
-- **UI Components**: React Native core components
-- **Icons**: @expo/vector-icons (MaterialCommunityIcons)
-- **Safe Area Handling**: react-native-safe-area-context
-- **Styling**: React Native StyleSheet
+React Context API for theming
 
-## 🌟 Features
-- **Responsive Design**: Adapts to different screen sizes
-- **Intuitive Navigation**: Easy-to-use drawer navigation
-- **Clean UI**: Modern and user-friendly interface
-- **Future-Proof**: Designed for easy expansion with new features
+Reusable Code Blocks for syntax highlighting
 
-## 🔜 Future Enhancements
-- Interactive DSA visualizations
-- Hands-on coding challenges
-- Progress tracking and achievements
-- Expanded computer science topics:
-  - Operating Systems
-  - Database Systems
-  - Computer Networks
-  - System Design
+Animated visualizations (React Native Reanimated planned)
 
-## 📱 Getting Started
-1. Make sure you have Node.js and npm installed
-2. Install Expo CLI: `npm install -g expo-cli`
-3. Clone the repository
-4. Install dependencies: `npm install`
-5. Start the development server: `npx expo start`
-6. Use Expo Go app on your mobile device or an emulator to run the app
 
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+🔮 Upcoming Features
 
-## 📧 Contact
-For any inquiries or feedback, please contact us at [contact@algotrainer.app](mailto:singhapoorv7791@gmail.com)
+⏳ Step-by-step animation controls (Play / Pause / Next Step)
+
+📝 Practice questions inside each module
+
+🏆 Progress tracking & streaks
+
+💻 Coding playground for writing and testing code
+
+🧮 Algorithm complexity visual graphs
+
+🌐 More subjects:
+
+OS
+
+DBMS
+
+CN
+
+OOP
+
+📱 Getting Started
+npm install
+npx expo start
+
+
+Open the app on:
+
+Expo Go (Android/iOS)
+
+Android Emulator
+
+iOS Simulator (Mac only)
+
+
+🤝 Contributing
+
+PRs and suggestions are welcome!
+
+📄 License
+
+This project is licensed under the MIT License.
+
+📧 Contact
+
+Feel free to reach out at:
+📩 singhapoorv7791@gmail.com

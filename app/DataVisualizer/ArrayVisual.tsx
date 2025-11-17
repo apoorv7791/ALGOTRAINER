@@ -1,5 +1,5 @@
 // app/(drawer)/DataVisualizer/arrays.tsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 
@@ -9,15 +9,17 @@ export default function ArrayVisual() {
     const [highlight, setHighlight] = useState<number | null>(null);
     const [inputValue, setInputValue] = useState('');
 
+
     // Highlight animation
     const highlightBox = (index: number) => {
         setHighlight(index);
         setTimeout(() => setHighlight(null), 600);
+
     };
 
     // Push new element
     const pushElement = () => {
-        if (!inputValue) return;
+        if (!inputValue.trim) return;
         setArr([...arr, Number(inputValue)]);
         setInputValue('');
     };
@@ -28,10 +30,17 @@ export default function ArrayVisual() {
         setArr(arr.slice(0, arr.length - 1));
     };
 
+    const deleteAtfront = () => {
+        if (arr.length === 0) return;
+        setArr(arr.slice(1));
+    }
+
     return (
         <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
-            contentContainerStyle={{ paddingBottom: 60 }}
+            contentContainerStyle={{ paddingBottom: 90 }}
+            contentInset={{ top: 30, bottom: 20, }}
+            contentInsetAdjustmentBehavior="automatic"
         >
             <Text style={[styles.title, { color: theme.colors.text }]}>
                 Array Visualizer
@@ -89,6 +98,55 @@ export default function ArrayVisual() {
                 >
                     <Text style={styles.btnText}>Pop</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.btn, { borderColor: theme.colors.primary }]}
+                    onPress={deleteAtfront}>
+                    <Text style={styles.btnText}>Delete At Front</Text>
+                </TouchableOpacity>
+            </View>
+
+
+            {/* Explanation */}
+            <View style={{ marginTop: 20 }}>
+                <Text style={[styles.heading, { color: theme.colors.text }]}>
+                    How Arrays Work (Deep Explanation)
+                </Text>
+                <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
+                    Arrays store elements in *contiguous memory locations*.
+                    This means each index points to a fixed offset in memory.
+                </Text>
+                <Text style={[styles.subheading, { color: theme.colors.text }]}>
+                    * What happens when you press “Push” ?.
+                </Text>
+                <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
+                    In most languages, arrays have fixed size, so pushing means:
+                    {"\n"}1. Create a new array
+                    {"\n"}2. Copy all old elements
+                    {"\n"}3. Add the new element at the end
+                </Text>
+                <Text style={[styles.subheading, { color: theme.colors.text }]}>
+                    * What happens when you press “Pop” ? .
+                </Text>
+                <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
+                    Pop simply removes the last element by returning
+                    a new array without the last index.
+                </Text>
+                <Text style={[styles.subheading, { color: theme.colors.text }]}>
+                    Time Complexity of Array.
+                </Text>
+                <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
+                    Access: O(1)
+                    {"\n"}Push: O(n)
+                    {"\n"}Pop: O(n) or O(1) (depends on language).
+
+                </Text>
+                <Text style={[styles.subheading, { color: theme.colors.text }]}>
+                    * "What happens when you press “Delete At Front” ?.
+                    <Text style={[styles.para]}>
+                        {"\n"} Delete At Front simply removes the first element by returning a new array without the first index.
+                    </Text>
+                </Text>
             </View>
         </ScrollView>
     );
@@ -144,6 +202,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 16,
         marginTop: 20,
+        elevation: 3,
     },
     controls: {
         marginTop: 30,
@@ -160,4 +219,22 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
     },
+    heading: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+
+    subheading: {
+        fontSize: 18,
+        fontWeight: "600",
+        marginTop: 20,
+        marginBottom: 6,
+    },
+
+    para: {
+        fontSize: 15,
+        lineHeight: 22,
+    },
+
 });

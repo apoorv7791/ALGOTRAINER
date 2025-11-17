@@ -36,6 +36,7 @@ export default function StacksVisual() {
             }
         }, 300);
     };
+
     const clearStack = () => {
         setStack([]);
         setMessage('');
@@ -143,7 +144,7 @@ export default function StacksVisual() {
                     : `Size: ${stack.length} | Top → ${stack[stack.length - 1]}`}
             </Text>
             {message !== '' && (
-                <Text style={[styles.info, { color: 'white' }]}>
+                <Text style={[styles.info, { color: '#F87171' }]}>
                     {message}
                 </Text>
             )}
