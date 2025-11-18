@@ -5,7 +5,7 @@ import { useTheme } from '../Themes/Themecontext';
 const LinkedListVisual = () => {
     const { theme } = useTheme();
 
-    const list = [10, 20, 30, 40, 50];
+    const list = [20, 30, 40, 50];
 
     return (
         <ScrollView
@@ -16,40 +16,66 @@ const LinkedListVisual = () => {
             <Text style={[styles.title, { color: theme.colors.text }]}>
                 Linked List Visualization
             </Text>
-
-            <View style={styles.listWrapper}>
-
-                <Text style={[styles.sideLabel, { color: theme.colors.primary }]}>
-                    HEAD ↓
-                </Text>
-
-                <View style={styles.listRow}>
-                    {list.map((item, index) => (
-                        <View key={index} style={styles.nodeContainer}>
+            <View>
+                <View style={[styles.listWrapper,]}>
+                    <View style={styles.nodeWrapper}>
+                        <View style={styles.nodeContainer}>
                             <View style={[
                                 styles.nodeBox,
                                 { borderColor: theme.colors.primary }
                             ]}>
                                 <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
-                                    {item}
+                                    10
                                 </Text>
                             </View>
 
                             <Text style={styles.arrow}>➜</Text>
                         </View>
-                    ))}
 
-                    <View style={[styles.nullBox, { borderColor: theme.colors.primary }]}>
-                        <Text style={[styles.nullText, { color: theme.colors.primary }]}>
-                            NULL
+                        <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>
+                            HEAD ↓
+                        </Text>
+
+                    </View>
+
+                    <View style={styles.listRow}>
+                        {list.map((item, index) => (
+                            <View key={index} style={styles.nodeContainer}>
+                                <View style={[
+                                    styles.nodeBox,
+                                    { borderColor: theme.colors.primary }
+                                ]}>
+                                    <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
+                                        {item}
+                                    </Text>
+                                </View>
+
+                                <Text style={styles.arrow}>➜</Text>
+                            </View>
+                        ))}
+
+                    </View>
+                    <View style={styles.nodeWrapper}>
+                        <View style={styles.nodeContainer}>
+                            <View style={[
+                                styles.nodeBox,
+                                { borderColor: theme.colors.primary }
+                            ]}>
+                                <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
+                                    NULL
+                                </Text>
+                            </View>
+                        </View>
+
+                        <Text style={[styles.tailLabel, { color: '#e11d48' }]}>
+                            ↑ TAIL
                         </Text>
                     </View>
-                </View>
 
-                <Text style={[styles.sideLabel, { color: '#e11d48' }]}>
-                    ↑ TAIL
-                </Text>
+                </View>
             </View>
+
+
 
             <View style={[styles.explanationBox, { borderColor: theme.colors.primary }]}>
                 <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>
@@ -88,19 +114,23 @@ const styles = StyleSheet.create({
 
     listWrapper: {
         alignItems: 'center',
+        flexDirection: 'row',
     },
 
     listRow: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
         flexWrap: 'nowrap',
         gap: 10,
     },
 
-    sideLabel: {
-        fontSize: 12,
-        marginBottom: 10,
-        fontWeight: '600',
+    frontLabel: {
+        position: 'absolute',
+        top: -20,
+        left: 7,
+        fontWeight: 'bold',
+        color: 'skyblue',
     },
 
     nodeContainer: {
@@ -111,16 +141,20 @@ const styles = StyleSheet.create({
     /* ⬇️ Smaller Node Box */
     nodeBox: {
         borderWidth: 2,
-        borderRadius: 10,
-        paddingVertical: 10,   // reduced
-        paddingHorizontal: 18, // reduced
+        borderRadius: 8,
+        paddingVertical: 6,   // reduced
+        paddingHorizontal: 12, // reduced
         backgroundColor: '#1E1E1E',
-        elevation: 4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        elevation: 3,
+        minWidth: 55,
+        justifyContent: 'center',
     },
 
     nodeValue: {
-        fontSize: 16, // reduced
-        fontWeight: '700',
+        fontSize: 14, // reduced
+        fontWeight: '600',
     },
 
     arrow: {
@@ -159,6 +193,24 @@ const styles = StyleSheet.create({
     explanationText: {
         fontSize: 14,
         lineHeight: 20,
+    },
+
+    pointer: {
+        marginLeft: 4,
+        fontSize: 12,
+        color: '#94A3B8',
+    },
+
+    tailLabel: {
+        position: "absolute",
+        right: 10,
+        top: 35,
+        fontWeight: "bold",
+        color: "orange",
+    },
+    nodeWrapper: {
+        position: "relative",
+        marginHorizontal: 10,
     },
 });
 
