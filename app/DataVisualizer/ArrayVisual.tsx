@@ -54,7 +54,7 @@ export default function ArrayVisual() {
                         style={[
                             styles.box,
                             highlight === index && styles.highlight,
-                            { borderColor: theme.colors.primary }
+                            { borderColor: theme.colors.primary, backgroundColor: theme.colors.surface },
                         ]}
                         onPress={() => highlightBox(index)}
                     >
@@ -79,7 +79,7 @@ export default function ArrayVisual() {
                 onChangeText={setInputValue}
                 style={[
                     styles.input,
-                    { borderColor: theme.colors.primary, color: theme.colors.text }
+                    { color: theme.colors.text }
                 ]}
             />
 
@@ -137,8 +137,8 @@ export default function ArrayVisual() {
                 </Text>
                 <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
                     Access: O(1)
-                    {"\n"}Push: O(n)
-                    {"\n"}Pop: O(n) or O(1) (depends on language).
+                    {"\n"}Push: O(1)
+                    {"\n"}Pop: O(1)
 
                 </Text>
                 <Text style={[styles.subheading, { color: theme.colors.text }]}>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         gap: 14,
     },
     box: {
-        backgroundColor: "#1E1E1E",
+
         padding: 20,
         borderRadius: 16,
         alignItems: "center",
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 16,
         marginTop: 20,
-        elevation: 3,
     },
     controls: {
         marginTop: 30,
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     btnText: {
-        color: "white",
+        color: "red",
         fontWeight: "bold",
         fontSize: 16,
     },
