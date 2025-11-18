@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const HashMaps = () => {
     const { theme } = useTheme();
+    const router = useRouter();
     return (
         <ScrollView style={{ backgroundColor: theme.colors.background }}
             contentContainerStyle={styles.container} >
@@ -120,6 +122,13 @@ class Student {
                         • The load factor determines when the HashMap should resize its internal array to maintain efficient operations.{"\n"}
                     </Text>
                 </View>
+                {/* Example of how it works */}
+                <TouchableOpacity
+                    onPress={() => router.push('/DataVisualizer/')}
+                    style={styles.visualizeBtn}
+                >
+                    <Text style={styles.btnText}>Open Visualizer</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -150,7 +159,19 @@ const styles = StyleSheet.create({
     bulletPoint: {
         fontSize: 16,
         marginBottom: 10,
-    }
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
 });
 
 export default HashMaps;

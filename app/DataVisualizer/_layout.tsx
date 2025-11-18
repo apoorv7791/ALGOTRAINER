@@ -19,6 +19,7 @@ const DataLayout = () => {
             <Stack.Screen name='LinkedListVisual' options={{ title: 'Linked List Visualization' }} />
             <Stack.Screen name='StacksVisual' options={{ title: 'Stacks Visualiazation' }} />
             <Stack.Screen name='QueuesVisual' options={{ title: 'Queues Visualiazation' }} />
+            <Stack.Screen name='HashMapsVisual' options={{ title: 'Hash Maps Visualiazation' }} />
             <Stack.Screen name='TreesVisual' options={{ title: 'Trees Visualiazation' }} />
             <Stack.Screen name='GraphsVisual' options={{ title: 'Graphs Visualiazation' }} />
         </Stack>

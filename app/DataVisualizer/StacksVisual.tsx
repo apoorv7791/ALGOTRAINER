@@ -8,6 +8,9 @@ export default function StacksVisual() {
     const [stack, setStack] = useState<number[]>([]);
     const [animValue] = useState(new Animated.Value(0));
     const [message, setMessage] = useState(''); // if my stack is full then this state should display a message to the user
+    const [isPushing, setIsPushing] = useState(false);
+    const [isPoping, setISPoping] = useState(false);
+    const [pendingValue, setPendingValue] = useState<number | null>(null);
 
 
 
@@ -18,22 +21,31 @@ export default function StacksVisual() {
             setMessage('Stack is full!');
             return;
         }
-        setStack([...stack, value]);
+        setIsPushing(true);
+        setPendingValue(value);
         animateIn();
-        setMessage('');
+
+        // After animation finishes, actually add to stack
+        setTimeout(() => {
+            setStack(prev => [...prev, value]);
+            setIsPushing(false);
+            setPendingValue(null);
+            setMessage('');
+        }, 400);
+
     };
 
 
     const pop = () => {
         if (!stack.length) return; // if stack is empty then return
+        setISPoping(true);
         animateOut();
-        setTimeout(() => {
-            const newStack = stack.slice(0, -1);
-            setStack(newStack);
 
-            if (newStack.length < MAX_STACK_SIZE) {
-                setMessage(''); // if stack is not full then clear the message
-            }
+        setTimeout(() => {
+            setStack(prev => prev.slice(0, prev.length - 1));
+            setISPoping(false);
+            setPendingValue(null);
+            setMessage('');
         }, 300);
     };
 
@@ -96,12 +108,31 @@ export default function StacksVisual() {
                     </View>
                 ))}
 
-                {stack.length > 0 && (
+                {/* Animated plate flying in during push */}
+                {isPushing && pendingValue !== null && (
                     <Animated.View
                         style={[
                             styles.plate,
                             {
-                                bottom: (stack.length - 1) * 70,
+                                bottom: stack.length * 70, // appears at the new top position
+                                backgroundColor: '#34D399',
+                                borderColor: '#10B981',
+                                transform: [{ scale: latestPlateScale }],
+                                opacity: latestPlateOpacity,
+                                position: 'absolute',
+                            },
+                        ]}
+                    >
+                        <Text style={styles.plateText}>{pendingValue}</Text>
+                    </Animated.View>
+                )}
+                {/* Animated plate flying in during push */}
+                {isPoping && stack.length > 0 && (
+                    <Animated.View
+                        style={[
+                            styles.plate,
+                            {
+                                bottom: (stack.length - 1) * 70, // appears at the new top position
                                 backgroundColor: '#34D399',
                                 borderColor: '#10B981',
                                 transform: [{ scale: latestPlateScale }],
@@ -113,6 +144,7 @@ export default function StacksVisual() {
                         <Text style={styles.plateText}>{stack[stack.length - 1]}</Text>
                     </Animated.View>
                 )}
+
             </View>
 
             <View style={styles.controls}>
@@ -124,7 +156,7 @@ export default function StacksVisual() {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={[styles.btn, { backgroundColor: '#F87171' }]}
+                    style={[styles.btn, { backgroundColor: '#EF4444' }]}
                     onPress={pop}
                 >
                     <Text style={styles.btnText}>POP</Text>

@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     btnText: {
-        color: "red",
+        color: "#34D399",
         fontWeight: "bold",
         fontSize: 16,
     },

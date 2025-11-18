@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const Queue = () => {
     const { theme } = useTheme();
+    const router = useRouter();
     return (
         <ScrollView style={{ backgroundColor: theme.colors.background }}
             contentContainerStyle={styles.container} >
@@ -126,8 +128,13 @@ class Queue {
                         • The Main class demonstrates queue operations, showing how elements move through the structure as per FIFO order.
                     </Text>
                 </View>
-
-
+                {/* Visualizing Queue */}
+                <TouchableOpacity
+                    onPress={() => router.push('/DataVisualizer/QueuesVisual')}
+                    style={styles.visualizeBtn}
+                >
+                    <Text style={styles.btnText}>Open Visualizer</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -159,7 +166,19 @@ const styles = StyleSheet.create({
     bulletPoint: {
         fontSize: 16,
         marginBottom: 10,
-    }
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
 });
 
 export default Queue;
