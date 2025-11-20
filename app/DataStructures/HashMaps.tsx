@@ -124,7 +124,7 @@ class Student {
                 </View>
                 {/* Example of how it works */}
                 <TouchableOpacity
-                    onPress={() => router.push('/DataVisualizer/')}
+                    onPress={() => router.push('/DataVisualizer/HashMapVisual')}
                     style={styles.visualizeBtn}
                 >
                     <Text style={styles.btnText}>Open Visualizer</Text>

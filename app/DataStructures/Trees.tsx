@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const Tree = () => {
     const { theme } = useTheme();
+    const router = useRouter();
 
     return (
         <ScrollView
@@ -114,7 +116,11 @@ class BinaryTree {
                         • Trees are widely used to represent hierarchical data like file systems or organizational structures.
                     </Text>
                 </View>
+                <TouchableOpacity
+                    onPress={() => router.push('/DataVisualizer/TreesVisual')}
+                >
 
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );

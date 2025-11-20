@@ -1,16 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Text, Animated } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 
 const QueuesVisual = () => {
     const { theme } = useTheme();
-
-
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.title, { color: theme.colors.text }]}>
-                Queues Visualiazation
-            </Text>
+            <Text style={[styles.heading, { color: theme.colors.text }]}>Queue Visualizer</Text>
         </View>
     );
 }
@@ -18,14 +14,14 @@ const QueuesVisual = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
     },
-    title: {
+    heading: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 620,
-    },
+        marginBottom: 600,
+    }
 
 })
 

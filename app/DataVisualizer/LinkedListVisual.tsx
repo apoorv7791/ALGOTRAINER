@@ -18,62 +18,54 @@ const LinkedListVisual = () => {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 30 }}
                     style={{ maxHeight: 180, marginVertical: 20 }} >
-                    <View style={[styles.listWrapper,]}>
-                        {/* Head */}
-                        <View style={styles.nodeWrapper}>
-                            <View style={styles.nodeContainer}>
-                                <View style={[
-                                    styles.nodeBox,
-                                    { borderColor: theme.colors.primary }
-                                ]}>
-                                    <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
-                                        10
-                                    </Text>
-                                </View>
-
-                                <Text style={styles.arrow}> ➜ </Text>
-                            </View>
-
-                            <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>
-                                HEAD ↓
-                            </Text>
-
-                        </View>
-                        {/* Middle nodes */}
-                        <View style={styles.listRow}>
-                            {list.map((item, index) => (
-                                <View key={index} style={styles.nodeContainer}>
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                        <View style={[styles.listWrapper,]}>
+                            {/* Head */}
+                            <View style={[styles.nodeWrapper, styles.firstLastOffset]}>
+                                <View style={styles.nodeContainer}>
                                     <View style={[
                                         styles.nodeBox,
                                         { borderColor: theme.colors.primary }
                                     ]}>
                                         <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
-                                            {item}
+                                            10
                                         </Text>
                                     </View>
-
-                                    <Text style={styles.arrow}>➜</Text>
+                                    <Text style={styles.arrow}> ➜ </Text>
                                 </View>
-                            ))}
 
-                        </View>
-                        <View style={styles.nodeWrapper}>
-                            <View style={styles.nodeContainer}>
-                                <View style={[
-                                    styles.nodeBox,
-                                    { borderColor: theme.colors.primary }
-                                ]}>
-                                    <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
-                                        NULL
-                                    </Text>
-                                </View>
+                                <Text style={[styles.bottomLabel, { color: theme.colors.primary, marginLeft: -24 }]}>
+                                    HEAD ↓
+                                </Text>
+
                             </View>
+                            {/* Middle nodes */}
+                            <View style={styles.listRow}>
+                                {list.map((item, index) => (
+                                    <View key={index} style={styles.nodeContainer}>
+                                        <View style={[
+                                            styles.nodeBox,
+                                            { borderColor: theme.colors.primary }
+                                        ]}>
+                                            <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
+                                                {item}
+                                            </Text>
+                                        </View>
 
-                            <Text style={[styles.tailLabel, { color: '#e11d48' }]}>
-                                ↑ TAIL
-                            </Text>
+                                        <Text style={styles.arrow}>➜</Text>
+                                    </View>
+                                ))}
+                            </View>
+                            { /* Tail */}
+                            <View style={[styles.nodeWrapper, styles.firstLastOffset]}>
+                                <View style={styles.nodeContainer}>
+                                    <View style={[styles.nodeBox, { borderColor: theme.colors.primary }]}>
+                                        <Text style={[styles.nodeValue, { color: theme.colors.text }]}>NULL</Text>
+                                    </View>
+                                </View>
+                                <Text style={styles.bottomLabel}>↑ TAIL</Text>
+                            </View>
                         </View>
-
                     </View>
                 </ScrollView>
             </View>
@@ -129,9 +121,8 @@ const styles = StyleSheet.create({
     },
 
     frontLabel: {
-        position: 'absolute',
         top: -20,
-        left: 7,
+        left: 10,
         fontWeight: 'bold',
         color: 'skyblue',
     },
@@ -143,7 +134,7 @@ const styles = StyleSheet.create({
 
     /* ⬇️ Smaller Node Box */
     nodeBox: {
-        borderWidth: 3,
+        borderWidth: 5,
         borderRadius: 10,
         paddingVertical: 6,   // reduced
         paddingHorizontal: 12, // reduced
@@ -204,19 +195,20 @@ const styles = StyleSheet.create({
         color: '#94A3B8',
     },
     headLabel: {
+        marginTop: 6,
         fontSize: 18,
         fontWeight: '900',
         color: 'red',
     },
     tailLabel: {
-        position: "absolute",
+        marginTop: 6,
         right: 10,
         top: 35,
         fontWeight: "bold",
         color: "orange",
     },
     nodeWrapper: {
-        position: "relative",
+        alignItems: 'center',
         marginHorizontal: 10,
     },
     chainScrollView: {
@@ -227,6 +219,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 30,
     },
+    bottomLabel: {
+        marginTop: 6,
+        fontWeight: 'bold',
+        color: 'orange',
+        textAlign: 'center',
+    },
+    firstLastOffset: {
+        marginTop: 20,   // adjust until aligned perfectly
+
+    }
+
 });
 
 export default LinkedListVisual;

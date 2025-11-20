@@ -14,17 +14,10 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const colorScheme = useColorScheme();
     const [isDark, setIsDark] = useState(colorScheme === 'dark');
-    const [theme, setTheme] = useState<AppTheme>(isDark ? darkTheme : lightTheme);
+    const theme = React.useMemo(() => (isDark ? darkTheme : lightTheme), [isDark]);
 
-    useEffect(() => {
-        setTheme(isDark ? darkTheme : lightTheme);
-    }, [isDark]);
 
-    const toggleTheme = () => {
-        setIsDark(!isDark);
-        // Here you can save the user's preference to AsyncStorage
-        // AsyncStorage.setItem('themePreference', !isDark ? 'dark' : 'light');
-    };
+    const toggleTheme = () => setIsDark(prev => !prev);
 
     return (
         <ThemeContext.Provider value={{ theme, isDark, toggleTheme }}>
