@@ -6,7 +6,7 @@ const QueuesVisual = () => {
     const { theme } = useTheme();
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.heading, { color: theme.colors.text }]}>Queue Visualizer</Text>
+            <Text style={[styles.heading, { color: theme.colors.text }]}>Queue Visualzier</Text>
         </View>
     );
 }
@@ -14,15 +14,14 @@ const QueuesVisual = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 600,
+        marginBottom: 6,
     }
-
 })
 
 export default QueuesVisual;
