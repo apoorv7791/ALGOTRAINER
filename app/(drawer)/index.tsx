@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../Themes/Themecontext';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { MotiView } from 'moti';
+import { LogBox } from 'react-native';
 
 const HomeScreen = () => {
     const insets = useSafeAreaInsets();
@@ -13,6 +13,7 @@ const HomeScreen = () => {
 
     const [isLandscape, setIsLandscape] = React.useState(false);
 
+    LogBox.ignoreAllLogs();  // silences everything (use only temporarily)
     React.useEffect(() => {
         // Allow both orientations
         ScreenOrientation.unlockAsync();

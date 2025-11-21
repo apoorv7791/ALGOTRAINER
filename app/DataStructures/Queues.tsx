@@ -121,10 +121,10 @@ class Queue {
                         • Elements are added at the rear (enqueue) and removed from the front (dequeue).{"\n"}
                         • The Queue class is implemented using a linked list where each node holds data and a reference to the next node.{"\n"}
                         • Common operations include:{"\n"}
-                        {"   ◦ Enqueue: Add an element to the rear of the queue."}{"\n"}
-                        {"   ◦ Dequeue: Remove an element from the front."}{"\n"}
-                        {"   ◦ Peek: View the front element without removing it."}{"\n"}
-                        {"   ◦ isEmpty: Check if the queue has no elements."}{"\n"}
+                        {"   ◦ Enqueue(): Add an element to the rear of the queue."}{"\n"}
+                        {"   ◦ Dequeue(): Remove an element from the front."}{"\n"}
+                        {"   ◦ Peek(): View the front element without removing it."}{"\n"}
+                        {"   ◦ isEmpty(): Check if the queue has no elements."}{"\n"}
                         • The Main class demonstrates queue operations, showing how elements move through the structure as per FIFO order.
                     </Text>
                 </View>

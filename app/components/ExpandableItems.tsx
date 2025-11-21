@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Animated, LayoutAnimation } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,15 +8,6 @@ interface ExpandableItemsProps {
     items: string[];
     onSelectItem: (item: string) => void;
 }
-
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-    try {
-        UIManager.setLayoutAnimationEnabledExperimental(true);
-    } catch (e) {
-
-    }
-}
-
 
 const ExpandableItems = ({ title, items, onSelectItem }: ExpandableItemsProps) => {
     const [expanded, setExpanded] = useState(false);
