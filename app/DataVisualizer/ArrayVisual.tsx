@@ -8,7 +8,7 @@ export default function ArrayVisual() {
     const [arr, setArr] = useState<number[]>([10, 20, 30, 40, 50]);
     const [highlight, setHighlight] = useState<number | null>(null);
     const [inputValue, setInputValue] = useState('');
-
+    const [message, setMessage] = useState('');
 
     // Highlight animation
     const highlightBox = (index: number) => {
@@ -28,6 +28,7 @@ export default function ArrayVisual() {
     const deleteElement = () => {
         if (arr.length === 0) return;
         setArr(arr.slice(0, arr.length - 1));
+        setMessage('Array is empty!');
     };
 
     const deleteAtfront = () => {
@@ -69,6 +70,15 @@ export default function ArrayVisual() {
             <Text style={[styles.info, { color: theme.colors.textSecondary }]}>
                 Tap any box to highlight
             </Text>
+            {arr.length === 0 ? (
+                <Text style={[styles.info, { color: theme.colors.textSecondary }]}>
+                    Array is empty
+                </Text>
+            ) : (
+                arr.map((item, index) => (
+                    <Text key={index}>{item}</Text>
+                ))
+            )}
 
             {/* Input */}
             <TextInput
@@ -98,7 +108,6 @@ export default function ArrayVisual() {
                 >
                     <Text style={styles.btnText}>Pop</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                     style={[styles.btn, { borderColor: theme.colors.primary }]}
                     onPress={deleteAtfront}>

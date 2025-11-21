@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     },
     //10 position at the back
     backLabel: {
-        position: 'absolute',
+        position: 'relative',
         top: -24,
         fontSize: 12,
         fontWeight: 'bold',
