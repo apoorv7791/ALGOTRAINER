@@ -188,6 +188,7 @@ const Sorting = () => {
                     {"\n"}🔹 Time Complexity: O(n log n)
                     {"\n"}🔹 Space Complexity: O(n)
                 </Text>
+
             </View>
         </ScrollView>
     );
