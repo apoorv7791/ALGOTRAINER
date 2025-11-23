@@ -31,6 +31,10 @@ const Stack = () => {
 int top = -1;`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * An Array named stack of size 100 is declared.{"\n"}
+                    * top is the index of the top element of the stack.
+                </Text>
             </View>
 
             {/* Push */}
@@ -46,6 +50,10 @@ int top = -1;`}
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * If the stack is not full, the element is pushed onto the stack.{"\n"}
+                    * If the stack is full, an error message is printed.
+                </Text>
             </View>
 
             {/* Pop */}
@@ -61,6 +69,10 @@ int top = -1;`}
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * If the stack is not empty, the top element is popped off the stack.
+                    * If the stack is empty, an error message is printed.
+                </Text>
             </View>
 
             {/* Peek */}
@@ -73,6 +85,10 @@ int top = -1;`}
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * If the stack is not empty, the top element is returned.
+                    * If the stack is empty, -1 is returned.
+                </Text>
             </View>
 
             {/* isEmpty */}
@@ -84,6 +100,10 @@ int top = -1;`}
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * If the stack is empty, true is returned.
+                    * If the stack is not empty, false is returned.
+                </Text>
             </View>
 
             {/* Display */}
@@ -98,6 +118,9 @@ int top = -1;`}
 }`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * The stack is displayed from top to bottom.
+                </Text>
             </View>
 
             {/* Example */}
@@ -122,6 +145,10 @@ s.display();
 // └───┘`}
                     language="java"
                 />
+                <Text style={[styles.explain, { color: theme.colors.secondary }]}>
+                    * A live example of a stack is provided.{'\n'}
+                    * Please tap the button below to see stack visually.
+                </Text>
             </View>
 
             {/* VISUALIZER BUTTON */}
@@ -169,6 +196,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
+    },
+    explain: {
+        marginTop: 10,
+        fontSize: 14,
+        fontStyle: 'italic',
+        lineHeight: 20,
     },
 });
 

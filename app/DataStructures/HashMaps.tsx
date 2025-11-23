@@ -112,7 +112,8 @@ class Student {
                     language="java"
                 />
                 {/* Explanation of the implementation */}
-                <View style={styles.section}>
+
+                <View style={styles.container}>
                     <Text style={[styles.subHeader, { color: theme.colors.text }]}>How it works</Text>
                     <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
                         • A HashMap uses a hash function to compute an index for storing key-value pairs in an internal array.{"\n"}
