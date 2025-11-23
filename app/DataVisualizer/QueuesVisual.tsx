@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
+import { MotiView } from 'moti';
 
 const QueuesVisual = () => {
     const { theme } = useTheme();
@@ -30,18 +31,31 @@ const QueuesVisual = () => {
                             Queue is empty
                         </Text>
                     ) : (
+
                         queue.map((item, index) => (
-                            <View key={index} style={[styles.queueItem, { backgroundColor: theme.colors.card, borderColor: theme.colors.primary }]}>
-                                <Text style={[styles.itemText, { color: theme.colors.text }]}>
-                                    {item}
-                                </Text>
-                                {index === 0 && (
-                                    <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>Front</Text>
-                                )}
-                                {index === queue.length - 1 && (
-                                    <Text style={[styles.backLabel, { color: theme.colors.primary }]}>Back</Text>
-                                )}
-                            </View>
+                            <MotiView
+                                key={item} // ✅ unique key is important
+                                from={{ opacity: 0, scale: 0.6, translateY: -10 }}
+                                animate={{ opacity: 1, scale: 1, translateY: 0 }}
+                                exit={{ opacity: 0, scale: 0.7, translateX: index === 0 ? -50 : 0 }} // front removed slides left
+                                transition={{
+                                    type: 'timing',
+                                    duration: 300,
+                                }}
+                                style={{ marginHorizontal: 6 }} // gap between items
+                            >
+                                <View key={index} style={[styles.queueItem, { backgroundColor: theme.colors.card, borderColor: theme.colors.primary }]}>
+                                    <Text style={[styles.itemText, { color: theme.colors.text }]}>
+                                        {item}
+                                    </Text>
+                                    {index === 0 && (
+                                        <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>Front</Text>
+                                    )}
+                                    {index === queue.length - 1 && (
+                                        <Text style={[styles.backLabel, { color: theme.colors.primary }]}>Back</Text>
+                                    )}
+                                </View>
+                            </MotiView>
                         ))
                     )
                     }
@@ -92,7 +106,7 @@ const styles = StyleSheet.create({
     },
     // 4. bracket []
     bracket: {
-        fontSize: 40,
+        fontSize: 70,
         fontWeight: 'bold',
     },
     // 5. queue content [1,2,3,4,5]

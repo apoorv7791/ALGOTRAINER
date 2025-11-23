@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-nati
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
+import { MotiView } from 'moti';
 
 const Arrays = () => {
     const { theme } = useTheme();

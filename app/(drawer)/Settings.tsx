@@ -6,7 +6,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Settings = () => {
     const handleSelect = (option: string) => {
-        alert(`Selected option: ${option}`);
+        alert(`Selected option:  ${option}`);
     };
 
     const { theme } = useTheme();
@@ -47,6 +47,7 @@ const Settings = () => {
                 <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
                     Account
                 </Text>
+                {/* An ExpandableItems component */}
                 <ExpandableItems
                     title="Account Preferences"
                     items={['Profile', 'Security', 'Privacy']}

@@ -1,7 +1,11 @@
 // app/(drawer)/DataVisualizer/arrays.tsx
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
+import { LinearTransition, FadeIn, FadeOut } from 'react-native-reanimated';
+import { MotiView, AnimatePresence } from 'moti';
+
+
 
 export default function ArrayVisual() {
     const { theme } = useTheme();
@@ -19,20 +23,30 @@ export default function ArrayVisual() {
 
     // Push new element
     const pushElement = () => {
-        if (!inputValue.trim) return;
+        if (!inputValue.trim()) return;
         setArr([...arr, Number(inputValue)]);
         setInputValue('');
     };
 
     // Pop last element
     const deleteElement = () => {
-        if (arr.length === 0) return;
-        setArr(arr.slice(0, arr.length - 1));
-        setMessage('Array is empty!');
-    };
+        if (arr.length === 0) {
+            setMessage('Array is Empty');
+            return;
+        }
+        const newArr = arr.slice(0, arr.length - 1);
+        setArr(newArr);
+
+        if (newArr.length === 0) {
+            setMessage('Array is Empty');
+        } else {
+            setMessage('');
+        }
+    }
 
     const deleteAtfront = () => {
         if (arr.length === 0) return;
+        setMessage('Array is Empty')
         setArr(arr.slice(1));
     }
 
@@ -49,35 +63,65 @@ export default function ArrayVisual() {
 
             {/* Array */}
             <View style={styles.arrayRow}>
-                {arr.map((value, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        style={[
-                            styles.box,
-                            highlight === index && styles.highlight,
-                            { borderColor: theme.colors.primary, backgroundColor: theme.colors.surface },
-                        ]}
-                        onPress={() => highlightBox(index)}
-                    >
-                        <Text style={[styles.value, { color: theme.colors.text }]}>
-                            {value}
-                        </Text>
-                        <Text style={styles.index}>[{index}]</Text>
-                    </TouchableOpacity>
-                ))}
+                <AnimatePresence>
+
+                    {arr.map((value, index) => (
+                        <MotiView
+                            key={`${index}-${value}`}
+                            /** Layout animation (smooth shifting) */
+                            layout={LinearTransition.springify().duration(350)}
+                            entering={FadeIn.duration(300)} // linear fade-in on push
+                            exiting={FadeOut.duration(300)}
+                            /** ENTER (Push) */
+                            from={{
+                                opacity: 0,
+                                scale: 0.6,
+                                translateY: -20,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                                translateY: 0,
+                            }}
+                            transition={{
+                                type: "timing",
+                                duration: 350,
+                            }}
+                            /** EXIT — SAME FOR POP AND DELETE AT FRONT*/
+                            exit={{
+                                opacity: 0,
+                                scale: 0.6,
+                                translateY: -20,
+                            }}
+                        >
+                            <TouchableOpacity
+                                key={index}
+                                style={[
+                                    styles.box,
+                                    highlight === index && styles.highlight,
+                                    { borderColor: theme.colors.primary, backgroundColor: theme.colors.surface },
+                                ]}
+                                onPress={() => highlightBox(index)}
+                            >
+                                <Text style={[styles.value, { color: theme.colors.text }]}>
+                                    {value}
+                                </Text>
+                                <Text style={styles.index}>[{index}]</Text>
+                            </TouchableOpacity>
+                        </MotiView>
+
+                    ))}
+                </AnimatePresence>
             </View>
+
 
             <Text style={[styles.info, { color: theme.colors.textSecondary }]}>
                 Tap any box to highlight
             </Text>
-            {arr.length === 0 ? (
+            {message !== '' && (
                 <Text style={[styles.info, { color: theme.colors.textSecondary }]}>
-                    Array is empty
+                    {message}
                 </Text>
-            ) : (
-                arr.map((item, index) => (
-                    <Text key={index}>{item}</Text>
-                ))
             )}
 
             {/* Input */}
@@ -152,9 +196,9 @@ export default function ArrayVisual() {
                 </Text>
                 <Text style={[styles.subheading, { color: theme.colors.text }]}>
                     * "What happens when you press “Delete At Front” ?.
-                    <Text style={[styles.para]}>
-                        {"\n"} Delete At Front simply removes the first element by returning a new array without the first index.
-                    </Text>
+                </Text>
+                <Text style={[styles.para, { color: theme.colors.textSecondary }]}>
+                    {"\n"} Delete At Front simply removes the first element by returning a new array without the first index.
                 </Text>
             </View>
         </ScrollView>

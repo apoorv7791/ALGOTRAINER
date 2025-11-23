@@ -16,7 +16,13 @@ const PatternLayout = () => {
                 gestureDirection: 'horizontal',
             }}
         >
-
+            <Stack.Screen name='TwoPointersVisual' options={{ title: 'Two Pointers Visual' }} />
+            <Stack.Screen name='SlidingWindowVisual' options={{ title: 'Sliding Window Visual' }} />
+            <Stack.Screen name='FastAndSlowPointersVisual' options={{ title: 'Fast and Slow Pointers Visual' }} />
+            <Stack.Screen name='BinarySearchVisual' options={{ title: 'Binary Search Visual' }} />
+            <Stack.Screen name='PrefixSumVisual' options={{ title: 'Prefix Sum Visual' }} />
+            <Stack.Screen name='BackTrackingVisual' options={{ title: 'BackTracking Visual' }} />
+            <Stack.Screen name='BitManipulationVisual' options={{ title: 'Bit Manipulation Visual' }} />
         </Stack>
     );
 }
