@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
-import { MotiView } from 'moti';
+import { MotiView, AnimatePresence } from 'moti';
 
 const QueuesVisual = () => {
     const { theme } = useTheme();
@@ -25,41 +25,51 @@ const QueuesVisual = () => {
             <Text style={[styles.title, { color: theme.colors.text }]}>Queues Visualizer</Text>
             <View style={styles.queueWrapper}>
                 <Text style={[styles.bracket, { color: theme.colors.primary }]}>[</Text>
-                <View style={styles.queueContent}>
-                    {queue.length === 0 ? (
-                        <Text style={[styles.emptyText, { color: theme.colors.textSecondary }]}>
-                            Queue is empty
-                        </Text>
-                    ) : (
-
-                        queue.map((item, index) => (
-                            <MotiView
-                                key={item} // ✅ unique key is important
-                                from={{ opacity: 0, scale: 0.6, translateY: -10 }}
-                                animate={{ opacity: 1, scale: 1, translateY: 0 }}
-                                exit={{ opacity: 0, scale: 0.7, translateX: index === 0 ? -50 : 0 }} // front removed slides left
-                                transition={{
-                                    type: 'timing',
-                                    duration: 300,
-                                }}
-                                style={{ marginHorizontal: 6 }} // gap between items
-                            >
-                                <View key={index} style={[styles.queueItem, { backgroundColor: theme.colors.card, borderColor: theme.colors.primary }]}>
-                                    <Text style={[styles.itemText, { color: theme.colors.text }]}>
-                                        {item}
-                                    </Text>
-                                    {index === 0 && (
-                                        <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>Front</Text>
-                                    )}
-                                    {index === queue.length - 1 && (
-                                        <Text style={[styles.backLabel, { color: theme.colors.primary }]}>Back</Text>
-                                    )}
-                                </View>
-                            </MotiView>
-                        ))
-                    )
-                    }
-                </View>
+                <ScrollView horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.queueContent} >
+                    <AnimatePresence>
+                        {queue.length === 0 ? (
+                            <Text style={[styles.emptyText, { color: theme.colors.textSecondary }]}>
+                                Queue is empty
+                            </Text>
+                        ) : (
+                            queue.map((item, index) => (
+                                <MotiView
+                                    key={item} // ✅ unique key is important
+                                    from={{ opacity: 0, scale: 0.6, translateY: -10 }}
+                                    animate={{ opacity: 1, scale: 1, translateY: 0 }}
+                                    exit={{
+                                        opacity: 0,
+                                        scale: 0.6,
+                                        translateX: index === 0 ? -50 : 0, // front element slides left
+                                        translateY: index === 0 ? 0 : 0,
+                                    }}
+                                    transition={{
+                                        type: 'timing',
+                                        duration: 300,
+                                    }}
+                                    style={{ marginHorizontal: 6 }}
+                                >
+                                    <View
+                                        style={[
+                                            styles.queueItem,
+                                            { backgroundColor: theme.colors.card, borderColor: theme.colors.primary },
+                                        ]}
+                                    >
+                                        <Text style={[styles.itemText, { color: theme.colors.text }]}>{item}</Text>
+                                        {index === 0 && (
+                                            <Text style={[styles.frontLabel, { color: theme.colors.primary }]}>Front</Text>
+                                        )}
+                                        {index === queue.length - 1 && (
+                                            <Text style={[styles.backLabel, { color: theme.colors.primary }]}>Back</Text>
+                                        )}
+                                    </View>
+                                </MotiView>
+                            ))
+                        )}
+                    </AnimatePresence>
+                </ScrollView>
                 <Text style={[styles.bracket, { color: theme.colors.primary }]}>]</Text>
             </View>
             <TextInput
@@ -112,12 +122,13 @@ const styles = StyleSheet.create({
     // 5. queue content [1,2,3,4,5]
     queueContent: {
         flexDirection: 'row',
-        flex: 1,
         justifyContent: 'flex-start',
-        flexWrap: 'wrap',
-        gap: 12,
-        paddingHorizontal: 10
+        alignItems: 'center',
+        gap: 12,            // spacing between items
+        paddingHorizontal: 10,
+        overflow: 'hidden',  // ensures items don’t wrap
     },
+
     // 6. queue item 1
     queueItem: {
         width: 70,
@@ -184,6 +195,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
     },
+    ScrollWrapper: {
+        flex: 1,
+    }
 })
 
 export default QueuesVisual;
