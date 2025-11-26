@@ -1,145 +1,180 @@
-// HashMapVisual.tsx → NOW WITH INSTANT KEY-VALUE DISPLAY
-import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    ScrollView,
-    TextInput,
-    TouchableOpacity,
-    Keyboard,
-} from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import React from 'react'
+import { useTheme } from '../Themes/Themecontext'
 
-const TOTAL_BUCKETS = 70;
 
-export default function HashMapVisual() {
+
+const HashMapVisual = () => {
     const { theme } = useTheme();
-    const [input, setInput] = useState('');
-    const [hashMap, setHashMap] = useState<any[][]>(
-        Array(TOTAL_BUCKETS).fill(null).map(() => [])
-    );
+    // input value
+    const [inputValue, setInputValue] = React.useState('');
+    // bukcets
+    const [hashMap, setHashMap] = React.useState<Record<number, number>>({});
 
-    // Super simple but effective hash (good distribution for short strings)
-    const hash = (str: string): number => {
-        let h = 0;
-        for (let i = 0; i < str.length; i++) {
-            h = (h * 31 + str.charCodeAt(i)) | 0;
+    const AddElement = () => {
+        const num = parseInt(inputValue);
+        if (!isNaN(num)) {
+            setHashMap(prev => ({
+                ...prev,
+                [num]: (prev[num] || 0) + 1
+            }));
+            setInputValue('');
         }
-        return Math.abs(h) % TOTAL_BUCKETS;
-    };
+    }
+    const clear = () => {
+        setHashMap({});
+    }
 
-    const insert = () => {
-        if (!input.trim()) return;
-
-        const key = input.trim();
-        const value = input.trim(); // same as key if user doesn't type value
-        const index = hash(key);
-
-        setHashMap(prev => {
-            const copy = [...prev];
-            copy[index] = [...copy[index], { key, value }];
-            return copy;
-        });
-
-        setInput('');
-        Keyboard.dismiss(); // hide keyboard
-    };
-
+    // Convert hashmap to array for FlatList
+    const hashMapArray = Object.entries(hashMap).map(([key, value]) => ({ key, value }));
     return (
-        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.title, { color: theme.colors.text }]}>
-                HashMap Live Demo
-            </Text>
+        <ScrollView>
+            <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+                <Text style={[styles.title, { color: theme.colors.text }]}>HashMap Visualizer</Text>
+                <View style={styles.bracketsWrapper}>
+                    <View style={styles.mapRow}>
+                        <Text style={[styles.brackets, { color: theme.colors.primary }]}>{"{"}</Text>
 
-            {/* INPUT BOX */}
-            <View style={styles.inputBox}>
-                <TextInput
-                    style={[styles.textInput, {
-                        backgroundColor: theme.colors.card || '#fff',
-                        color: theme.colors.text,
-                        borderColor: theme.colors.primary || '#007AFF'
-                    }]}
-                    placeholder="Type anything and press Enter →"
-                    placeholderTextColor="#999"
-                    value={input}
-                    onChangeText={setInput}
-                    onSubmitEditing={insert} // ← THIS IS THE MAGIC (Enter key works!)
-                    autoFocus
-                />
-                <TouchableOpacity style={styles.goButton} onPress={insert}>
-                    <Text style={styles.goText}>GO</Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* 70 BUCKETS */}
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.bucketsContainer}
-            >
-                {hashMap.map((bucket, i) => (
-                    <View key={i} style={styles.bucketWrapper}>
-                        <Text style={[styles.index, { color: '#888' }]}>{i.toString().padStart(2, '0')}</Text>
-
-                        <View style={styles.braces}>
-                            <Text style={[styles.brace, { color: theme.colors.primary }]}>{'{'}</Text>
-                            <Text style={[styles.brace, { color: theme.colors.primary }]}>{'}'}</Text>
+                        <View style={styles.mapContent}>
+                            {Object.keys(hashMap).length === 0 ? (
+                                <Text style={{ color: theme.colors.textSecondary }}>
+                                    Map is empty…
+                                </Text>
+                            ) : (
+                                <FlatList
+                                    data={hashMapArray}
+                                    keyExtractor={item => item.key}
+                                    contentContainerStyle={{ paddingVertical: 20 }}
+                                    renderItem={({ item }) => {
+                                        return <Text
+                                            style={{
+                                                fontSize: 18,
+                                                color: theme.colors.text,
+                                                marginVertical: 4,
+                                            }}
+                                        >
+                                            {item.key}: {item.value}
+                                        </Text>
+                                    }}
+                                />
+                            )}
                         </View>
 
-                        {/* KEY-VALUE PAIRS INSIDE BUCKET */}
-                        <View style={styles.entries}>
-                            {bucket.map((item: any, j: number) => (
-                                <View key={j} style={styles.entry}>
-                                    <Text style={[styles.kvText, { color: theme.colors.text }]}>
-                                        "{item.key}" → "{item.value}"
-                                    </Text>
-                                </View>
-                            ))}
-                        </View>
+                        <Text style={[styles.brackets, { color: theme.colors.primary }]}>{"}"}</Text>
                     </View>
-                ))}
-            </ScrollView>
 
-            <Text style={[styles.hint, { color: theme.colors.textSecondary || '#666' }]}>
-                Try: cat, dog, hello, world, javascript, reactnative
-            </Text>
-        </View>
-    );
+                </View>
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        placeholder='Enter the element'
+                        placeholderTextColor={theme.colors.textSecondary}
+                        keyboardType='numeric'
+                        value={inputValue}
+                        onChangeText={setInputValue}
+                        style={[styles.input, { backgroundColor: theme.colors.card, color: theme.colors.text, borderBlockColor: theme.colors.primary }]}
+                    />
+                </View>
+                <TouchableOpacity style={[styles.btn, { borderColor: theme.colors.primary }]} onPress={AddElement}>
+                    <Text style={[styles.btnText, { color: theme.colors.primary }]}>Add</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.btn, { borderColor: theme.colors.primary }]} onPress={clear}>
+                    <Text style={[styles.btnText, { color: theme.colors.primary }]}>Clear</Text>
+                </TouchableOpacity>
+                <View style={styles.explanationBox}>
+                    <View style={styles.explanationBox}>
+                        <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How Add works?</Text>
+                        <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>Add is the process of adding an element to the map.</Text>
+                    </View>
+                    <View style={styles.explanationBox}>
+                        <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How Clear works?</Text>
+                        <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>Clear is the process of removing all elements from the map.</Text>
+                    </View>
+                </View>
+            </View>
+        </ScrollView>
+    )
 }
-
 const styles = StyleSheet.create({
-    container: { flex: 1, paddingTop: 50, alignItems: 'center' },
-    title: { fontSize: 28, fontWeight: 'bold', marginBottom: 20 },
-    inputBox: { flexDirection: 'row', width: '92%', marginBottom: 20 },
-    textInput: {
+    container: {
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    inputWrapper: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    input: {
+        width: '90%',
+        height: 50,
+        borderWidth: 2,
+        borderRadius: 15,
+        paddingHorizontal: 17,
+        marginVertical: 30,
+        fontSize: 16,
+    },
+    brackets: {
+        fontSize: 70,
+        fontWeight: 'bold',
+    },
+    bracketsWrapper: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        minHeight: 100,
+        marginVertical: 20,
+    },
+    mapContent: {
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+    },
+    btn: {
+        width: '50%',
+        height: 50,
+        borderWidth: 2,
+        borderRadius: 12,
+        paddingHorizontal: 15,
+        marginVertical: 20,
+        fontSize: 16,
+    },
+    btnText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    mapRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 100,
+        marginVertical: 20,
+    },
+    // explanation of how the list works
+    explanationBox: {
+        marginTop: 40,
         borderWidth: 2,
         borderRadius: 12,
         padding: 16,
-        fontSize: 18,
-        marginRight: 10,
+        backgroundColor: '#111827',
     },
-    goButton: {
-        backgroundColor: '#007AFF',
-        paddingHorizontal: 20,
-        justifyContent: 'center',
-        borderRadius: 12,
+    // explanation title
+    explanationTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        marginBottom: 8,
     },
-    goText: { color: 'white', fontWeight: 'bold', fontSize: 18 },
-    bucketsContainer: { paddingHorizontal: 20 },
-    bucketWrapper: { alignItems: 'center', marginHorizontal: 14 },
-    index: { fontSize: 13, fontFamily: 'Menlo', marginBottom: 6 },
-    braces: { flexDirection: 'row' },
-    brace: { fontSize: 70, fontWeight: '900', lineHeight: 76 },
-    entries: { minWidth: 130, marginTop: 10, alignItems: 'center' },
-    entry: {
-        backgroundColor: 'rgba(0,122,255,0.15)',
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 6,
-        minWidth: 130,
+    // explanation text
+    explanationText: {
+        fontSize: 14,
+        lineHeight: 20,
     },
-    kvText: { fontFamily: 'Menlo', fontSize: 15, textAlign: 'center' },
-    hint: { marginTop: 20, fontSize: 15, opacity: 0.7, textAlign: 'center', paddingHorizontal: 20 },
-});
+
+})
+export default HashMapVisual
