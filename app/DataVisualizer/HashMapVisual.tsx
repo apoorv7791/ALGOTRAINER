@@ -44,7 +44,7 @@ const HashMapVisual = () => {
                                 <FlatList
                                     data={hashMapArray}
                                     keyExtractor={item => item.key}
-                                    contentContainerStyle={{ paddingVertical: 20 }}
+                                    contentContainerStyle={{ paddingHorizontal: 20 }}
                                     renderItem={({ item }) => {
                                         return <Text
                                             style={{
