@@ -1,10 +1,13 @@
+
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const Graph = () => {
     const { theme } = useTheme();
+    const router = useRouter();
     return (
         <ScrollView style={{ backgroundColor: theme.colors.background }}
             contentContainerStyle={styles.container} >
@@ -118,6 +121,13 @@ class Graph {
                     </Text>
                 </View>
             </View>
+            {/* Graph Visualizer */}
+            <TouchableOpacity
+                onPress={() => router.push('/DataVisualizer/GraphsVisual')}
+                style={styles.visualizeBtn}
+            >
+                <Text style={styles.btnText}>Open Visualizer</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
@@ -148,7 +158,19 @@ const styles = StyleSheet.create({
     bulletPoint: {
         fontSize: 16,
         marginBottom: 10,
-    }
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
 });
 
 export default Graph;
