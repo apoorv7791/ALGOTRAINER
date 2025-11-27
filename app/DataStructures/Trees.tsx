@@ -118,8 +118,9 @@ class BinaryTree {
                 </View>
                 <TouchableOpacity
                     onPress={() => router.push('/DataVisualizer/TreesVisual')}
+                    style={styles.visualizeBtn}
                 >
-
+                    <Text style={styles.btnText}>Open Visualizer</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -152,7 +153,19 @@ const styles = StyleSheet.create({
     bulletPoint: {
         fontSize: 16,
         marginBottom: 10,
-    }
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
+    },
 });
 
 export default Tree;

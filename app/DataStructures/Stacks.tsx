@@ -10,7 +10,7 @@ const Stack = () => {
 
     return (
         <ScrollView style={{ backgroundColor: theme.colors.background }}>
-            <Text style={[styles.header, { color: theme.colors.text }]}>Stack</Text>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Stacks</Text>
 
             {/* What is Stack? */}
             <View style={styles.section}>
