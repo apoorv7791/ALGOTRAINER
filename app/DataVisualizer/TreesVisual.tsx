@@ -61,7 +61,7 @@ const TreesVisual = () => {
 
         const queue = [root]; // Initialize queue with root node
 
-        while (queue.length) { // Loop until queue is empty
+        while (queue.length && traversing) { // Loop until queue is empty
             const node = queue.shift(); // Remove first node from queue
             if (!node) continue; // Skip if node is null
 
@@ -126,7 +126,11 @@ const TreesVisual = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.btn, { backgroundColor: theme.colors.primary }]}
-                        onPress={() => setActiveNode(null)}
+                        onPress={() => {
+                            setTraversing(false);
+                            setVisited([]);
+                            setActiveNode(null);
+                        }}
                     >
                         <Text style={styles.btnText}>Reset</Text>
                     </TouchableOpacity>
