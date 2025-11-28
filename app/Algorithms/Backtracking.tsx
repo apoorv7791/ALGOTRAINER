@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { useRouter } from 'expo-router';
 
 const Backtracking = () => {
     const { theme } = useTheme();
     const [isLandscape, setIsLandscape] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         // 🔓 Allow both orientations
@@ -154,7 +156,12 @@ public class Subsets {
                 🚀 Backtracking is used for problems like subsets, permutations, Sudoku solving,
                 and pathfinding. Once you get this pattern, you can apply it to many other challenges!
             </Text>
-        </ScrollView>
+            <TouchableOpacity onPress={() => router.push('/AlgoVisualizer/BackTrackingVisual')}
+                style={styles.visualizeBtn}
+            >
+                <Text style={styles.btnText}>Open Visualizer</Text>
+            </TouchableOpacity >
+        </ScrollView >
     );
 };
 
@@ -185,6 +192,24 @@ const styles = StyleSheet.create({
         marginTop: 25,
         textAlign: 'center',
         fontStyle: 'italic',
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btn: {
+        backgroundColor: '#FF6B6B',
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 20,
+    },
+    btnText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
 
