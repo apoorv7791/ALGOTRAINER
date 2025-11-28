@@ -72,7 +72,7 @@ const TreesVisual = () => {
     return (
         <ScrollView> {/* Enable scrolling if content overflows */}
             <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visualizer</Text> {/* Title */}
+                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visual</Text> {/* Title */}
 
                 {/* Root Node */}
                 <View style={styles.rootWrapper}>

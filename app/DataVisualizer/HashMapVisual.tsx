@@ -38,7 +38,7 @@ const HashMapVisual = () => {
                         <View style={styles.mapContent}>
                             {Object.keys(hashMap).length === 0 ? (
                                 <Text style={{ color: theme.colors.textSecondary }}>
-                                    Map is empty…
+                                    Map is empty
                                 </Text>
                             ) : (
                                 <FlatList
