@@ -36,6 +36,9 @@ const NodeCircle = ({ label, highlighted }: { label: string, highlighted: boolea
 const TreesVisual = () => {
     const { theme } = useTheme(); // Access theme colors
     const [activeNode, setActiveNode] = useState<string | null>(null); // State to track currently active node
+    const [visited, setVisited] = useState<string[]>([]);   // <-- Line 42
+    const [traversing, setTraversing] = useState<boolean>(false);  // <-- Line 43
+
 
     // Utility function to create a delay for visualizing traversal
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -45,6 +48,7 @@ const TreesVisual = () => {
         if (!node) return; // Base case: if node is null, stop
 
         setActiveNode(node.value); // Highlight current node
+        setVisited(prev => [...prev, node.value]);
         await delay(600); // Pause to show highlight
 
         await dfs(node.left); // Recursively visit left child
@@ -62,6 +66,7 @@ const TreesVisual = () => {
             if (!node) continue; // Skip if node is null
 
             setActiveNode(node.value); // Highlight current node
+            setVisited(prev => [...prev, node.value]);
             await delay(600); // Pause for visualization
 
             if (node.left) queue.push(node.left); // Add left child to queue
@@ -69,10 +74,15 @@ const TreesVisual = () => {
         }
     };
 
+    React.useEffect(() => {
+        if (!traversing) return;
+        bfs(tree);
+    }, [traversing, tree]);
+
     return (
         <ScrollView> {/* Enable scrolling if content overflows */}
             <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visual</Text> {/* Title */}
+                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visualizer</Text> {/* Title */}
 
                 {/* Root Node */}
                 <View style={styles.rootWrapper}>
@@ -97,14 +107,20 @@ const TreesVisual = () => {
                 <View style={styles.buttonRow}>
                     <TouchableOpacity
                         style={[styles.btn, { backgroundColor: theme.colors.primary }]} // DFS button styling
-                        onPress={() => dfs(tree)} // Trigger DFS traversal
+                        onPress={async () => { setVisited([]); setActiveNode(null); await dfs(tree); setTraversing(false); }} // Trigger DFS traversal
                     >
                         <Text style={styles.btnText}>DFS</Text> {/* Button label */}
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={[styles.btn, { backgroundColor: theme.colors.primary }]} // BFS button styling
-                        onPress={() => bfs(tree)} // Trigger BFS traversal
+                        onPress={async () => {
+                            setVisited([]); setActiveNode(null);
+
+                            setTraversing(true);
+                            await bfs(tree);
+                            setTraversing(false);
+                        }} // Trigger BFS traversal
                     >
                         <Text style={styles.btnText}>BFS</Text> {/* Button label */}
                     </TouchableOpacity>
@@ -119,6 +135,9 @@ const TreesVisual = () => {
                 {/* Display currently active node */}
                 <Text style={[styles.info, { color: theme.colors.secondary }]}>
                     {activeNode ? `Current Node: ${activeNode}` : 'No node selected'}
+                </Text>
+                <Text style={[styles.visitedText, { color: theme.colors.primary }]}>
+                    {visited.length > 0 ? `Visited: ${visited.join(', ')}` : 'Visited None'}
                 </Text>
 
                 {/* Explanation box */}
@@ -174,5 +193,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#111827' // Dark box background
     },
     explanationTitle: { fontSize: 16, fontWeight: '700', marginBottom: 8 }, // Section title
-    explanationText: { fontSize: 14, lineHeight: 20 } // Explanation text
+    explanationText: { fontSize: 14, lineHeight: 20 }, // Explanation text
+    visitedText: {
+        textAlign: 'center',
+        fontSize: 15,
+        marginTop: 10,
+        marginBottom: 10,
+        fontWeight: '500'
+    },
+
 });
