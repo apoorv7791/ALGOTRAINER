@@ -27,6 +27,7 @@ const GraphsVisual = () => {
     const [activeNode, setActiveNode] = useState<number | null>(null);
     const [allNodesVisited, setAllNodesVisited] = useState<boolean>(false);
     const [messages, setMessages] = useState<string[]>([]);
+    const [traversing, setTraversing] = useState<boolean>(false);
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 

@@ -22,8 +22,12 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 28,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 499.5,
         color: 'orange',
+        textAlign: 'center',
+        lineHeight: 34,
+        letterSpacing: 0.5,
+        fontFamily: 'monospace',
     }
 })
 

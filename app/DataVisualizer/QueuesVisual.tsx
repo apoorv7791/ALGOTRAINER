@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../Themes/Themecontext';
 import { MotiView, AnimatePresence } from 'moti';
 
@@ -127,12 +128,12 @@ const QueuesVisual = () => {
                         <Text style={[styles.btnText, { color: theme.colors.primary }]}>Dequeue (Remove Front)</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.explanationBox}>
-                    <View style={styles.explanationBox}>
+                <View style={styles.explanationsContainer}>
+                    <View style={[styles.explanationBox, { backgroundColor: theme.colors.card, borderColor: theme.colors.primary }]}>
                         <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How Enqueue works?</Text>
                         <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>Enqueue is the process of adding an element to the rear of the queue.</Text>
                     </View>
-                    <View style={styles.explanationBox}>
+                    <View style={[styles.explanationBox, { backgroundColor: theme.colors.card, borderColor: theme.colors.primary }]}>
                         <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How Dequeue works?</Text>
                         <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>Dequeue is the process of removing an element from the front of the queue.</Text>
                     </View>
@@ -252,13 +253,16 @@ const styles = StyleSheet.create({
     ScrollWrapper: {
         flex: 1,
     },
+    explanationsContainer: {
+        marginTop: 40,
+        gap: 16,
+        width: '100%',
+    },
     // explanation of how the list works
     explanationBox: {
-        marginTop: 40,
         borderWidth: 2,
         borderRadius: 12,
         padding: 16,
-        backgroundColor: '#111827',
     },
     // explanation title
     explanationTitle: {
