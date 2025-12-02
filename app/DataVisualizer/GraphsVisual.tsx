@@ -25,13 +25,12 @@ const NodeCircle = ({ label, highlighted }: { label: string; highlighted: boolea
 const GraphsVisual = () => {
     const { theme } = useTheme();
     const [activeNode, setActiveNode] = useState<number | null>(null);
-    const [allNodesVisited, setAllNodesVisited] = useState<boolean>(false);
-    const [messages, setMessages] = useState<string[]>([]);
-    const [traversing, setTraversing] = useState<boolean>(false);
+    const [allNodesVisited, setAllNodesVisited] = useState<boolean>(true);
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 
     const DFS = async (start: number) => {
+        setAllNodesVisited(false);
         const visited = new Set();
 
         async function explore(node: number, parent: number | null = null) {
@@ -59,6 +58,14 @@ const GraphsVisual = () => {
 
         await explore(start);
         setActiveNode(null);
+        if (visited.size === Object.keys(graph).length) {
+            setAllNodesVisited(true); // All nodes visited!
+        }
+    };
+
+    const resetVisualization = () => {
+        setActiveNode(null);
+        setAllNodesVisited(false)
     };
 
 
@@ -66,6 +73,7 @@ const GraphsVisual = () => {
 
     // Breadth-First Search traversal with visual highlighting
     const BFS = async (start: number) => {
+        setAllNodesVisited(false);
         const visited = new Set<number>();
         const queue = [start];
 
@@ -84,6 +92,10 @@ const GraphsVisual = () => {
                     queue.push(neighbor);
                 }
             }
+        }
+        setActiveNode(null);
+        if (visited.size === Object.keys(graph).length) {
+            setAllNodesVisited(true); // All nodes visited!
         }
     };
 
@@ -132,7 +144,11 @@ const GraphsVisual = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.btn, { backgroundColor: theme.colors.primary }]}
-                    onPress={() => setActiveNode(null)}
+                    onPress={() => {
+                        setActiveNode(null);
+                        setAllNodesVisited(false);
+                        resetVisualization();
+                    }}
                 >
                     <Text style={styles.btnText}>Reset</Text>
                 </TouchableOpacity>
