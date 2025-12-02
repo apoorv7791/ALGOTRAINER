@@ -116,13 +116,12 @@ const TreesVisual = () => {
                         style={[styles.btn, { backgroundColor: theme.colors.primary }]} // BFS button styling
                         onPress={async () => {
                             setVisited([]); setActiveNode(null);
-
                             setTraversing(true);
                             await bfs(tree);
                             setTraversing(false);
                         }} // Trigger BFS traversal
                     >
-                        <Text style={styles.btnText}>BFS</Text> {/* Button label */}
+                        <Text style={[styles.btnLabel, { color: theme.colors.text }]}>BFS</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.btn, { backgroundColor: theme.colors.primary }]}
@@ -188,6 +187,11 @@ const styles = StyleSheet.create({
     buttonRow: { flexDirection: 'row', justifyContent: 'center', gap: 20, marginTop: 40 }, // Row for buttons
     btn: { paddingHorizontal: 20, paddingVertical: 10, borderRadius: 8 }, // Button style
     btnText: { color: 'white', fontWeight: '600', fontSize: 14 }, // Button text style
+    btnLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
     info: { textAlign: 'center', fontSize: 16, marginBottom: -10 }, // Display active node
     explanationBox: {
         marginTop: 40,
