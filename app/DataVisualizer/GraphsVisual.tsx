@@ -23,6 +23,7 @@ const NodeCircle = ({ label, highlighted }: { label: string; highlighted: boolea
 };
 
 const GraphsVisual = () => {
+    // Access theme and state variables
     const { theme } = useTheme();
     const [activeNode, setActiveNode] = useState<number | null>(null);
     const [allNodesVisited, setAllNodesVisited] = useState<boolean>(true);
