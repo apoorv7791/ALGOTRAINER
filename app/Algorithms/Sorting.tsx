@@ -240,7 +240,7 @@ const Sorting = () => {
                     style={styles.visualizeBtn}
                     onPress={() => router.push('/AlgoVisualizer/SortingVisual')}
                 >
-                    <Text style={styles.btnText}>Visualize Merge Sort</Text>
+                    <Text style={styles.btnText}>Visualize All Sorting Algorithms</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
