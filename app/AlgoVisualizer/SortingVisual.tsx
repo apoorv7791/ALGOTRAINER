@@ -1,68 +1,141 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 
 const SortingVisual = () => {
+    // states
     const { theme } = useTheme();
-    const [array, setArray] = React.useState<number[]>([5, 3, 8, 4, 2]);
-    const [reset, setReset] = React.useState<boolean>(false);
+    const [array, setArray] = React.useState<number[]>([9, 5, 3, 1, 2, 4, 0]);
     const [sorting, setSorting] = React.useState<boolean>(false);
+    const animatedValues = React.useRef(array.map(() => new Animated.Value(0))).current;
 
+
+    const resetArray = () => {
+        setArray([9, 5, 3, 1, 2, 4, 0]);
+        setActiveAlgo("reset");
+        setTimeout(() => setActiveAlgo(null), 100);
+
+    };
+
+    const [activeAlgo, setActiveAlgo] = React.useState<string | null>(null);
+    const animateSwap = (index1: number, index2: number) => {
+        Animated.parallel([
+            Animated.sequence([
+                Animated.timing(animatedValues[index1], {
+                    toValue: 1,
+                    duration: 150,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues[index1], {
+                    toValue: 0,
+                    duration: 150,
+                    useNativeDriver: true,
+                })
+            ]),
+            Animated.sequence([
+                Animated.timing(animatedValues[index2], {
+                    toValue: 1,
+                    duration: 150,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(animatedValues[index2], {
+                    toValue: 0,
+                    duration: 150,
+                    useNativeDriver: true,
+                })
+            ]),
+        ]).start();
+    };
+
+    const topspeed = 700;
+    // Sorting Algorithms
     const BubbleSort = async () => {
         setSorting(true);
-        for (let i = 0; i < array.length; i++) {
-            for (let j = 0; j < array.length - i - 1; j++) {
-                if (array[j] > array[j + 1]) {
-                    [array[j], array[j + 1]] = [array[j + 1], array[j]];
-                    setArray([...array]);
-                    await new Promise(resolve => setTimeout(resolve, 500));
+        setActiveAlgo('BubbleSort');
+        let arr = [...array];
+        const n = arr.length;
+
+        for (let i = 0; i < n - 1; i++) {
+            for (let j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    animateSwap(j, j + 1);
+                    setArray([...arr]);
+                    await new Promise(resolve => setTimeout(resolve, topspeed)); // Delay for visualization
                 }
             }
         }
         setSorting(false);
+        setActiveAlgo(null);
     }
 
     const InsertionSort = async () => {
         setSorting(true);
-        for (let i = 1; i < array.length; i++) {
-            let key = array[i];
+        setActiveAlgo('InsertionSort');
+        let arr = [...array];
+        const n = arr.length;
+
+        for (let i = 1; i < n; i++) {
+            let key = arr[i];
             let j = i - 1;
-            while (j >= 0 && array[j] > key) {
-                array[j + 1] = array[j];
+
+            while (j >= 0 && arr[j] > key) {
+                animateSwap(j, j + 1);
+                arr[j + 1] = arr[j];
                 j = j - 1;
-                setArray([...array]);
-                await new Promise(resolve => setTimeout(resolve, 500));
+                setArray([...arr]);
+                await new Promise(resolve => setTimeout(resolve, topspeed)); // Delay for visualization
+
             }
-            array[j + 1] = key;
-            setArray([...array]);
-            await new Promise(resolve => setTimeout(resolve, 500));
+            arr[j + 1] = key;
+            setArray([...arr]);
+            await new Promise(resolve => setTimeout(resolve, topspeed));
         }
         setSorting(false);
+        setActiveAlgo(null);
     }
 
+    // UI rendering
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.title, { color: theme.colors.text }]}>Sorting Visualizer</Text>
             <View style={styles.arrayContainer}>
                 {array.map((value, index) => (
-                    <View key={index} style={styles.numberBox}>
+                    <Animated.View
+                        key={index}
+                        style={[
+                            styles.numberBox,
+                            {
+                                transform: [
+                                    {
+                                        scale: animatedValues[index].interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: [1, 1.15], // pulse effect
+                                        }),
+                                    },
+                                ],
+                            }
+                        ]}
+                    >
                         <Text style={styles.numberText}>{value}</Text>
-                    </View>
+                    </Animated.View>
+
                 ))}
             </View>
-            <TouchableOpacity onPress={BubbleSort} disabled={sorting} style={styles.button}>
-                <Text style={styles.buttonText}>{sorting ? 'Sorting...' : 'Start Bubble Sort'}</Text>
+            <TouchableOpacity style={styles.button} onPress={BubbleSort} disabled={activeAlgo !== null}>
+                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'BubbleSort' ? 'Sorting...' : 'Start Bubble Sort'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={InsertionSort} disabled={sorting} style={styles.button}>
-                <Text style={styles.buttonText}>{sorting ? 'Sorting...' : 'Start Insertion Sort'}</Text>
+            <TouchableOpacity style={styles.button} onPress={InsertionSort} disabled={activeAlgo !== null}>
+                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'InsertionSort' ? 'Sorting...' : 'Start Insertion Sort'}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setReset(true)} disabled={sorting} style={styles.button}>
-                <Text style={styles.buttonText}>{sorting ? 'Sorting...' : 'Reset Array'}</Text>
+            <TouchableOpacity style={styles.button} onPress={resetArray} disabled={activeAlgo !== null}>
+                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'reset' ? 'Resetting...' : 'Reset Array'}</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
+// styles 
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     title: { fontSize: 24, fontWeight: 'bold', marginBottom: 70 },
@@ -91,6 +164,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
     },
+
 
 })
 
