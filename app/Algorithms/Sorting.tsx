@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { useRouter } from 'expo-router';
 
 const Sorting = () => {
     const { theme } = useTheme();
     const [isLandscape, setIsLandscape] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         // 🔓 Allow rotation both ways
@@ -125,6 +127,7 @@ const Sorting = () => {
                     language="java"
                     fontSize={isLandscape ? 10 : 12}
                 />
+
                 <Text
                     style={[
                         styles.description,
@@ -136,6 +139,51 @@ const Sorting = () => {
                     {"\n"}🔹 Space Complexity: O(1)
                 </Text>
             </View>
+            {/* 🔹 Insertion Sort */}
+            <View style={styles.section}>
+                <Text
+                    style={[
+                        styles.subHeader,
+                        { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                    ]}
+                >
+                    3️⃣ Insertion Sort
+                </Text>
+                <CodeBlock
+                    code={`public class InsertionSort {
+    public static void insertionSort(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) {
+                arr[j + 1] = arr[j];
+                j--;
+            }
+            arr[j + 1] = key;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {12, 11, 13, 5, 6};
+        insertionSort(arr);
+        for (int num : arr)
+            System.out.print(num + " ");
+    }
+}`}
+                    language="java"
+                    fontSize={isLandscape ? 10 : 12}
+                />
+            </View>
+            <Text
+                style={[
+                    styles.description,
+                    { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
+                ]}
+            >
+                🔹 Inserts each element in its correct position.
+                {"\n"}🔹 Time Complexity: O(n²)
+                {"\n"}🔹 Space Complexity: O(1)
+            </Text>
 
             {/* 🔹 Merge Sort */}
             <View style={styles.section}>
@@ -188,7 +236,12 @@ const Sorting = () => {
                     {"\n"}🔹 Time Complexity: O(n log n)
                     {"\n"}🔹 Space Complexity: O(n)
                 </Text>
-
+                <TouchableOpacity
+                    style={styles.visualizeBtn}
+                    onPress={() => router.push('/AlgoVisualizer/SortingVisual')}
+                >
+                    <Text style={styles.btnText}>Visualize Merge Sort</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -221,6 +274,18 @@ const styles = StyleSheet.create({
     description: {
         marginTop: 10,
         lineHeight: 20,
+    },
+    visualizeBtn: {
+        backgroundColor: '#34D399',
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
     },
 });
 
