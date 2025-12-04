@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
+import { useRouter } from 'expo-router';
 
 const Searching = () => {
     const { theme } = useTheme();
+    const router = useRouter();
 
     return (
         <ScrollView
@@ -88,6 +90,12 @@ const Searching = () => {
                     {'\n'}🔹 Time Complexity: O(log n)
                     {'\n'}🔹 Space Complexity: O(1)
                 </Text>
+                <TouchableOpacity
+                    style={styles.visualizeBtn}
+                    onPress={() => router.push('/AlgoVisualizer/SearchVisual')}
+                >
+                    <Text style={styles.btnText}>Visualize All Sorting Algorithms</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -119,6 +127,17 @@ const styles = StyleSheet.create({
         marginTop: 8,
         fontSize: 13, // 🔽 smaller text for compactness
         lineHeight: 19,
+    },
+    visualizeBtn: {
+        backgroundColor: '#4CAF50',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        alignItems: 'center',
+    },
+    btnText: {
+        color: 'white',
+        fontWeight: 'bold',
     },
 });
 
