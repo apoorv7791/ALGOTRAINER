@@ -1,4 +1,4 @@
-import React, { act, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '../Themes/Themecontext';
 import { LayoutAnimation, Platform, UIManager } from 'react-native';
@@ -14,7 +14,7 @@ const SearchVisual = () => {
     const [leftIndex, setLeftIndex] = React.useState<number | null>(null);
     const [message, setMessage] = React.useState<string>('');
     const [activeAlgo, setActiveAlgo] = React.useState<string | null>(null);
-    const [stopAlgo, setStopAlgo] = React.useState<boolean>(false);
+
 
 
     React.useEffect(() => {
@@ -23,25 +23,17 @@ const SearchVisual = () => {
         }
     }, []);
 
+
+
+
+
     // Linear Search
     const LinearSearch = async (target: number) => {
         setSearchingAlgo('Linear Search');
         setActiveAlgo('Linear Search');
-        setStopAlgo(false);
         setMessage('');
 
-        for (let i = 0; i < array.length; i++) {
-
-            // 🔥 IMPORTANT FIX
-            if (stopAlgo) {
-                setSearchingAlgo(null);
-                setActiveAlgo(null);
-                setCurrentIndex(null);
-                setLeftIndex(null);
-                setRightIndex(null);
-                setMessage('Stopped');
-                return;
-            }
+        for (let i = currentIndex ?? 0; i < array.length; i++) {
 
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setCurrentIndex(i);
@@ -60,28 +52,20 @@ const SearchVisual = () => {
     };
 
 
+
     // Binary Search
     const BinarySearch = async (target: number) => {
         setActiveAlgo('Binary Search');
         setSearchingAlgo('Binary Search');
-        setStopAlgo(false);
         setMessage('');
 
         let left = 0;
         let right = array.length - 1;
 
-        console.log('Binary search start, target=', target, 'array=', array);
+        // console.log('Binary search start, target=', target, 'array=', array);
 
         while (left <= right) {
-            if (stopAlgo) {
-                setSearchingAlgo(null);
-                setActiveAlgo(null);
-                setCurrentIndex(null);
-                setLeftIndex(null);
-                setRightIndex(null);
-                setMessage('Stopped');
-                return;
-            }
+
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             const mid = Math.floor((left + right) / 2);
 
@@ -180,14 +164,50 @@ const SearchVisual = () => {
                         <View
                             key={index}
                             style={{
-                                width: 40,
+                                width: 50,
                                 height: 40,
                                 margin: 5,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: bgColor,
+                                position: 'relative',
                             }}
                         >
+                            {index === currentIndex && (
+                                <Text style={[
+                                    {
+                                        position: 'absolute',
+                                        top: -18, // above the box
+                                        fontSize: 12,
+                                        fontWeight: 'bold',
+                                        color: 'orange'
+                                    }]}>
+                                    Current
+                                </Text>
+                            )}
+                            {index === leftIndex && (
+                                <Text style={[{
+                                    position: 'absolute',
+                                    top: -18,
+                                    fontSize: 12,
+                                    fontWeight: 'bold',
+                                    color: 'blue'
+                                }]}>
+                                    Left
+                                </Text>
+                            )}
+                            {index === rightIndex && (
+                                <Text style={[{
+                                    position: 'absolute',
+                                    top: -18,
+                                    fontSize: 12,
+                                    fontWeight: 'bold',
+                                    color: 'red'
+                                }]}>
+                                    Right
+                                </Text>
+                            )}
+
                             <Text style={{ color: theme.colors.text }}>{value}</Text>
                         </View>
                     );
@@ -214,7 +234,7 @@ const SearchVisual = () => {
                         styles.gridButton,
                         activeAlgo === 'Binary Search' && { backgroundColor: 'green' }
                     ]}
-                    onPress={() => BinarySearch(6)}
+                    onPress={() => BinarySearch(4)}
                     disabled={searchingAlgo === 'Binary Search'}
                 >
                     <Text style={styles.buttonText}>
@@ -229,19 +249,8 @@ const SearchVisual = () => {
                 >
                     <Text style={styles.buttonText}>Reset Array</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.gridButton, { backgroundColor: 'red' }]}
-                    onPress={() => {
-                        setStopAlgo(true);
-                        setActiveAlgo(null);
-                        setCurrentIndex(null);
-                        setLeftIndex(null);
-                        setRightIndex(null);
-                        setMessage('Stopped');
-                    }}
-                >
-                    <Text style={styles.buttonText}>Stop Algorithm</Text>
-                </TouchableOpacity>
+
+
             </View>
             {/* Message */}
             {message ? <Text style={{ color: theme.colors.text, marginTop: 20 }}>{message}</Text> : null}
@@ -270,14 +279,15 @@ const styles = StyleSheet.create({
     },
 
     numberBox: {
-        width: 50,
+        width: 60,
         height: 80,
         backgroundColor: '#4f46e5',
         justifyContent: 'center',
         alignItems: 'center',
         margin: 5,
-        borderRadius: 8,
+        borderRadius: 999, // any large number → fully rounded corners
     },
+
     button: { marginTop: 50, padding: 15, backgroundColor: 'navy', borderRadius: 8 },
     buttonText: { color: 'white', fontWeight: 'bold' },
     grid: {

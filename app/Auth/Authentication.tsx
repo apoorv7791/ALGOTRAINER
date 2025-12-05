@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
-interface AuthProps {
-    onLogin: () => void;
-}
-
-const Authentication: React.FC<AuthProps> = ({ onLogin }) => {
+const Authentication = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
+
+    const handleLogin = () => {
+        // later you can add real validation
+        router.push("/home");
+    };
 
     return (
         <View style={style.card}>
             <Text>Authentication</Text>
+
             <TextInput
                 style={style.input}
                 placeholder="Email"
@@ -20,6 +24,7 @@ const Authentication: React.FC<AuthProps> = ({ onLogin }) => {
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
+
             <TextInput
                 style={style.input}
                 placeholder="Password"
@@ -28,7 +33,8 @@ const Authentication: React.FC<AuthProps> = ({ onLogin }) => {
                 secureTextEntry
                 autoCapitalize="none"
             />
-            <TouchableOpacity style={style.button} onPress={onLogin}>
+
+            <TouchableOpacity style={style.button} onPress={handleLogin}>
                 <Text style={style.buttonText}>Login</Text>
             </TouchableOpacity>
         </View>
