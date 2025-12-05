@@ -94,7 +94,7 @@ const Searching = () => {
                     style={styles.visualizeBtn}
                     onPress={() => router.push('/AlgoVisualizer/SearchVisual')}
                 >
-                    <Text style={styles.btnText}>Visualize All Sorting Algorithms</Text>
+                    <Text style={styles.btnText}>Visualize All Searching Algorithms</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
