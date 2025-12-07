@@ -13,7 +13,7 @@ const Tree = () => {
             style={{ backgroundColor: theme.colors.background }}
             contentContainerStyle={styles.container}
         >
-            <Text style={[styles.header, { color: theme.colors.text }]}>Trees</Text>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Trees </Text>
 
             {/* Simple Binary Tree Implementation */}
             <View style={styles.section}>

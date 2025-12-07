@@ -95,6 +95,46 @@ const SortingVisual = () => {
         setSorting(false);
         setActiveAlgo(null);
     }
+    const MergeSort = async () => {
+        setSorting(true);
+        setActiveAlgo('MergeSort');
+
+        let arr = [...array];
+
+        const mergeSort = async (l: number, r: number) => {
+            if (l >= r) return;
+
+            const mid = Math.floor((l + r) / 2);
+
+            await mergeSort(l, mid);
+            await mergeSort(mid + 1, r);
+
+            let temp = [];
+            let i = l, j = mid + 1;
+
+            while (i <= mid && j <= r) {
+                if (arr[i] <= arr[j]) {
+                    temp.push(arr[i++]);
+                } else {
+                    temp.push(arr[j++]);
+                }
+            }
+            while (i <= mid) temp.push(arr[i++]);
+            while (j <= r) temp.push(arr[j++]);
+
+            for (let k = l; k <= r; k++) {
+                arr[k] = temp[k - l];
+                setArray([...arr]);
+                await new Promise(res => setTimeout(res, 300));
+            }
+        };
+
+        await mergeSort(0, arr.length - 1);
+
+        setArray([...arr]);
+        setSorting(false);
+        setActiveAlgo(null);
+    };
 
     // UI rendering
     return (
@@ -128,6 +168,9 @@ const SortingVisual = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={InsertionSort} disabled={activeAlgo !== null}>
                 <Text style={styles.buttonText}>{sorting}{activeAlgo === 'InsertionSort' ? 'Sorting...' : 'Start Insertion Sort'}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={MergeSort} disabled={activeAlgo !== null}>
+                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'MergeSort' ? 'Sorting...' : 'Start Merge Sort'}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={resetArray} disabled={activeAlgo !== null}>
                 <Text style={styles.buttonText}>{sorting}{activeAlgo === 'reset' ? 'Resetting...' : 'Reset Array'}</Text>
