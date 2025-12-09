@@ -43,12 +43,16 @@ const TreesVisual = () => {
     // Utility function to create a delay for visualizing traversal
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
+    const addVisited = (nodeValue: string) => {
+        setVisited(prev => (prev.includes(nodeValue) ? prev : [...prev, nodeValue]));
+    }
+
     // Depth-First Search traversal with visual highlighting
     const dfs = async (node: any) => {
         if (!node) return; // Base case: if node is null, stop
 
         setActiveNode(node.value); // Highlight current node
-        setVisited(prev => [...prev, node.value]);
+        addVisited(node.value);
         await delay(600); // Pause to show highlight
 
         await dfs(node.left); // Recursively visit left child
@@ -66,13 +70,45 @@ const TreesVisual = () => {
             if (!node) continue; // Skip if node is null
 
             setActiveNode(node.value); // Highlight current node
-            setVisited(prev => [...prev, node.value]);
+            addVisited(node.value);
             await delay(600); // Pause for visualization
 
             if (node.left) queue.push(node.left); // Add left child to queue
             if (node.right) queue.push(node.right); // Add right child to queue
         }
     };
+
+    // Traversal methods for Tree
+
+    const preorder = async (node: any) => {
+        if (!node) return;
+
+        setActiveNode(node.value);
+        addVisited(node.value);
+        await delay(600);
+
+        await preorder(node.left);
+        await preorder(node.right);
+    }
+
+    const inorder = async (node: any) => {
+        if (!node) return;
+
+        await inorder(node.left);
+        setActiveNode(node.value);
+        addVisited(node.value);
+        await delay(600);
+        await inorder(node.right);
+    }
+    const postorder = async (node: any) => {
+        if (!node) return;
+
+        await postorder(node.left);
+        await postorder(node.right);
+        setActiveNode(node.value);
+        addVisited(node.value);
+        await delay(600);
+    }
 
     React.useEffect(() => {
         if (!traversing) return;
@@ -104,27 +140,33 @@ const TreesVisual = () => {
                 </View>
 
                 {/* Buttons row for DFS and BFS */}
-                <View style={styles.buttonRow}>
+                <View style={styles.grid}>
                     <TouchableOpacity
-                        style={[styles.btn, { backgroundColor: theme.colors.primary }]} // DFS button styling
-                        onPress={async () => { setVisited([]); setActiveNode(null); await dfs(tree); setTraversing(false); }} // Trigger DFS traversal
+                        style={[styles.gridButton, { backgroundColor: theme.colors.primary }]}
+                        onPress={async () => {
+                            setVisited([]);
+                            setActiveNode(null);
+                            await dfs(tree);
+                            setTraversing(false);
+                        }}
                     >
-                        <Text style={styles.btnText}>DFS</Text> {/* Button label */}
+                        <Text style={styles.btnText}>DFS</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={[styles.btn, { backgroundColor: theme.colors.primary }]} // BFS button styling
+                        style={[styles.gridButton, { backgroundColor: theme.colors.primary }]}
                         onPress={async () => {
-                            setVisited([]); setActiveNode(null);
+                            setVisited([]);
+                            setActiveNode(null);
                             setTraversing(true);
                             await bfs(tree);
                             setTraversing(false);
-                        }} // Trigger BFS traversal
+                        }}
                     >
                         <Text style={[styles.btnLabel, { color: theme.colors.text }]}>BFS</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={[styles.btn, { backgroundColor: theme.colors.primary }]}
+                        style={[styles.gridButton, { backgroundColor: theme.colors.primary }]}
                         onPress={() => {
                             setTraversing(false);
                             setVisited([]);
@@ -132,6 +174,18 @@ const TreesVisual = () => {
                         }}
                     >
                         <Text style={styles.btnText}>Reset</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.gridButton, { backgroundColor: theme.colors.primary }]}
+                        onPress={async () => {
+                            setVisited([]);
+                            setActiveNode(null);
+                            setTraversing(true);
+                            await preorder(tree);
+                            setTraversing(false);
+                        }}
+                    >
+                        <Text style={styles.btnText}>Pre Order</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -209,5 +263,19 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         fontWeight: '500'
     },
-
+    grid: {
+        width: '90%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginTop: 40,
+    },
+    gridButton: {
+        width: '45%',
+        padding: 15,
+        margin: 5,
+        backgroundColor: 'navy',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
 });
