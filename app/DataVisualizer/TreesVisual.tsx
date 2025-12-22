@@ -42,6 +42,7 @@ const TreesVisual = () => {
 
     // Utility function to create a delay for visualizing traversal
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+    // this function will decide how much speed the animation will have.
 
     const addVisited = (nodeValue: string) => {
         setVisited(prev => (prev.includes(nodeValue) ? prev : [...prev, nodeValue]));
@@ -53,7 +54,7 @@ const TreesVisual = () => {
 
         setActiveNode(node.value); // Highlight current node
         addVisited(node.value);
-        await delay(600); // Pause to show highlight
+        await delay(800); // Pause to show highlight
 
         await dfs(node.left); // Recursively visit left child
         await dfs(node.right); // Recursively visit right child
@@ -71,7 +72,7 @@ const TreesVisual = () => {
 
             setActiveNode(node.value); // Highlight current node
             addVisited(node.value);
-            await delay(600); // Pause for visualization
+            await delay(800); // Pause for visualization
 
             if (node.left) queue.push(node.left); // Add left child to queue
             if (node.right) queue.push(node.right); // Add right child to queue
@@ -85,7 +86,7 @@ const TreesVisual = () => {
 
         setActiveNode(node.value);
         addVisited(node.value);
-        await delay(600);
+        await delay(900);
 
         await preorder(node.left);
         await preorder(node.right);

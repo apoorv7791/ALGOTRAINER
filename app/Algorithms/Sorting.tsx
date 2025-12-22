@@ -11,16 +11,16 @@ const Sorting = () => {
     const [isLandscape, setIsLandscape] = useState(false);
     const router = useRouter();
 
-    useEffect(() => {
-        // 🔓 Allow rotation both ways
-        ScreenOrientation.unlockAsync();
+    const [showBubble, setShowBubble] = useState(false);
+    const [showSelection, setShowSelection] = useState(false);
+    const [showInsertion, setShowInsertion] = useState(false);
+    const [showMerge, setShowMerge] = useState(false);
 
-        // 📱 Detect orientation changes
+    useEffect(() => {
+        ScreenOrientation.unlockAsync();
         const subscription = Dimensions.addEventListener('change', ({ window }) => {
             setIsLandscape(window.width > window.height);
         });
-
-        // 🧹 Cleanup on unmount
         return () => subscription?.remove();
     }, []);
 
@@ -29,7 +29,6 @@ const Sorting = () => {
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             contentContainerStyle={{ paddingBottom: 30, paddingHorizontal: isLandscape ? 10 : 20 }}
         >
-            {/* 🔹 Header with icon */}
             <View style={styles.headerRow}>
                 <MaterialCommunityIcons
                     name="sort-variant"
@@ -48,85 +47,21 @@ const Sorting = () => {
 
             </View>
 
-            {/* 🔹 Bubble Sort */}
+            {/* Bubble Sort */}
             <View style={styles.section}>
-                <Text
-                    style={[
-                        styles.subHeader,
-                        { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
-                    ]}
-                >
-                    1️⃣ Bubble Sort
-                </Text>
-                <CodeBlock
-                    code={`public class BubbleSort {
-    public static void bubbleSort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++)
-            for (int j = 0; j < arr.length - i - 1; j++)
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {5, 2, 8, 1, 3};
-        bubbleSort(arr);
-        for (int num : arr)
-            System.out.print(num + " ");
-    }
-}`}
-                    language="java"
-                    fontSize={isLandscape ? 10 : 12}
-                />
-                <Text
-                    style={[
-                        styles.description,
-                        { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
-                    ]}
-                >
-                    🔹 Repeatedly compares and swaps adjacent elements.
-                    {"\n"}🔹 Time Complexity: O(n²)
-                    {"\n"}🔹 Space Complexity: O(1)
-                </Text>
-            </View>
-
-            {/* 🔹 Selection Sort */}
-            <View style={styles.section}>
-                <Text
-                    style={[
-                        styles.subHeader,
-                        { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
-                    ]}
-                >
-                    2️⃣ Selection Sort
-                </Text>
-                <CodeBlock
-                    code={`public class SelectionSort {
-    public static void selectionSort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < arr.length; j++)
-                if (arr[j] < arr[minIndex])
-                    minIndex = j;
-
-            int temp = arr[minIndex];
-            arr[minIndex] = arr[i];
-            arr[i] = temp;
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {64, 25, 12, 22, 11};
-        selectionSort(arr);
-        for (int num : arr)
-            System.out.print(num + " ");
-    }
-}`}
-                    language="java"
-                    fontSize={isLandscape ? 10 : 12}
-                />
+                <View style={styles.sectionHeaderRow}>
+                    <Text
+                        style={[
+                            styles.subHeader,
+                            { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                        ]}
+                    >
+                        1️⃣ Bubble Sort
+                    </Text>
+                    <TouchableOpacity onPress={() => setShowBubble(v => !v)} style={styles.toggleBtn}>
+                        <MaterialCommunityIcons name={showBubble ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
 
                 <Text
                     style={[
@@ -134,107 +69,135 @@ const Sorting = () => {
                         { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
                     ]}
                 >
-                    🔹 Finds the minimum element and places it in correct position.
-                    {"\n"}🔹 Time Complexity: O(n²)
-                    {"\n"}🔹 Space Complexity: O(1)
+                    🔹 Swap adjacent elements repeatedly.  •  O(n²) time • O(1) space
                 </Text>
+
+                {showBubble && (
+                    <CodeBlock
+                        code={`public class BubbleSort {\n    public static void bubbleSort(int[] arr) {\n        for (int i = 0; i < arr.length - 1; i++)\n            for (int j = 0; j < arr.length - i - 1; j++)\n                if (arr[j] > arr[j + 1]) {\n                    int temp = arr[j];\n                    arr[j] = arr[j + 1];\n                    arr[j + 1] = temp;\n                }\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
             </View>
-            {/* 🔹 Insertion Sort */}
+
+            {/* Selection Sort */}
             <View style={styles.section}>
+                <View style={styles.sectionHeaderRow}>
+                    <Text
+                        style={[
+                            styles.subHeader,
+                            { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                        ]}
+                    >
+                        2️⃣ Selection Sort
+                    </Text>
+                    <TouchableOpacity onPress={() => setShowSelection(v => !v)} style={styles.toggleBtn}>
+                        <MaterialCommunityIcons name={showSelection ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
+
                 <Text
                     style={[
-                        styles.subHeader,
-                        { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                        styles.description,
+                        { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
                     ]}
                 >
-                    3️⃣ Insertion Sort
+                    🔹 Pick min and put it at correct position.  •  O(n²) time • O(1) space
                 </Text>
-                <CodeBlock
-                    code={`public class InsertionSort {
-    public static void insertionSort(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int key = arr[i];
-            int j = i - 1;
-            while (j >= 0 && arr[j] > key) {
-                arr[j + 1] = arr[j];
-                j--;
-            }
-            arr[j + 1] = key;
-        }
-    }
 
-    public static void main(String[] args) {
-        int[] arr = {12, 11, 13, 5, 6};
-        insertionSort(arr);
-        for (int num : arr)
-            System.out.print(num + " ");
-    }
-}`}
-                    language="java"
-                    fontSize={isLandscape ? 10 : 12}
-                />
+                {showSelection && (
+                    <CodeBlock
+                        code={`public class SelectionSort {\n    public static void selectionSort(int[] arr) {\n        for (int i = 0; i < arr.length - 1; i++) {\n            int minIndex = i;\n            for (int j = i + 1; j < arr.length; j++)\n                if (arr[j] < arr[minIndex])\n                    minIndex = j;\n\n            int temp = arr[minIndex];\n            arr[minIndex] = arr[i];\n            arr[i] = temp;\n        }\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
             </View>
+
+            {/* Insertion Sort */}
+            <View style={styles.section}>
+                <View style={styles.sectionHeaderRow}>
+                    <Text
+                        style={[
+                            styles.subHeader,
+                            { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                        ]}
+                    >
+                        3️⃣ Insertion Sort
+                    </Text>
+                    <TouchableOpacity onPress={() => setShowInsertion(v => !v)} style={styles.toggleBtn}>
+                        <MaterialCommunityIcons name={showInsertion ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
+
+                <Text
+                    style={[
+                        styles.description,
+                        { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
+                    ]}
+                >
+                    🔹 Build sorted left side by inserting elements.  •  O(n²) average • O(1) space
+                </Text>
+
+                {showInsertion && (
+                    <CodeBlock
+                        code={`public class InsertionSort {\n    public static void insertionSort(int[] arr) {\n        for (int i = 1; i < arr.length; i++) {\n            int key = arr[i];\n            int j = i - 1;\n            while (j >= 0 && arr[j] > key) {\n                arr[j + 1] = arr[j];\n                j--;\n            }\n            arr[j + 1] = key;\n        }\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
+            </View>
+
             <Text
                 style={[
                     styles.description,
                     { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
                 ]}
             >
-                🔹 Inserts each element in its correct position.
-                {"\n"}🔹 Time Complexity: O(n²)
-                {"\n"}🔹 Space Complexity: O(1)
+                🔹 Inserts each element in its correct position when applicable.
             </Text>
 
-            {/* 🔹 Merge Sort */}
+            {/* Merge Sort */}
             <View style={styles.section}>
-                <Text
-                    style={[
-                        styles.subHeader,
-                        { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
-                    ]}
-                >
-                    3️⃣ Merge Sort
-                </Text>
-                <CodeBlock
-                    code={`public class MergeSort {
-    public static void mergeSort(int[] arr, int left, int right) {
-        if (left < right) {
-            int mid = (left + right) / 2;
-            mergeSort(arr, left, mid);
-            mergeSort(arr, mid + 1, right);
-            merge(arr, left, mid, right);
-        }
-    }
+                <View style={styles.sectionHeaderRow}>
+                    <Text
+                        style={[
+                            styles.subHeader,
+                            { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 },
+                        ]}
+                    >
+                        4️⃣ Merge Sort
+                    </Text>
+                    <TouchableOpacity onPress={() => setShowMerge(v => !v)} style={styles.toggleBtn}>
+                        <MaterialCommunityIcons name={showMerge ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
 
-    private static void merge(int[] arr, int left, int mid, int right) {
-        int[] L = Arrays.copyOfRange(arr, left, mid + 1);
-        int[] R = Arrays.copyOfRange(arr, mid + 1, right + 1);
-        int i = 0, j = 0, k = left;
-        while (i < L.length && j < R.length)
-            arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];
-        while (i < L.length) arr[k++] = L[i++];
-        while (j < R.length) arr[k++] = R[j++];
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {12, 11, 13, 5, 6, 7};
-        mergeSort(arr, 0, arr.length - 1);
-        for (int num : arr)
-            System.out.print(num + " ");
-    }
-}`}
-                    language="java"
-                    fontSize={isLandscape ? 10 : 12}
-                />
                 <Text
                     style={[
                         styles.description,
                         { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
                     ]}
                 >
-                    🔹 Divide and Conquer algorithm.
-                    {"\n"}🔹 Time Complexity: O(n log n)
-                    {"\n"}🔹 Space Complexity: O(n)
+                    🔹 Divide and conquer; stable and O(n log n).  •  O(n log n) time • O(n) space
+                </Text>
+
+                {showMerge && (
+                    <CodeBlock
+                        code={`public class MergeSort {\n    public static void mergeSort(int[] arr, int left, int right) {\n        if (left < right) {\n            int mid = (left + right) / 2;\n            mergeSort(arr, left, mid);\n            mergeSort(arr, mid + 1, right);\n            merge(arr, left, mid, right);\n        }\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
+
+                <Text
+                    style={[
+                        styles.description,
+                        { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
+                    ]}
+                >
+                    🔹 Merge Sort is good for large data where stable sort is needed.
                 </Text>
                 <TouchableOpacity
                     style={styles.visualizeBtn}
@@ -266,6 +229,15 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         borderRadius: 8,
         backgroundColor: 'rgba(0,0,0,0.05)',
+    },
+    sectionHeaderRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    toggleBtn: {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
     },
     subHeader: {
         fontWeight: '600',

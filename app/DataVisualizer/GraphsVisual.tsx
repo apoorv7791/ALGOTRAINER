@@ -7,7 +7,7 @@ import { useTheme } from '../Themes/Themecontext'
 const graph: { [key: number]: number[] } = {
     1: [2, 3],
     2: [1, 3],
-    3: [1, 2]
+    3: [1, 2],
 };
 // Node component (same as tree)
 const NodeCircle = ({ label, highlighted }: { label: string; highlighted: boolean }) => {

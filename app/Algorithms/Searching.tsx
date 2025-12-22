@@ -1,95 +1,76 @@
-import React from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Searching = () => {
     const { theme } = useTheme();
     const router = useRouter();
+    const [isLandscape, setIsLandscape] = useState(false);
+    const [showLinear, setShowLinear] = useState(false);
+    const [showBinary, setShowBinary] = useState(false);
+
+    useEffect(() => {
+        ScreenOrientation.unlockAsync();
+        const s = Dimensions.addEventListener('change', ({ window }) => {
+            setIsLandscape(window.width > window.height);
+        });
+        return () => s?.remove();
+    }, []);
 
     return (
         <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
-            contentContainerStyle={{ paddingBottom: 40 }}
+            contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: isLandscape ? 10 : 16 }}
             showsVerticalScrollIndicator={false}
         >
-            <Text style={[styles.header, { color: theme.colors.text }]}>🔍 Searching Algorithms</Text>
+            <View style={styles.headerRow}>
+                <MaterialCommunityIcons name="magnify" size={isLandscape ? 20 : 26} color={theme.colors.text} />
+                <Text style={[styles.header, { color: theme.colors.text, fontSize: isLandscape ? 18 : 20 }]}>Searching Algorithms</Text>
+            </View>
 
             {/* Linear Search */}
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>1️⃣ Linear Search</Text>
-                <CodeBlock
-                    code={`public class LinearSearch {
-    public static int search(int[] arr, int target) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == target) {
-                return i; // Element found
-            }
-        }
-        return -1; // Element not found
-    }
+                <View style={styles.sectionHeaderRow}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>1️⃣ Linear Search</Text>
+                    <TouchableOpacity style={styles.toggleBtn} onPress={() => setShowLinear(v => !v)}>
+                        <MaterialCommunityIcons name={showLinear ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
 
-    public static void main(String[] args) {
-        int[] arr = {5, 8, 2, 7, 3};
-        int target = 7;
-        int result = search(arr, target);
-        if (result != -1)
-            System.out.println("Element found at index: " + result);
-        else
-            System.out.println("Element not found.");
-    }
-}`}
-                    language="java"
-                    fontSize={12} // 🔽 smaller font for readability
-                />
-                <Text style={[styles.description, { color: theme.colors.text }]}>
-                    🔹 Linear Search goes through each element one by one until it finds the target.
-                    {'\n'}🔹 Time Complexity: O(n)
-                    {'\n'}🔹 Space Complexity: O(1)
-                </Text>
+                <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Scan elements sequentially; good for unsorted lists.  •  O(n) time • O(1) space</Text>
+
+                {showLinear && (
+                    <CodeBlock
+                        code={`public class LinearSearch {\n    public static int search(int[] arr, int target) {\n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target) {\n                return i; // Element found\n            }\n        }\n        return -1; // Element not found\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
             </View>
 
             {/* Binary Search */}
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>2️⃣ Binary Search</Text>
-                <CodeBlock
-                    code={`public class BinarySearch {
-    public static int search(int[] arr, int target) {
-        int left = 0, right = arr.length - 1;
+                <View style={styles.sectionHeaderRow}>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>2️⃣ Binary Search</Text>
+                    <TouchableOpacity style={styles.toggleBtn} onPress={() => setShowBinary(v => !v)}>
+                        <MaterialCommunityIcons name={showBinary ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    </TouchableOpacity>
+                </View>
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+                <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Efficient on sorted arrays; halves the search space.  •  O(log n) time • O(1) space</Text>
 
-            if (arr[mid] == target)
-                return mid;
-            else if (arr[mid] < target)
-                left = mid + 1;
-            else
-                right = mid - 1;
-        }
-        return -1; // Element not found
-    }
+                {showBinary && (
+                    <CodeBlock
+                        code={`public class BinarySearch {\n    public static int search(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n\n            if (arr[mid] == target)\n                return mid;\n            else if (arr[mid] < target)\n                left = mid + 1;\n            else\n                right = mid - 1;\n        }\n        return -1; // Element not found\n    }\n}`}
+                        language="java"
+                        fontSize={isLandscape ? 10 : 12}
+                    />
+                )}
 
-    public static void main(String[] args) {
-        int[] arr = {2, 4, 6, 8, 10, 12, 14};
-        int target = 10;
-        int result = search(arr, target);
-        if (result != -1)
-            System.out.println("Element found at index: " + result);
-        else
-            System.out.println("Element not found.");
-    }
-}`}
-                    language="java"
-                    fontSize={12}
-                />
-                <Text style={[styles.description, { color: theme.colors.text }]}>
-                    🔹 Binary Search works only on sorted arrays.
-                    {'\n'}🔹 It repeatedly divides the array into halves.
-                    {'\n'}🔹 Time Complexity: O(log n)
-                    {'\n'}🔹 Space Complexity: O(1)
-                </Text>
                 <TouchableOpacity
                     style={styles.visualizeBtn}
                     onPress={() => router.push('/AlgoVisualizer/SearchVisual')}
@@ -105,10 +86,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        marginVertical: 18,
+    },
     header: {
-        fontSize: 20, // 🔽 slightly smaller for balance
+        fontSize: 20,
         fontWeight: '700',
-        marginVertical: 20,
+        marginLeft: 8,
         textAlign: 'center',
     },
     section: {
@@ -118,14 +106,23 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         elevation: 2,
     },
+    sectionHeaderRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    toggleBtn: {
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+    },
     subHeader: {
-        fontSize: 15, // 🔽 smaller subheader
+        fontSize: 15,
         fontWeight: '600',
         marginBottom: 6,
     },
     description: {
         marginTop: 8,
-        fontSize: 13, // 🔽 smaller text for compactness
+        fontSize: 13,
         lineHeight: 19,
     },
     visualizeBtn: {

@@ -163,18 +163,47 @@ const SortingVisual = () => {
 
                 ))}
             </View>
-            <TouchableOpacity style={styles.button} onPress={BubbleSort} disabled={activeAlgo !== null}>
-                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'BubbleSort' ? 'Sorting...' : 'Start Bubble Sort'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={InsertionSort} disabled={activeAlgo !== null}>
-                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'InsertionSort' ? 'Sorting...' : 'Start Insertion Sort'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={MergeSort} disabled={activeAlgo !== null}>
-                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'MergeSort' ? 'Sorting...' : 'Start Merge Sort'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={resetArray} disabled={activeAlgo !== null}>
-                <Text style={styles.buttonText}>{sorting}{activeAlgo === 'reset' ? 'Resetting...' : 'Reset Array'}</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonGrid}>
+                <TouchableOpacity
+                    style={styles.gridButton}
+                    onPress={BubbleSort}
+                    disabled={activeAlgo !== null}
+                >
+                    <Text style={styles.buttonText}>
+                        {activeAlgo === 'BubbleSort' ? 'Sorting...' : 'Bubble Sort'}
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.gridButton}
+                    onPress={InsertionSort}
+                    disabled={activeAlgo !== null}
+                >
+                    <Text style={styles.buttonText}>
+                        {activeAlgo === 'InsertionSort' ? 'Sorting...' : 'Insertion Sort'}
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.gridButton}
+                    onPress={MergeSort}
+                    disabled={activeAlgo !== null}
+                >
+                    <Text style={styles.buttonText}>
+                        {activeAlgo === 'MergeSort' ? 'Sorting...' : 'Merge Sort'}
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.gridButton, styles.resetButton]}
+                    onPress={resetArray}
+                    disabled={activeAlgo !== null}
+                >
+                    <Text style={styles.buttonText}>
+                        {activeAlgo === 'reset' ? 'Resetting...' : 'Reset'}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -207,7 +236,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
     },
+    gridButton: {
+        width: '45%',
+        padding: 15,
+        margin: 5,
+        backgroundColor: 'navy',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    buttonGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        width: '90%',
+        marginTop: 40,
+    },
 
+    resetButton: {
+        backgroundColor: '#dc2626', // red for reset (UX clarity)
+    },
 
 })
 
