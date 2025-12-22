@@ -147,16 +147,16 @@ const Sorting = () => {
                         fontSize={isLandscape ? 10 : 12}
                     />
                 )}
+                <Text
+                    style={[
+                        styles.description,
+                        { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
+                    ]}
+                >
+                    🔹 Inserts each element in its correct position when applicable.
+                </Text>
             </View>
 
-            <Text
-                style={[
-                    styles.description,
-                    { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 },
-                ]}
-            >
-                🔹 Inserts each element in its correct position when applicable.
-            </Text>
 
             {/* Merge Sort */}
             <View style={styles.section}>
