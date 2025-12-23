@@ -175,14 +175,14 @@ const GraphsVisual = () => {
                 {/* DFS explanation */}
                 <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How DFS works?</Text>
                 <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>
-                    * DFS (Depth-First Search) is a tree traversal algorithm that explores as far as possible along each branch before backtracking.
+                    * DFS (Depth-First Search) is a  traversal algorithm that explores as far as possible along each branch before backtracking.
 
                 </Text>
 
                 {/* BFS explanation */}
                 <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How BFS works?</Text>
                 <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>
-                    * BFS (Breadth-First Search) is a tree traversal algorithm that explores all nodes at the present depth prior to moving on to nodes at the next depth level.
+                    * BFS (Breadth-First Search) is a traversal algorithm that explores all nodes at the present depth prior to moving on to nodes at the next depth level.
 
                 </Text>
             </View>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions, Animated } from 'react-native';
 import { useTheme } from '@/app/Themes/Themecontext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
@@ -13,6 +13,11 @@ const Searching = () => {
     const [showLinear, setShowLinear] = useState(false);
     const [showBinary, setShowBinary] = useState(false);
 
+    const LinearAnim = useRef(new Animated.Value(0)).current;
+    const BinaryAnim = useRef(new Animated.Value(0)).current;
+
+    const AnimatedIcon = Animated.createAnimatedComponent(MaterialCommunityIcons);
+
     useEffect(() => {
         ScreenOrientation.unlockAsync();
         const s = Dimensions.addEventListener('change', ({ window }) => {
@@ -20,6 +25,33 @@ const Searching = () => {
         });
         return () => s?.remove();
     }, []);
+
+    const toggleAnimated = (visible: boolean, setVisible: (v: boolean) => void, anim: Animated.Value) => {
+        if (visible) {
+            Animated.timing(anim, {
+                toValue: 0,
+                duration: 200,
+                useNativeDriver: true,
+            }).start(() => setVisible(false));
+        } else {
+            setVisible(true);
+            Animated.timing(anim, {
+                toValue: 1,
+                duration: 220,
+                useNativeDriver: true,
+            }).start();
+        }
+    };
+
+    const rotateStyle = (anim: Animated.Value) => {
+        const rotate = anim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
+        return { transform: [{ rotate }] };
+    };
+    const expandStyle = (anim: Animated.Value) => ({
+        opacity: anim,
+        transform: [{ scaleY: anim.interpolate({ inputRange: [0, 1], outputRange: [0.95, 1] }) }],
+        overflow: 'hidden' as const,
+    });
 
     return (
         <ScrollView
@@ -36,19 +68,21 @@ const Searching = () => {
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <View style={styles.sectionHeaderRow}>
                     <Text style={[styles.subHeader, { color: theme.colors.text }]}>1️⃣ Linear Search</Text>
-                    <TouchableOpacity style={styles.toggleBtn} onPress={() => setShowLinear(v => !v)}>
-                        <MaterialCommunityIcons name={showLinear ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    <TouchableOpacity style={styles.toggleBtn} onPress={() => toggleAnimated(showLinear, setShowLinear, LinearAnim)}>
+                        <AnimatedIcon name={showLinear ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} style={rotateStyle(LinearAnim)} />
                     </TouchableOpacity>
                 </View>
 
                 <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Scan elements sequentially; good for unsorted lists.  •  O(n) time • O(1) space</Text>
 
                 {showLinear && (
-                    <CodeBlock
-                        code={`public class LinearSearch {\n    public static int search(int[] arr, int target) {\n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target) {\n                return i; // Element found\n            }\n        }\n        return -1; // Element not found\n    }\n}`}
-                        language="java"
-                        fontSize={isLandscape ? 10 : 12}
-                    />
+                    <Animated.View style={expandStyle(LinearAnim)}>
+                        <CodeBlock
+                            code={`public class LinearSearch {\n    public static int search(int[] arr, int target) {\n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target) {\n                return i; // Element found\n            }\n        }\n        return -1; // Element not found\n    }\n}`}
+                            language="java"
+                            fontSize={isLandscape ? 8 : 10}
+                        />
+                    </Animated.View>
                 )}
             </View>
 
@@ -56,19 +90,21 @@ const Searching = () => {
             <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
                 <View style={styles.sectionHeaderRow}>
                     <Text style={[styles.subHeader, { color: theme.colors.text }]}>2️⃣ Binary Search</Text>
-                    <TouchableOpacity style={styles.toggleBtn} onPress={() => setShowBinary(v => !v)}>
-                        <MaterialCommunityIcons name={showBinary ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} />
+                    <TouchableOpacity style={styles.toggleBtn} onPress={() => toggleAnimated(showBinary, setShowBinary, BinaryAnim)}>
+                        <AnimatedIcon name={showBinary ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} style={rotateStyle(BinaryAnim)} />
                     </TouchableOpacity>
                 </View>
 
                 <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Efficient on sorted arrays; halves the search space.  •  O(log n) time • O(1) space</Text>
 
                 {showBinary && (
-                    <CodeBlock
-                        code={`public class BinarySearch {\n    public static int search(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n\n            if (arr[mid] == target)\n                return mid;\n            else if (arr[mid] < target)\n                left = mid + 1;\n            else\n                right = mid - 1;\n        }\n        return -1; // Element not found\n    }\n}`}
-                        language="java"
-                        fontSize={isLandscape ? 10 : 12}
-                    />
+                    <Animated.View style={expandStyle(BinaryAnim)}>
+                        <CodeBlock
+                            code={`public class BinarySearch {\n    public static int search(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n\n            if (arr[mid] == target)\n                return mid;\n            else if (arr[mid] < target)\n                left = mid + 1;\n            else\n                right = mid - 1;\n        }\n        return -1; // Element not found\n    }\n}`}
+                            language="java"
+                            fontSize={isLandscape ? 8 : 10}
+                        />
+                    </Animated.View>
                 )}
 
                 <TouchableOpacity
