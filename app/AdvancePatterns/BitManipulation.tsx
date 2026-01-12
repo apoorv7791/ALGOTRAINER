@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import CodeBlock from '../CodeBlock/CodeBlock';
 import { Subheader } from 'react-native-paper/lib/typescript/components/List/List';
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Text, StyleSheet, FlatList, View, Platform } from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import ExpandableItems from '../components/ExpandableItems';
 import { useRouter } from "expo-router";
 import * as ScreenOrientation from 'expo-screen-orientation';

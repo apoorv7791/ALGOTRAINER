@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
 

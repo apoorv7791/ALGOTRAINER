@@ -2,9 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { LogBox } from 'react-native';
 
 const HomeScreen = () => {
     const insets = useSafeAreaInsets();
@@ -13,7 +12,6 @@ const HomeScreen = () => {
 
     const [isLandscape, setIsLandscape] = React.useState(false);
 
-    LogBox.ignoreAllLogs();  // silences everything (use only temporarily)
     React.useEffect(() => {
         // Allow both orientations
         ScreenOrientation.unlockAsync();
@@ -33,27 +31,28 @@ const HomeScreen = () => {
             title: 'AlgoTrainer',
             description: 'Learn Data Structures & Algorithms the smart way',
             icon: 'school',
-            color: '#4CAF50'
+            color: '#4CAF50',
         },
         {
             title: 'Interactive Learning',
             description: 'Visualize algorithms with step-by-step animations',
-            icon: 'animation',
-            color: '#2196F3'
+            icon: 'play-circle-outline', // ✅ valid
+            color: '#2196F3',
         },
         {
             title: 'Practice Problems',
             description: 'Solve problems with real-time feedback',
             icon: 'code',
-            color: '#FF9800'
+            color: '#FF9800',
         },
         {
             title: 'Track Progress',
             description: 'Monitor your learning journey',
             icon: 'trending-up',
-            color: '#9C27B0'
+            color: '#9C27B0',
         },
     ];
+
 
     const handleToggleTheme = () => {
         // call the theme toggle from context and log the change

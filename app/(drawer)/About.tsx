@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 const About = () => {

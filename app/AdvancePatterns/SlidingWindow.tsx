@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import CodeBlock from '../CodeBlock/CodeBlock';
 
 const SlidingWindow = () => {

@@ -10,7 +10,6 @@ const TabsLayout = () => {
                     title: 'Home',
                 }}
             />
-
             <Tabs.Screen
                 name="profile"
                 options={{

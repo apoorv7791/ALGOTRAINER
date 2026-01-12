@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native'
 import React from 'react'
-import { useTheme } from '../Themes/Themecontext'
+import { useTheme } from '../Themes/ThemeContext'
 
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack } from 'expo-router/stack';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 
 const AlgorithmsLayout = () => {
     const { theme } = useTheme();

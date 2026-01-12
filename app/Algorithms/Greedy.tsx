@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { Dimensions } from 'react-native';

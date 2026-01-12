@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions, Animated } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

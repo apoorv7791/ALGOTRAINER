@@ -1,9 +1,9 @@
 // app/(drawer)/DataVisualizer/arrays.tsx
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import { LinearTransition, FadeIn, FadeOut } from 'react-native-reanimated';
-import { MotiView, AnimatePresence } from 'moti';
+import { MotiView } from 'moti';
 
 
 
@@ -45,9 +45,12 @@ export default function ArrayVisual() {
     }
 
     const deleteAtfront = () => {
-        if (arr.length === 0) return;
-        setMessage('Array is Empty')
+        if (arr.length === 0) {
+            setMessage('Array is Empty');
+            return;
+        }
         setArr(arr.slice(1));
+        setMessage('');
     }
 
     return (
@@ -63,55 +66,54 @@ export default function ArrayVisual() {
 
             {/* Array */}
             <View style={styles.arrayRow}>
-                <AnimatePresence>
 
-                    {arr.map((value, index) => (
-                        <MotiView
-                            key={`${index}-${value}`}
-                            /** Layout animation (smooth shifting) */
-                            layout={LinearTransition.springify().duration(350)}
-                            entering={FadeIn.duration(300)} // linear fade-in on push
-                            exiting={FadeOut.duration(300)}
-                            /** ENTER (Push) */
-                            from={{
-                                opacity: 0,
-                                scale: 0.6,
-                                translateY: -20,
-                            }}
-                            animate={{
-                                opacity: 1,
-                                scale: 1,
-                                translateY: 0,
-                            }}
-                            transition={{
-                                type: "timing",
-                                duration: 350,
-                            }}
-                            /** EXIT — SAME FOR POP AND DELETE AT FRONT*/
-                            exit={{
-                                opacity: 0,
-                                scale: 0.6,
-                                translateY: -20,
-                            }}
+
+                {arr.map((value, index) => (
+                    <MotiView
+                        key={`${index}-${value}`}
+                        /** Layout animation (smooth shifting) */
+                        layout={LinearTransition.springify().duration(350)}
+                        entering={FadeIn.duration(300)} // linear fade-in on push
+                        exiting={FadeOut.duration(300)}
+                        /** ENTER (Push) */
+                        from={{
+                            opacity: 0,
+                            scale: 0.6,
+                            translateY: -20,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                            translateY: 0,
+                        }}
+                        transition={{
+                            type: "timing",
+                            duration: 350,
+                        }}
+                        /** EXIT — SAME FOR POP AND DELETE AT FRONT*/
+                        exit={{
+                            opacity: 0,
+                            scale: 0.6,
+                            translateY: -20,
+                        }}
+                    >
+                        <TouchableOpacity
+                            key={index}
+                            style={[
+                                styles.box,
+                                highlight === index && styles.highlight,
+                                { borderColor: theme.colors.primary, backgroundColor: theme.colors.surface },
+                            ]}
+                            onPress={() => highlightBox(index)}
                         >
-                            <TouchableOpacity
-                                key={index}
-                                style={[
-                                    styles.box,
-                                    highlight === index && styles.highlight,
-                                    { borderColor: theme.colors.primary, backgroundColor: theme.colors.surface },
-                                ]}
-                                onPress={() => highlightBox(index)}
-                            >
-                                <Text style={[styles.value, { color: theme.colors.text }]}>
-                                    {value}
-                                </Text>
-                                <Text style={styles.index}>[{index}]</Text>
-                            </TouchableOpacity>
-                        </MotiView>
+                            <Text style={[styles.value, { color: theme.colors.text }]}>
+                                {value}
+                            </Text>
+                            <Text style={styles.index}>[{index}]</Text>
+                        </TouchableOpacity>
+                    </MotiView>
 
-                    ))}
-                </AnimatePresence>
+                ))}
             </View>
 
 

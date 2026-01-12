@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 
 const TwoPointers = () => {
     const { theme } = useTheme();

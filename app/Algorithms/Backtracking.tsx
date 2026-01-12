@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useRouter } from 'expo-router';

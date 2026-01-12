@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import { Stack } from 'expo-router/stack';
 
 const AdvancePatternsLayout = () => {

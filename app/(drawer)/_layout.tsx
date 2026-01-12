@@ -2,7 +2,7 @@
 import { Drawer } from 'expo-router/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import React from 'react';
 
 export default function DrawerLayout() {
@@ -42,7 +42,7 @@ export default function DrawerLayout() {
                     fontWeight: 'bold',
                     fontSize: 20,
                 },
-                hedearTitleContainerStyle: {
+                headerTitleContainerStyle: {
                     position: 'absolute',
                     left: 0,
                     right: 0,

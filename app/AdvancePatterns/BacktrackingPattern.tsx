@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import CodeBlock from '../CodeBlock/CodeBlock';
 

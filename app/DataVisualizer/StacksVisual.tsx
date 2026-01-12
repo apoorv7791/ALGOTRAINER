@@ -1,7 +1,7 @@
 // app/(drawer)/DataVisualizer/StacksVisual.tsx
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Animated, Easing } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 
 export default function StacksVisual() {
     const { theme } = useTheme();

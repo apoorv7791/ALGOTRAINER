@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, Dimensions } from 'react-native';
-import { useTheme } from '@/app/Themes/Themecontext';
+import { useTheme } from '@/app/Themes/ThemeContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 

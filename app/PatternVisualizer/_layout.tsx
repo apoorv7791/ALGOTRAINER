@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router/stack';
 import React from 'react';
-import { useTheme } from '../Themes/Themecontext';
+import { useTheme } from '../Themes/ThemeContext';
 
 
 const PatternLayout = () => {

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { useTheme } from '../Themes/Themecontext'
+import { useTheme } from '../Themes/ThemeContext'
 
 
 // Graph adjacency list

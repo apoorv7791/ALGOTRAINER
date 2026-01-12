@@ -1,7 +1,7 @@
 // Importing necessary components from React Native
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'; // Basic UI elements, buttons, scroll
 import React, { useState } from 'react'; // React core + useState for state management
-import { useTheme } from '@/app/Themes/Themecontext'; // Custom hook for app theming
+import { useTheme } from '@/app/Themes/ThemeContext'; // Custom hook for app theming
 
 // Define the binary tree data structure
 const tree = {
