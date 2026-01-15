@@ -27,7 +27,7 @@ const NodeCircle = ({ label, highlighted }: { label: string, highlighted: boolea
             styles.node, // Base styling for node
             { backgroundColor: highlighted ? '#FF6B6B' : theme.colors.primary } // Highlight node if active, else primary color
         ]}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{label}</Text> {/* Display node value */}
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>{label}</Text>
         </View>
     );
 };
@@ -94,7 +94,7 @@ const TreesVisual = () => {
 
                 {/* Root Node */}
                 <View style={styles.rootWrapper}>
-                    <NodeCircle label="1" highlighted={activeNode === "1"} /> {/* Highlight if active */}
+                    <NodeCircle label="1" highlighted={activeNode === "1"} />
                 </View>
 
                 {/* Level 1 nodes */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { useTheme } from '../Themes/ThemeContext';
 import { LayoutAnimation, Platform, UIManager } from 'react-native';
 
@@ -14,7 +14,7 @@ const SearchVisual = () => {
     const [leftIndex, setLeftIndex] = React.useState<number | null>(null);
     const [message, setMessage] = React.useState<string>('');
     const [activeAlgo, setActiveAlgo] = React.useState<string | null>(null);
-
+    const [target, setTarget] = React.useState<string>('');
 
 
     React.useEffect(() => {
@@ -51,6 +51,14 @@ const SearchVisual = () => {
         setSearchingAlgo(null);
     };
 
+    const getTargetNumber = () => {
+        const num = Number(target);
+        if (isNaN(num)) {
+            setMessage('Please enter a valid number');
+            return null;
+        }
+        return num;
+    };
 
 
     // Binary Search
@@ -120,15 +128,22 @@ const SearchVisual = () => {
     };
     // reset array function 
     const resetArray = () => {
-        setArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-        setCurrentIndex(null);
-        setMessage('');
-        setLeftIndex(null);
-        setRightIndex(null);
+        // stop any running search
+        setSearchingAlgo(null);
         setActiveAlgo(null);
 
+        // reset visualization
+        setArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        setCurrentIndex(null);
+        setLeftIndex(null);
+        setRightIndex(null);
 
-    }
+        // reset UI state
+        setMessage('');
+        setTarget('');
+    };
+
+
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
             <Text style={[styles.title, { color: theme.colors.text }]}>Searching Visualizer</Text>
@@ -140,8 +155,24 @@ const SearchVisual = () => {
             }}>
                 {activeAlgo ? `Active Algorithm: ${activeAlgo}` : 'No Algorithm Running'}
             </Text>
-
+            <View style={styles.inputWrapper}>
+                <TextInput
+                    placeholder="Enter your target number"
+                    value={target}
+                    onChangeText={setTarget}
+                    keyboardType="numeric"
+                    style={[
+                        styles.input,
+                        {
+                            color: theme.colors.text,
+                            borderColor: theme.colors.primary
+                        }
+                    ]}
+                />
+            </View>
             <View style={styles.arrayContainer}>
+                {/* Search Input */}
+
                 {array.map((value, index) => {
                     let bgColor = theme.colors.primary;
                     // checing current index
@@ -164,14 +195,16 @@ const SearchVisual = () => {
                         <View
                             key={index}
                             style={{
-                                width: 50,
-                                height: 40,
-                                margin: 5,
+                                width: 40,      // ↓ from 50
+                                height: 32,     // ↓ from 40
+                                margin: 4,      // ↓ tighter spacing
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: bgColor,
+                                borderRadius: 6, // small polish
                                 position: 'relative',
                             }}
+
                         >
                             {index === currentIndex && (
                                 <Text style={[
@@ -216,32 +249,30 @@ const SearchVisual = () => {
             <View style={styles.grid}>
                 {/* Linear Search Button */}
                 <TouchableOpacity
-                    style={[
-                        styles.gridButton,
-                        activeAlgo === 'Linear Search' && { backgroundColor: 'green' }
-                    ]}
-                    onPress={() => LinearSearch(5)}
-                    disabled={searchingAlgo === 'Linear Search'}
+                    style={styles.gridButton}
+                    disabled={!!activeAlgo || !target}
+                    onPress={() => {
+                        const num = getTargetNumber();
+                        if (num !== null) LinearSearch(num);
+                    }}
                 >
                     <Text style={styles.buttonText}>
-                        {searchingAlgo === 'Linear Search' ? 'Searching...' : 'Start Linear Search'}
+                        {activeAlgo === 'Linear Search' ? 'Searching...' : 'Start Linear Search'}
                     </Text>
                 </TouchableOpacity>
-
                 {/* Binary Search Button */}
                 <TouchableOpacity
-                    style={[
-                        styles.gridButton,
-                        activeAlgo === 'Binary Search' && { backgroundColor: 'green' }
-                    ]}
-                    onPress={() => BinarySearch(4)}
-                    disabled={searchingAlgo === 'Binary Search'}
+                    style={styles.gridButton}
+                    disabled={!!activeAlgo || !target}
+                    onPress={() => {
+                        const num = getTargetNumber();
+                        if (num !== null) BinarySearch(num);
+                    }}
                 >
                     <Text style={styles.buttonText}>
-                        {searchingAlgo === 'Binary Search' ? 'Searching...' : 'Start Binary Search'}
+                        {activeAlgo === 'Binary Search' ? 'Searching...' : 'Start Binary Search'}
                     </Text>
                 </TouchableOpacity>
-
                 {/* Reset Button */}
                 <TouchableOpacity
                     style={[styles.gridButton, activeAlgo === 'reset' && { backgroundColor: 'green' }]}
@@ -249,8 +280,6 @@ const SearchVisual = () => {
                 >
                     <Text style={styles.buttonText}>Reset Array</Text>
                 </TouchableOpacity>
-
-
             </View>
             {/* Message */}
             {message ? <Text style={{ color: theme.colors.text, marginTop: 20 }}>{message}</Text> : null}
@@ -304,6 +333,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'navy',
         borderRadius: 10,
         alignItems: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        padding: 10,
+        marginBottom: 20,
+        width: '80%',
+        borderRadius: 5,
+    },
+    inputWrapper: {
+        width: '90%',
+        marginBottom: 20,
     },
 })
 
