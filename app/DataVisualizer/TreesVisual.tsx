@@ -81,35 +81,6 @@ const TreesVisual = () => {
 
     // Traversal methods for Tree
 
-    const preorder = async (node: any) => {
-        if (!node) return;
-
-        setActiveNode(node.value);
-        addVisited(node.value);
-        await delay(900);
-
-        await preorder(node.left);
-        await preorder(node.right);
-    }
-
-    const inorder = async (node: any) => {
-        if (!node) return;
-
-        await inorder(node.left);
-        setActiveNode(node.value);
-        addVisited(node.value);
-        await delay(600);
-        await inorder(node.right);
-    }
-    const postorder = async (node: any) => {
-        if (!node) return;
-
-        await postorder(node.left);
-        await postorder(node.right);
-        setActiveNode(node.value);
-        addVisited(node.value);
-        await delay(600);
-    }
 
     React.useEffect(() => {
         if (!traversing) return;
@@ -175,18 +146,6 @@ const TreesVisual = () => {
                         }}
                     >
                         <Text style={styles.btnText}>Reset</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.gridButton, { backgroundColor: theme.colors.primary }]}
-                        onPress={async () => {
-                            setVisited([]);
-                            setActiveNode(null);
-                            setTraversing(true);
-                            await preorder(tree);
-                            setTraversing(false);
-                        }}
-                    >
-                        <Text style={styles.btnText}>Pre Order</Text>
                     </TouchableOpacity>
                 </View>
 
