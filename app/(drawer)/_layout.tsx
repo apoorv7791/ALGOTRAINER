@@ -12,7 +12,16 @@ export default function DrawerLayout() {
         <Drawer
             screenOptions={({ navigation }) => ({
                 headerTitle: 'AlgoTrainer',
-                headerTitleAlign: 'center',
+                headerTitleContainerStyle: {
+                    position: 'absolute',
+                    left: '50%',
+                    transform: [{ translateX: -50 }],
+                    top: 15,
+                    right: 69,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: -10,
+                },
                 headerStyle: {
                     backgroundColor: theme.colors.primary || '#6200ee',
                 },
@@ -42,14 +51,7 @@ export default function DrawerLayout() {
                     fontWeight: 'bold',
                     fontSize: 20,
                 },
-                headerTitleContainerStyle: {
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: -10,
-                },
+
 
 
                 drawerActiveTintColor: theme.colors.primary,
