@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../Themes/ThemeContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
+
 const HomeScreen = () => {
     const insets = useSafeAreaInsets();
     const { theme, isDark, toggleTheme } = useTheme();
