@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { useTheme } from '../Themes/ThemeContext';
 
 const LinkedListVisual = () => {
     const { theme } = useTheme();
 
-    const list = [20, 30, 40, 50];
+    const list = [10, 20, 30, 40, 50];
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background, paddingTop: 40 }]}>
@@ -17,51 +17,36 @@ const LinkedListVisual = () => {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 30 }}
                     style={{ maxHeight: 180, marginVertical: 20 }} >
-                    <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                        <View style={[styles.listWrapper,]}>
-                            {/* Head */}
-                            <View style={[styles.nodeWrapper, styles.firstLastOffset]}>
+                    <View style={styles.listRow}>
+                        {list.map((item, index) => (
+                            <View
+                                key={index}
+                                style={[
+                                    styles.nodeWrapper,
+                                    index === 0 || index === list.length - 1 ? styles.firstLastOffset : null,
+                                ]}
+                            >
                                 <View style={styles.nodeContainer}>
-                                    <View style={[styles.nodeBox, { borderColor: theme.colors.primary }]}>
-                                        <Text style={[styles.nodeValue, { color: theme.colors.text }]}>10</Text>
-                                    </View>
-                                    <Text style={styles.arrow}>➜</Text>
-                                </View>
-                                <Text style={[styles.bottomLabel, { left: -11 }]}>HEAD ↑</Text>
-
-                            </View>
-
-                            {/* Middle nodes */}
-                            <View style={styles.listRow}>
-                                {list.map((item, index) => (
-                                    <View key={index} style={styles.nodeContainer}>
-                                        <View style={[
+                                    <View
+                                        style={[
                                             styles.nodeBox,
-                                            { borderColor: theme.colors.primary }
-                                        ]}>
-                                            <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
-                                                {item}
-                                            </Text>
-                                        </View>
-                                        <View style={{ justifyContent: 'center' }}>
-                                            <Text style={styles.arrow}>➜</Text>
-                                        </View>
+                                            { borderColor: theme.colors.primary, backgroundColor: theme.colors.card },
+                                        ]}
+                                    >
+                                        <Text style={[styles.nodeValue, { color: theme.colors.text }]}>
+                                            {index === list.length - 1 ? 'NULL' : item}
+                                        </Text>
                                     </View>
-                                ))}
-                            </View>
-                            { /* Tail */}
-                            <View style={[styles.nodeWrapper, styles.firstLastOffset]}>
-                                <View style={styles.nodeContainer}>
-                                    <View style={[styles.nodeBox, { borderColor: theme.colors.primary }]}>
-                                        <Text style={[styles.nodeValue, { color: theme.colors.text }]}>NULL</Text>
-                                    </View>
+                                    {index !== list.length - 1 && <Text style={styles.arrow}>➜</Text>}
                                 </View>
-
-                                <Text style={styles.bottomLabel}>↑ TAIL</Text>
+                                {index === 0 && <Text style={[styles.bottomLabel, { left: -11 }]}>HEAD ↑</Text>}
+                                {index === list.length - 1 && <Text style={styles.bottomLabel}>↑ TAIL</Text>}
                             </View>
-
-                        </View>
+                        ))}
                     </View>
+
+
+
                 </ScrollView>
             </View>
 
