@@ -39,7 +39,6 @@ const TreesVisual = () => {
     const [visited, setVisited] = useState<string[]>([]);   // <-- Line 42
     const [traversing, setTraversing] = useState<boolean>(false);  // <-- Line 43
 
-
     // Utility function to create a delay for visualizing traversal
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
     // this function will decide how much speed the animation will have.
@@ -80,17 +79,24 @@ const TreesVisual = () => {
     };
 
     // Traversal methods for Tree
-
-
     React.useEffect(() => {
         if (!traversing) return;
         bfs(tree);
     }, [traversing, tree]);
 
+    // ✅ Safety check: Ensure theme is loaded
+    if (!theme || !theme.colors) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#121212' }}>
+                <Text style={{ color: '#fff' }}>Loading theme...</Text>
+            </View>
+        );
+    }
+
     return (
-        <ScrollView> {/* Enable scrolling if content overflows */}
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ backgroundColor: theme.colors.background }}>
             <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visualizer</Text> {/* Title */}
+                <Text style={[styles.title, { color: theme.colors.text }]}>Tree Visualizer</Text>
 
                 {/* Root Node */}
                 <View style={styles.rootWrapper}>
@@ -158,19 +164,17 @@ const TreesVisual = () => {
                 </Text>
 
                 {/* Explanation box */}
-                <View style={styles.explanationBox}>
+                <View style={[styles.explanationBox, { backgroundColor: theme.colors.surface }]}>
                     {/* DFS explanation */}
                     <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How DFS works?</Text>
                     <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>
                         * DFS (Depth-First Search) is a tree traversal algorithm that explores as far as possible along each branch before backtracking.
-
                     </Text>
 
                     {/* BFS explanation */}
                     <Text style={[styles.explanationTitle, { color: theme.colors.primary }]}>How BFS works?</Text>
                     <Text style={[styles.explanationText, { color: theme.colors.textSecondary }]}>
                         * BFS (Breadth-First Search) is a tree traversal algorithm that explores all nodes at the present depth prior to moving on to nodes at the next depth level.
-
                     </Text>
                 </View>
             </View>
@@ -212,7 +216,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 12,
         padding: 16,
-        backgroundColor: '#111827' // Dark box background
+        marginHorizontal: 20,
+        marginBottom: 20,
     },
     explanationTitle: { fontSize: 16, fontWeight: '700', marginBottom: 8 }, // Section title
     explanationText: { fontSize: 14, lineHeight: 20 }, // Explanation text

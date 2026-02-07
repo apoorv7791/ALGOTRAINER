@@ -6,9 +6,7 @@ const BackTrackingVisual = () => {
     const { theme } = useTheme();
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-            <Text style={[styles.header, { color: theme.colors.text }]}>
-                Backtracking Visualizer
-            </Text>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Watch how Backtracking works</Text>
         </View>
     );
 }
@@ -17,18 +15,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20,
+        alignItems: 'center',
     },
     header: {
-        fontSize: 28,
+        fontSize: 21,
         fontWeight: 'bold',
-        marginBottom: 499.5,
-        color: 'orange',
-        textAlign: 'center',
-        lineHeight: 34,
-        letterSpacing: 0.5,
-        fontFamily: 'monospace',
-    },
+        marginBottom: 550,
+    }
 })
 
 export default BackTrackingVisual;

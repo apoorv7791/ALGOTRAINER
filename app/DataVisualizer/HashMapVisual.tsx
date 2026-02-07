@@ -41,22 +41,18 @@ const HashMapVisual = () => {
                                     Map is empty
                                 </Text>
                             ) : (
-                                <FlatList
-                                    data={hashMapArray}
-                                    keyExtractor={item => item.key}
-                                    contentContainerStyle={{ paddingHorizontal: 20 }}
-                                    renderItem={({ item }) => {
-                                        return <Text
-                                            style={{
-                                                fontSize: 18,
-                                                color: theme.colors.text,
-                                                marginVertical: 4,
-                                            }}
-                                        >
-                                            {item.key}: {item.value}
-                                        </Text>
-                                    }}
-                                />
+                                hashMapArray.map((item) => (
+                                    <Text
+                                        key={item.key}
+                                        style={{
+                                            fontSize: 18,
+                                            color: theme.colors.text,
+                                            marginVertical: 4,
+                                        }}
+                                    >
+                                        {item.key}: {item.value}
+                                    </Text>
+                                ))
                             )}
                         </View>
 
