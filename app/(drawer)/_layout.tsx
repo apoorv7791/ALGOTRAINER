@@ -71,6 +71,7 @@ export default function DrawerLayout() {
                 },
             })}
         >
+
             <Drawer.Screen
                 name="index" // This will render app/(Drawer)/index.tsx
                 options={{
@@ -109,4 +110,4 @@ export default function DrawerLayout() {
             />
         </Drawer>
     );
-}
+}   
