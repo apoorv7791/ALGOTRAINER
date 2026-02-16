@@ -65,13 +65,14 @@ export default function LearningModules() {
         items: string[];
     }
 
-    const renderItem = ({ item }: { item: Module }) => (
+    const renderItem = React.useCallback(({ item }: { item: Module }) => (
         <ExpandableItems
             title={item.title}
             items={item.items}
             onSelectItem={(topic) => handleSelect(item.title, topic)}
         />
-    );
+    ), []);
+
 
     return (
         <View style={[styles.container, { backgroundColor: theme.colors.background }]}>

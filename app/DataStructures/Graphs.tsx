@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
@@ -8,22 +7,23 @@ import { useRouter } from 'expo-router';
 const Graph = () => {
     const { theme } = useTheme();
     const router = useRouter();
-    return (
-        <ScrollView style={{ backgroundColor: theme.colors.background }}
-            contentContainerStyle={styles.container} >
-            <Text style={[styles.header, { color: theme.colors.text }]}>Graph</Text>
 
-            {/* Manual Graph Implementation */}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader]}>Definition of Graphs</Text>
-                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
-                    • A graph is a data structure that consists of a set of nodes (vertices) and a set of edges that connect pairs of nodes.{"\n"}
-                    • Graphs can be directed or undirected, weighted or unweighted.{"\n"}
-                    • They are used to model relationships and networks in various fields such as computer science, biology, social sciences, and transportation.{"\n"}
-                </Text>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Graph Implementation (Adjacency List)</Text>
-                <CodeBlock
-                    code={`import java.util.*;
+    const sections = [
+        {
+            key: 'definition',
+            title: 'Definition of Graphs',
+            content: (
+                <>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • A graph is a data structure that consists of a set of nodes (vertices) and a set of edges that connect pairs of nodes.{"\n"}
+                        • Graphs can be directed or undirected, weighted or unweighted.{"\n"}
+                        • They are used to model relationships and networks in various fields such as computer science, biology, social sciences, and transportation.
+                    </Text>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>
+                        Manual Graph Implementation (Adjacency List)
+                    </Text>
+                    <CodeBlock
+                        code={`import java.util.*;
 
 class Graph {
     private Map<Integer, List<Integer>> adjList = new HashMap<>();
@@ -76,15 +76,18 @@ class Graph {
         }
     }
 }`}
-                    language="java"
-                />
-            </View>
-
-            {/* Graph Operations */}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Graph Operations</Text>
-                <CodeBlock
-                    code={`public class Main {
+                        language="java"
+                    />
+                </>
+            ),
+        },
+        {
+            key: 'operations',
+            title: 'Graph Operations',
+            content: (
+                <>
+                    <CodeBlock
+                        code={`public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
@@ -109,39 +112,54 @@ class Graph {
         graph.dfs(1, new HashSet<>()); // 1 2 4 3 5
     }
 }`}
-                    language="java"
-                />
-                {/* Explanation of the code */}
-                <View style={styles.section}>
+                        language="java"
+                    />
                     <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
                         • The Graph class uses an adjacency list to represent the graph structure.{"\n"}
                         • Vertices can be added using the addVertex method, and edges can be created using the addEdge method.{"\n"}
                         • The bfs method performs a breadth-first search starting from a given vertex, while the dfs method performs a depth-first search.{"\n"}
-                        • The printGraph method displays the adjacency list representation of the graph.{"\n"}
+                        • The printGraph method displays the adjacency list representation of the graph.
                     </Text>
-                </View>
-            </View>
-            {/* Graph Visualizer */}
+                </>
+            ),
+        },
+    ];
+
+    const renderItem = ({ item }: any) => (
+        <View style={styles.section}>
+            <Text style={[styles.subHeader, { color: theme.colors.text }]}>{item.title}</Text>
+            {item.content}
+        </View>
+    );
+
+    return (
+        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Graph</Text>
+
+            <FlatList
+                data={sections}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.key}
+                contentContainerStyle={{ paddingBottom: 40 }}
+                showsVerticalScrollIndicator={false}
+            />
+
             <TouchableOpacity
                 onPress={() => router.push('/DataVisualizer/GraphsVisual')}
                 style={styles.visualizeBtn}
             >
                 <Text style={styles.btnText}>Open Visualizer</Text>
             </TouchableOpacity>
-        </ScrollView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
     header: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        marginBottom: 20,
+        textAlign: 'center',
+        marginVertical: 20,
     },
     section: {
         padding: 16,

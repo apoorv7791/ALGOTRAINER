@@ -1,177 +1,256 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    TouchableOpacity,
+    Animated,
+    FlatList,
+    ScrollView,
+} from 'react-native';
 import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
-import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { useRouter } from 'expo-router';
 
-const Searching = () => {
+const AnimatedIcon = Animated.createAnimatedComponent(MaterialCommunityIcons);
+
+interface SortingAlgo {
+    id: string;
+    name: string;
+    description: string;
+    code: string;
+}
+
+const sortingAlgorithms: SortingAlgo[] = [
+    {
+        id: 'bubble',
+        name: 'Bubble Sort',
+        description: '🔹 Swap adjacent elements repeatedly.  •  O(n²) time • O(1) space',
+        code: `public class BubbleSort {
+    public static void bubbleSort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++)
+            for (int j = 0; j < arr.length - i - 1; j++)
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+    }
+}`,
+    },
+    {
+        id: 'selection',
+        name: 'Selection Sort',
+        description: '🔹 Pick min and put it at correct position.  •  O(n²) time • O(1) space',
+        code: `public class SelectionSort {
+    public static void selectionSort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++)
+                if (arr[j] < arr[minIndex]) minIndex = j;
+
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+    }
+}`,
+    },
+    {
+        id: 'insertion',
+        name: 'Insertion Sort',
+        description: '🔹 Build sorted left side by inserting elements.  •  O(n²) average • O(1) space',
+        code: `public class InsertionSort {
+    public static void insertionSort(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > key) arr[j + 1] = arr[j--];
+            arr[j + 1] = key;
+        }
+    }
+}`,
+    },
+    {
+        id: 'quick',
+        name: 'Quick Sort',
+        description: '🔹 Divide and conquer; average O(n·log n), worst O(n²). • Average space O(log n)',
+        code: `public class QuickSort {
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = (low - 1);
+        for (int j = low; j <= high - 1; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
+        return i + 1;
+    }
+}`,
+    },
+    {
+        id: 'merge',
+        name: 'Merge Sort',
+        description: '🔹 Divide and conquer; stable and O(n log n).  •  O(n log n) time • O(n) space',
+        code: `public class MergeSort {
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right)/2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid+1, right);
+            merge(arr, left, mid, right);
+        }
+    }
+
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid-left+1, n2 = right-mid;
+        int[] L = new int[n1], R = new int[n2];
+        for(int i=0;i<n1;i++) L[i]=arr[left+i];
+        for(int j=0;j<n2;j++) R[j]=arr[mid+1+j];
+        int i=0,j=0,k=left;
+        while(i<n1 && j<n2){ arr[k++] = (L[i]<=R[j]?L[i++]:R[j++]); }
+        while(i<n1){ arr[k++]=L[i++]; }
+        while(j<n2){ arr[k++]=R[j++]; }
+    }
+}`,
+    },
+];
+
+const Sorting = () => {
     const { theme } = useTheme();
-    const router = useRouter();
     const [isLandscape, setIsLandscape] = useState(false);
-    const [showLinear, setShowLinear] = useState(false);
-    const [showBinary, setShowBinary] = useState(false);
+    const [expandedId, setExpandedId] = useState<string | null>(null);
+    const router = useRouter();
 
-    const LinearAnim = useRef(new Animated.Value(0)).current;
-    const BinaryAnim = useRef(new Animated.Value(0)).current;
-
-    const AnimatedIcon = Animated.createAnimatedComponent(MaterialCommunityIcons);
+    const animRefs = useRef<Record<string, Animated.Value>>({});
+    sortingAlgorithms.forEach(algo => {
+        if (!animRefs.current[algo.id]) animRefs.current[algo.id] = new Animated.Value(0);
+    });
 
     useEffect(() => {
         ScreenOrientation.unlockAsync();
-        const s = Dimensions.addEventListener('change', ({ window }) => {
+        const subscription = Dimensions.addEventListener('change', ({ window }) => {
             setIsLandscape(window.width > window.height);
         });
-        return () => s?.remove();
+        return () => subscription?.remove();
     }, []);
 
-    const toggleAnimated = (visible: boolean, setVisible: (v: boolean) => void, anim: Animated.Value) => {
-        if (visible) {
-            Animated.timing(anim, {
-                toValue: 0,
-                duration: 200,
-                useNativeDriver: true,
-            }).start(() => setVisible(false));
+    const toggleExpand = (id: string) => {
+        const anim = animRefs.current[id];
+        if (expandedId === id) {
+            Animated.timing(anim, { toValue: 0, duration: 200, useNativeDriver: true }).start(() => setExpandedId(null));
         } else {
-            setVisible(true);
-            Animated.timing(anim, {
-                toValue: 1,
-                duration: 220,
-                useNativeDriver: true,
-            }).start();
+            setExpandedId(id);
+            Animated.timing(anim, { toValue: 1, duration: 220, useNativeDriver: true }).start();
         }
     };
 
-    const rotateStyle = (anim: Animated.Value) => {
+    const rotateStyle = (id: string) => {
+        const anim = animRefs.current[id];
         const rotate = anim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
         return { transform: [{ rotate }] };
     };
-    const expandStyle = (anim: Animated.Value) => ({
-        opacity: anim,
-        transform: [{ scaleY: anim.interpolate({ inputRange: [0, 1], outputRange: [0.95, 1] }) }],
+
+    const expandStyle = (id: string) => ({
+        opacity: animRefs.current[id],
+        transform: [{ scaleY: animRefs.current[id].interpolate({ inputRange: [0, 1], outputRange: [0.95, 1] }) }],
         overflow: 'hidden' as const,
     });
 
-    return (
-        <ScrollView
-            style={[styles.container, { backgroundColor: theme.colors.background }]}
-            contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: isLandscape ? 10 : 16 }}
-            showsVerticalScrollIndicator={false}
-        >
-            <View style={styles.headerRow}>
-                <MaterialCommunityIcons name="magnify" size={isLandscape ? 20 : 26} color={theme.colors.text} />
-                <Text style={[styles.header, { color: theme.colors.text, fontSize: isLandscape ? 18 : 20 }]}>Searching Algorithms</Text>
-            </View>
-
-            {/* Linear Search */}
-            <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <View style={styles.sectionHeaderRow}>
-                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>1️⃣ Linear Search</Text>
-                    <TouchableOpacity style={styles.toggleBtn} onPress={() => toggleAnimated(showLinear, setShowLinear, LinearAnim)}>
-                        <AnimatedIcon name={showLinear ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} style={rotateStyle(LinearAnim)} />
-                    </TouchableOpacity>
-                </View>
-
-                <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Scan elements sequentially; good for unsorted lists.  •  O(n) time • O(1) space</Text>
-
-                {showLinear && (
-                    <Animated.View style={expandStyle(LinearAnim)}>
-                        <CodeBlock
-                            code={`public class LinearSearch {\n    public static int search(int[] arr, int target) {\n        for (int i = 0; i < arr.length; i++) {\n            if (arr[i] == target) {\n                return i; // Element found\n            }\n        }\n        return -1; // Element not found\n    }\n}`}
-                            language="java"
-                            fontSize={isLandscape ? 8 : 10}
-                        />
-                    </Animated.View>
-                )}
-            </View>
-
-            {/* Binary Search */}
-            <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-                <View style={styles.sectionHeaderRow}>
-                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>2️⃣ Binary Search</Text>
-                    <TouchableOpacity style={styles.toggleBtn} onPress={() => toggleAnimated(showBinary, setShowBinary, BinaryAnim)}>
-                        <AnimatedIcon name={showBinary ? 'chevron-up' : 'chevron-down'} size={18} color={theme.colors.text} style={rotateStyle(BinaryAnim)} />
-                    </TouchableOpacity>
-                </View>
-
-                <Text style={[styles.description, { color: theme.colors.text }]}>🔹 Efficient on sorted arrays; halves the search space.  •  O(log n) time • O(1) space</Text>
-
-                {showBinary && (
-                    <Animated.View style={expandStyle(BinaryAnim)}>
-                        <CodeBlock
-                            code={`public class BinarySearch {\n    public static int search(int[] arr, int target) {\n        int left = 0, right = arr.length - 1;\n\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n\n            if (arr[mid] == target)\n                return mid;\n            else if (arr[mid] < target)\n                left = mid + 1;\n            else\n                right = mid - 1;\n        }\n        return -1; // Element not found\n    }\n}`}
-                            language="java"
-                            fontSize={isLandscape ? 8 : 10}
-                        />
-                    </Animated.View>
-                )}
-
-                <TouchableOpacity
-                    style={styles.visualizeBtn}
-                    onPress={() => router.push('/AlgoVisualizer/SearchVisual')}
-                >
-                    <Text style={styles.btnText}>Visualize All Searching Algorithms</Text>
+    const renderItem = ({ item, index }: { item: SortingAlgo; index: number }) => (
+        <View style={[styles.section, { backgroundColor: theme.colors.surface || 'rgba(0,0,0,0.05)' }]}>
+            <View style={styles.sectionHeaderRow}>
+                <Text style={[styles.subHeader, { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 }]}>
+                    {index + 1}️⃣ {item.name}
+                </Text>
+                <TouchableOpacity onPress={() => toggleExpand(item.id)}>
+                    <AnimatedIcon name="chevron-down" size={18} color={theme.colors.text} style={rotateStyle(item.id)} />
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+            <Text style={[styles.description, { color: theme.colors.text, fontSize: isLandscape ? 13 : 14 }]}>
+                {item.description}
+            </Text>
+            {expandedId === item.id && (
+                <Animated.View style={expandStyle(item.id)}>
+                    <CodeBlock code={item.code} fontSize={isLandscape ? 10 : 12} />
+                </Animated.View>
+            )}
+        </View>
+    );
+
+    return (
+        <FlatList
+            data={sortingAlgorithms}
+            keyExtractor={item => item.id}
+            ListHeaderComponent={
+                <View style={styles.headerRow}>
+                    <MaterialCommunityIcons
+                        name="sort-variant"
+                        size={isLandscape ? 22 : 26}
+                        color={theme.colors.text}
+                        style={styles.headerIcon}
+                    />
+                    <Text style={[styles.header, { color: theme.colors.text, fontSize: isLandscape ? 20 : 22 }]}>
+                        Sorting Algorithms
+                    </Text>
+                </View>
+            }
+            renderItem={renderItem}
+            contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: isLandscape ? 10 : 20 }}
+            ListFooterComponent={
+                <TouchableOpacity
+                    style={[styles.visualizeBtn, { backgroundColor: theme.colors.primary }]}
+                    onPress={() => router.push('/AlgoVisualizer/SortingVisual')}
+                >
+                    <Text style={styles.btnText}>Visualize All Sorting Algorithms</Text>
+                </TouchableOpacity>
+            }
+        />
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    headerRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        marginVertical: 18,
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: '700',
-        marginLeft: 8,
-        textAlign: 'center',
-    },
     section: {
-        padding: 12,
-        marginHorizontal: 14,
+        padding: 14,
+        marginHorizontal: 0,
         marginVertical: 8,
-        borderRadius: 10,
-        elevation: 2,
+        borderRadius: 8,
     },
     sectionHeaderRow: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    toggleBtn: {
-        paddingHorizontal: 8,
-        paddingVertical: 4,
+    subHeader: { fontWeight: '600', marginBottom: 8 },
+    description: { marginTop: 10, lineHeight: 20 },
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
     },
-    subHeader: {
-        fontSize: 15,
-        fontWeight: '600',
-        marginBottom: 6,
-    },
-    description: {
-        marginTop: 8,
-        fontSize: 13,
-        lineHeight: 19,
-    },
+    headerIcon: { marginRight: 8 },
+    header: { fontWeight: 'bold', textAlign: 'center' },
     visualizeBtn: {
-        backgroundColor: '#4CAF50',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
+        margin: 16,
+        padding: 16,
+        borderRadius: 12,
         alignItems: 'center',
     },
-    btnText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
+    btnText: { color: 'white', fontWeight: '700', fontSize: 16 },
 });
 
-export default Searching;
+export default Sorting;

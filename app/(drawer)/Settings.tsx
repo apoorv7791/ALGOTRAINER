@@ -73,32 +73,17 @@ const Settings = () => {
 export default Settings;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    contentContainer: {
-        padding: 20,
-        paddingBottom: 40,
-        alignItems: 'stretch',
-        justifyContent: 'flex-start',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
+    container: { flex: 1 },
+    contentContainer: { padding: 20, paddingBottom: 30 },
+    title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
     section: {
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 20,
-        elevation: 3, // Android shadow
-        shadowColor: '#000', // iOS shadow
+        borderRadius: 12,
+        padding: 14,
+        marginBottom: 16,
+        elevation: 2,
+        shadowColor: '#000',
         shadowOpacity: 0.1,
-        shadowRadius: 6,
+        shadowRadius: 4,
     },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 10,
-    },
+    sectionTitle: { fontSize: 16, fontWeight: '600', marginBottom: 8 },
 });

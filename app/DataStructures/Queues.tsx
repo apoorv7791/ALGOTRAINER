@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
 import { useRouter } from 'expo-router';
@@ -7,22 +7,23 @@ import { useRouter } from 'expo-router';
 const Queue = () => {
     const { theme } = useTheme();
     const router = useRouter();
-    return (
-        <ScrollView style={{ backgroundColor: theme.colors.background }}
-            contentContainerStyle={styles.container} >
-            <Text style={[styles.header, { color: theme.colors.text }]}>Queues</Text>
 
-            {/* Manual Queue Implementation */}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Definition of Queue</Text>
-                <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
-                    • A queue is a linear data structure that follows the First In First Out (FIFO) principle.{"\n"}
-                    • Elements are added (enqueued) at the rear and removed (dequeued) from the front.{"\n"}
-                    • Queues are used in various applications such as scheduling processes, managing requests in web servers, and breadth-first search algorithms.{"\n"}
-                </Text>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Manual Queue Implementation (Using Linked List)</Text>
-                <CodeBlock
-                    code={`class Node {
+    const sections = [
+        {
+            key: 'definition',
+            title: 'Definition of Queue',
+            content: (
+                <>
+                    <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
+                        • A queue is a linear data structure that follows the First In First Out (FIFO) principle.{"\n"}
+                        • Elements are added (enqueued) at the rear and removed (dequeued) from the front.{"\n"}
+                        • Queues are used in various applications such as scheduling processes, managing requests in web servers, and breadth-first search algorithms.
+                    </Text>
+                    <Text style={[styles.subHeader, { color: theme.colors.text }]}>
+                        Manual Queue Implementation (Using Linked List)
+                    </Text>
+                    <CodeBlock
+                        code={`class Node {
     int data;
     Node next;
 
@@ -83,16 +84,19 @@ class Queue {
         }
         System.out.println("null");
     }
-}.  `}
-                    language="java"
-                />
-            </View>
-
-            {/* Queue Operations */}
-            <View style={styles.section}>
-                <Text style={[styles.subHeader, { color: theme.colors.text }]}>Queue Operations </Text>
-                <CodeBlock
-                    code={`public class Main {
+}`}
+                        language="java"
+                    />
+                </>
+            ),
+        },
+        {
+            key: 'operations',
+            title: 'Queue Operations',
+            content: (
+                <>
+                    <CodeBlock
+                        code={`public class Main {
     public static void main(String[] args) {
         Queue queue = new Queue();
 
@@ -112,9 +116,8 @@ class Queue {
         System.out.println("Is queue empty? " + queue.isEmpty()); // false
     }
 }`}
-                    language="java"
-                />
-                <View style={styles.section}>
+                        language="java"
+                    />
                     <Text style={[styles.subHeader, { color: theme.colors.text }]}>How It Works</Text>
                     <Text style={[styles.bulletPoint, { color: theme.colors.text }]}>
                         • A Queue is a linear data structure that follows the First In, First Out (FIFO) principle.{"\n"}
@@ -127,29 +130,46 @@ class Queue {
                         {"   ◦ isEmpty(): Check if the queue has no elements."}{"\n"}
                         • The Main class demonstrates queue operations, showing how elements move through the structure as per FIFO order.
                     </Text>
-                </View>
-                {/* Visualizing Queue */}
-                <TouchableOpacity
-                    onPress={() => router.push('/DataVisualizer/QueuesVisual')}
-                    style={styles.visualizeBtn}
-                >
-                    <Text style={styles.btnText}>Open Visualizer</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
+                </>
+            ),
+        },
+    ];
+
+    const renderItem = ({ item }: any) => (
+        <View style={styles.section}>
+            <Text style={[styles.subHeader, { color: theme.colors.text }]}>{item.title}</Text>
+            {item.content}
+        </View>
+    );
+
+    return (
+        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <Text style={[styles.header, { color: theme.colors.text }]}>Queues</Text>
+
+            <FlatList
+                data={sections}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.key}
+                contentContainerStyle={{ paddingBottom: 40 }}
+                showsVerticalScrollIndicator={false}
+            />
+
+            <TouchableOpacity
+                onPress={() => router.push('/DataVisualizer/QueuesVisual')}
+                style={styles.visualizeBtn}
+            >
+                <Text style={styles.btnText}>Open Visualizer</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
     header: {
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
-        marginBottom: 10,
+        textAlign: 'center',
+        marginVertical: 20,
     },
     section: {
         padding: 16,
