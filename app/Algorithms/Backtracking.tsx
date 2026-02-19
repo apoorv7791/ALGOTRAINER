@@ -136,3 +136,5 @@ const styles = StyleSheet.create({
     },
     btnText: { color: '#fff', fontWeight: 'bold', textAlign: 'center' },
 });
+
+export default Backtracking;
