@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
 
@@ -23,8 +23,11 @@ export default function ErrorScreen({ error }: { error?: Error }) {
                 style={styles.button}
                 onPress={async () => {
                     try {
-                        if (Updates.reloadAsync) await Updates.reloadAsync();
-                        else global.location.reload();
+                        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+                            window.location.reload();
+                            return;
+                        }
+                        await Updates.reloadAsync();
                     } catch (e) {
                         // fallback: do nothing
                     }

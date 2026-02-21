@@ -7,7 +7,6 @@ import {
     TouchableOpacity,
     Animated,
     FlatList,
-    ScrollView,
 } from 'react-native';
 import { useTheme } from '@/app/Themes/ThemeContext';
 import CodeBlock from '@/app/CodeBlock/CodeBlock';
@@ -17,126 +16,53 @@ import { useRouter } from 'expo-router';
 
 const AnimatedIcon = Animated.createAnimatedComponent(MaterialCommunityIcons);
 
-interface SortingAlgo {
+interface SearchingAlgo {
     id: string;
     name: string;
     description: string;
     code: string;
 }
 
-const sortingAlgorithms: SortingAlgo[] = [
+const searchingAlgorithms: SearchingAlgo[] = [
     {
-        id: 'bubble',
-        name: 'Bubble Sort',
-        description: '🔹 Swap adjacent elements repeatedly.  •  O(n²) time • O(1) space',
-        code: `public class BubbleSort {
-    public static void bubbleSort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++)
-            for (int j = 0; j < arr.length - i - 1; j++)
-                if (arr[j] > arr[j + 1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
+        id: 'linear',
+        name: 'Linear Search',
+        description: '🔹 Check each element sequentially. • O(n) time • O(1) space',
+        code: `public class LinearSearch {
+    public static int linearSearch(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++)
+            if (arr[i] == key) return i;
+        return -1;
     }
 }`,
     },
     {
-        id: 'selection',
-        name: 'Selection Sort',
-        description: '🔹 Pick min and put it at correct position.  •  O(n²) time • O(1) space',
-        code: `public class SelectionSort {
-    public static void selectionSort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < arr.length; j++)
-                if (arr[j] < arr[minIndex]) minIndex = j;
-
-            int temp = arr[minIndex];
-            arr[minIndex] = arr[i];
-            arr[i] = temp;
+        id: 'binary',
+        name: 'Binary Search',
+        description: '🔹 Divide sorted array, O(log n) time • O(1) space',
+        code: `public class BinarySearch {
+    public static int binarySearch(int[] arr, int key) {
+        int low = 0, high = arr.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == key) return mid;
+            else if (arr[mid] < key) low = mid + 1;
+            else high = mid - 1;
         }
-    }
-}`,
-    },
-    {
-        id: 'insertion',
-        name: 'Insertion Sort',
-        description: '🔹 Build sorted left side by inserting elements.  •  O(n²) average • O(1) space',
-        code: `public class InsertionSort {
-    public static void insertionSort(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int key = arr[i];
-            int j = i - 1;
-            while (j >= 0 && arr[j] > key) arr[j + 1] = arr[j--];
-            arr[j + 1] = key;
-        }
-    }
-}`,
-    },
-    {
-        id: 'quick',
-        name: 'Quick Sort',
-        description: '🔹 Divide and conquer; average O(n·log n), worst O(n²). • Average space O(log n)',
-        code: `public class QuickSort {
-    public static void quickSort(int[] arr, int low, int high) {
-        if (low < high) {
-            int pi = partition(arr, low, high);
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-    }
-
-    private static int partition(int[] arr, int low, int high) {
-        int pivot = arr[high];
-        int i = (low - 1);
-        for (int j = low; j <= high - 1; j++) {
-            if (arr[j] < pivot) {
-                i++;
-                int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
-            }
-        }
-        int temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
-        return i + 1;
-    }
-}`,
-    },
-    {
-        id: 'merge',
-        name: 'Merge Sort',
-        description: '🔹 Divide and conquer; stable and O(n log n).  •  O(n log n) time • O(n) space',
-        code: `public class MergeSort {
-    public static void mergeSort(int[] arr, int left, int right) {
-        if (left < right) {
-            int mid = (left + right)/2;
-            mergeSort(arr, left, mid);
-            mergeSort(arr, mid+1, right);
-            merge(arr, left, mid, right);
-        }
-    }
-
-    private static void merge(int[] arr, int left, int mid, int right) {
-        int n1 = mid-left+1, n2 = right-mid;
-        int[] L = new int[n1], R = new int[n2];
-        for(int i=0;i<n1;i++) L[i]=arr[left+i];
-        for(int j=0;j<n2;j++) R[j]=arr[mid+1+j];
-        int i=0,j=0,k=left;
-        while(i<n1 && j<n2){ arr[k++] = (L[i]<=R[j]?L[i++]:R[j++]); }
-        while(i<n1){ arr[k++]=L[i++]; }
-        while(j<n2){ arr[k++]=R[j++]; }
+        return -1;
     }
 }`,
     },
 ];
 
-const Sorting = () => {
+const Searching = () => {
     const { theme } = useTheme();
     const [isLandscape, setIsLandscape] = useState(false);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const router = useRouter();
 
     const animRefs = useRef<Record<string, Animated.Value>>({});
-    sortingAlgorithms.forEach(algo => {
+    searchingAlgorithms.forEach(algo => {
         if (!animRefs.current[algo.id]) animRefs.current[algo.id] = new Animated.Value(0);
     });
 
@@ -170,7 +96,7 @@ const Sorting = () => {
         overflow: 'hidden' as const,
     });
 
-    const renderItem = ({ item, index }: { item: SortingAlgo; index: number }) => (
+    const renderItem = ({ item, index }: { item: SearchingAlgo; index: number }) => (
         <View style={[styles.section, { backgroundColor: theme.colors.surface || 'rgba(0,0,0,0.05)' }]}>
             <View style={styles.sectionHeaderRow}>
                 <Text style={[styles.subHeader, { color: theme.colors.text, fontSize: isLandscape ? 15 : 16 }]}>
@@ -192,37 +118,40 @@ const Sorting = () => {
     );
 
     return (
-        <FlatList
-            data={sortingAlgorithms}
-            keyExtractor={item => item.id}
-            ListHeaderComponent={
-                <View style={styles.headerRow}>
-                    <MaterialCommunityIcons
-                        name="sort-variant"
-                        size={isLandscape ? 22 : 26}
-                        color={theme.colors.text}
-                        style={styles.headerIcon}
-                    />
-                    <Text style={[styles.header, { color: theme.colors.text, fontSize: isLandscape ? 20 : 22 }]}>
-                        Sorting Algorithms
-                    </Text>
-                </View>
-            }
-            renderItem={renderItem}
-            contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: isLandscape ? 10 : 20 }}
-            ListFooterComponent={
-                <TouchableOpacity
-                    style={[styles.visualizeBtn, { backgroundColor: theme.colors.primary }]}
-                    onPress={() => router.push('/AlgoVisualizer/SortingVisual')}
-                >
-                    <Text style={styles.btnText}>Visualize All Sorting Algorithms</Text>
-                </TouchableOpacity>
-            }
-        />
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <FlatList
+                data={searchingAlgorithms}
+                keyExtractor={item => item.id}
+                ListHeaderComponent={
+                    <View style={styles.headerRow}>
+                        <MaterialCommunityIcons
+                            name="magnify"
+                            size={isLandscape ? 22 : 26}
+                            color={theme.colors.text}
+                            style={styles.headerIcon}
+                        />
+                        <Text style={[styles.header, { color: theme.colors.text, fontSize: isLandscape ? 20 : 22 }]}>
+                            Searching Algorithms
+                        </Text>
+                    </View>
+                }
+                renderItem={renderItem}
+                contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: isLandscape ? 10 : 20 }}
+                ListFooterComponent={
+                    <TouchableOpacity
+                        style={[styles.visualizeBtn, { backgroundColor: theme.colors.primary }]}
+                        onPress={() => router.push('/AlgoVisualizer/SearchingVisual')}
+                    >
+                        <Text style={styles.btnText}>Visualize Searching Algorithms</Text>
+                    </TouchableOpacity>
+                }
+            />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: { flex: 1 },
     section: {
         padding: 14,
         marginHorizontal: 0,
@@ -253,4 +182,4 @@ const styles = StyleSheet.create({
     btnText: { color: 'white', fontWeight: '700', fontSize: 16 },
 });
 
-export default Sorting;
+export default Searching;
