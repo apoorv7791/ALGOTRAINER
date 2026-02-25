@@ -41,11 +41,10 @@
               "backgroundColor": "#000000"
             }
           }
-        ],
-        "expo-web-browser"
+        ]
       ],
       "experiments": {
-        "typedRoutes": true,
+        "typedRoutes": false,
         "reactCompiler": true
       },
       "extra": {
