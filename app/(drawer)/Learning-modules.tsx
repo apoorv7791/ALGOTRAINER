@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { Text, StyleSheet, FlatList, View, Platform } from 'react-native';
+import { Text, StyleSheet, FlatList, View } from 'react-native';
 import { useTheme } from '../Themes/ThemeContext';
 import ExpandableItems from '../components/ExpandableItems';
 import { useRouter } from "expo-router";
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { useKeepAwake } from 'expo-keep-awake';
+// we use the imperative API instead of the hook to avoid crashes
+// when the activity goes away; the hook simply wraps these methods
+// so we dynamically import them inside a useEffect.
 
 export default function LearningModules() {
     const router = useRouter();
@@ -12,8 +14,32 @@ export default function LearningModules() {
 
     const [isLandscape, setIsLandscape] = React.useState(false);
 
-    // ✅ Keeps screen awake automatically while this screen is active
-    useKeepAwake();
+    // ✅ keep the screen awake while this component is mounted
+    // `useKeepAwake` sometimes throws when the underlying native activity
+    // has already been torn down (especially during fast navigation or
+    // when using the dev client).  the hook itself is just a thin wrapper
+    // around the imperative API, so we call the async methods directly and
+    // swallow any errors.
+    useEffect(() => {
+        let active = true;
+
+        // the imperative API uses async functions; the original warnings
+        // stemmed from the deprecated non-async names.
+        import('expo-keep-awake').then(({ activateKeepAwakeAsync }) => {
+            if (active) {
+                activateKeepAwakeAsync().catch(() => {
+                    // ignore – activity may not be available
+                });
+            }
+        });
+
+        return () => {
+            active = false;
+            import('expo-keep-awake').then((module) => {
+                module.deactivateKeepAwake();
+            });
+        };
+    }, []);
 
     useEffect(() => {
         // Unlock screen orientation
